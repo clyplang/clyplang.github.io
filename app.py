@@ -242,9 +242,9 @@ async def api_highlight():
 
 
 if DEVELOPMENT:
-    static_url_path = '/clyp/static'
-else:
     static_url_path = '/static'
+else:
+    static_url_path = '/clyp/static'
 
 app = Quart(__name__)
 app.register_blueprint(
