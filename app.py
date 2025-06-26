@@ -13,6 +13,7 @@ from pathlib import Path
 import re
 import json
 import time
+import aiohttp
 
 DEVELOPMENT = False  # Set to False in production
 
@@ -262,6 +263,62 @@ async def whats_happening():
     """What's Happening page"""
     banner = get_current_banner()
     return await render_template('whats_happening.html', banner=banner)
+
+@website_bp.route('/api/live_stats')
+async def api_live_stats():
+    """API endpoint to fetch live stats for PyPI and GitHub."""
+    pypi_package = 'clyp'
+    github_user = 'CodeSoftGit'  # CHANGE to your GitHub username/org
+    github_repo = 'clyp'         # CHANGE to your GitHub repo name
+    stats = {
+        'pypi_downloads': 'N/A',
+        'github_downloads': 'N/A',
+        'github_stars': 'N/A',
+        'github_commits': 'N/A',
+    }
+    async with aiohttp.ClientSession() as session:
+        # PyPI downloads
+        try:
+            async with session.get(f'https://pypistats.org/api/packages/{pypi_package}/recent') as resp:
+                data = await resp.json()
+                stats['pypi_downloads'] = data.get('data', {}).get('last_month', 'N/A')
+        except Exception:
+            pass
+        # GitHub stars
+        try:
+            async with session.get(f'https://api.github.com/repos/{github_user}/{github_repo}') as resp:
+                data = await resp.json()
+                stats['github_stars'] = data.get('stargazers_count', 'N/A')
+        except Exception:
+            pass
+        # GitHub commits
+        try:
+            async with session.get(f'https://api.github.com/repos/{github_user}/{github_repo}/commits?per_page=1') as resp:
+                link = resp.headers.get('Link')
+                if link:
+                    import re
+                    match = re.search(r'&page=(\d+)>; rel="last"', link)
+                    if match:
+                        stats['github_commits'] = int(match.group(1))
+        except Exception:
+            pass
+        # GitHub release downloads
+        try:
+            async with session.get(f'https://api.github.com/repos/{github_user}/{github_repo}/releases') as resp:
+                releases = await resp.json()
+                total = 0
+                if isinstance(releases, list):
+                    for rel in releases:
+                        for asset in rel.get('assets', []):
+                            total += asset.get('download_count', 0)
+                stats['github_downloads'] = total
+        except Exception:
+            pass
+    # Format numbers with commas
+    for k in stats:
+        if isinstance(stats[k], int):
+            stats[k] = f"{stats[k]:,}"
+    return jsonify(stats)
 
 if DEVELOPMENT:
     static_url_path = '/static'

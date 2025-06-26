@@ -272,59 +272,22 @@ function copyToClipboard(text) {
     });
 }
 
-// Live Stats Fetching
+// Live Stats Fetching (server-side API)
 async function updateLiveStats() {
-    // Replace with your actual PyPI and GitHub info
-    const pypiPackage = 'clyp';
-    const githubUser = 'CodeSoftGit'; // CHANGE to your GitHub username/org
-    const githubRepo = 'clyp';     // CHANGE to your GitHub repo name
-
-    // PyPI Downloads (last month, via pypistats.org API)
-    fetch(`https://pypistats.org/api/packages/${pypiPackage}/recent`)
+    fetch('/clyp/api/live_stats')
         .then(r => r.json())
-        .then(data => {
-            const val = data && data.data && data.data.last_month ? data.data.last_month : 'N/A';
-            document.getElementById('pypi-downloads-value').textContent = val.toLocaleString();
+        .then(stats => {
+            document.getElementById('pypi-downloads-value').textContent = stats.pypi_downloads || 'N/A';
+            document.getElementById('github-downloads-value').textContent = stats.github_downloads || 'N/A';
+            document.getElementById('github-stars-value').textContent = stats.github_stars || 'N/A';
+            document.getElementById('github-commits-value').textContent = stats.github_commits || 'N/A';
         })
-        .catch(() => document.getElementById('pypi-downloads-value').textContent = 'N/A');
-
-    // GitHub Stars & Commits
-    fetch(`https://api.github.com/repos/${githubUser}/${githubRepo}`)
-        .then(r => r.json())
-        .then(data => {
-            document.getElementById('github-stars-value').textContent = data.stargazers_count?.toLocaleString() || 'N/A';
+        .catch(() => {
+            document.getElementById('pypi-downloads-value').textContent = 'N/A';
+            document.getElementById('github-downloads-value').textContent = 'N/A';
+            document.getElementById('github-stars-value').textContent = 'N/A';
+            document.getElementById('github-commits-value').textContent = 'N/A';
         });
-    fetch(`https://api.github.com/repos/${githubUser}/${githubRepo}/commits?per_page=1`)
-        .then(r => r.headers.get('Link'))
-        .then(link => {
-            // Parse last page number from Link header
-            if (!link) return 'N/A';
-            const match = link.match(/&page=(\d+)>; rel="last"/);
-            if (match) {
-                document.getElementById('github-commits-value').textContent = parseInt(match[1]).toLocaleString();
-            } else {
-                document.getElementById('github-commits-value').textContent = 'N/A';
-            }
-        })
-        .catch(() => document.getElementById('github-commits-value').textContent = 'N/A');
-
-    // GitHub Release Downloads (sum all assets in latest release)
-    fetch(`https://api.github.com/repos/${githubUser}/${githubRepo}/releases`)
-        .then(r => r.json())
-        .then(releases => {
-            let total = 0;
-            if (Array.isArray(releases)) {
-                releases.forEach(rel => {
-                    if (rel.assets) {
-                        rel.assets.forEach(asset => {
-                            total += asset.download_count || 0;
-                        });
-                    }
-                });
-            }
-            document.getElementById('github-downloads-value').textContent = total ? total.toLocaleString() : 'N/A';
-        })
-        .catch(() => document.getElementById('github-downloads-value').textContent = 'N/A');
 }
 
 // Update on load and every 60 seconds
