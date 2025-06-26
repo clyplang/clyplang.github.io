@@ -22,7 +22,7 @@ class ClypLexer(RegexLexer):
 
     # Clyp keywords
     keywords = [
-        'function', 'returns', 'class', 'if', 'else', 'elif', 'while', 'for',
+        'def', 'returns', 'class', 'if', 'else', 'elif', 'while', 'for',
         'repeat', 'times', 'return', 'let', 'self', 'null', 'true', 'false',
         'import', 'from', 'as', 'in', 'not', 'and', 'or', 'break', 'continue'
     ]
