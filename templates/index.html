@@ -1,0 +1,240 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-container">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    <span class="gradient-text">Clyp</span>
+                    <br>Modern Python-like Language
+                </h1>
+                <p class="hero-subtitle">
+                    A clean, expressive programming language that transpiles to Python. 
+                    Enjoy static-like typing, simplified syntax, and seamless Python interoperability.
+                </p>
+                <div class="hero-actions">
+                    <a href="#get-started" class="btn btn-primary">Get Started</a>
+                    <a href="{{ url_for('website.examples') }}" class="btn btn-secondary">View Examples</a>
+                </div>
+            </div>
+            <div class="hero-code">
+                <div class="code-window">
+                    <div class="code-header">
+                        <div class="code-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span class="code-title">hello_world.clyp</span>
+                    </div>
+                    <div class="code-content">
+                        {{ examples.hello_world.highlighted_code | safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <div class="features-container">
+        <h2 class="section-title">Why Choose Clyp?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Static-like Typing</h3>
+                <p>Variables are declared with their types, providing clarity and catching errors early in development.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">✨</div>
+                <h3>Clean Syntax</h3>
+                <p>Uses familiar C-like syntax with {} for blocks and ; for statements, making code more readable.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🐍</div>
+                <h3>Python Interop</h3>
+                <p>Seamlessly use Python libraries and functions. Clyp transpiles directly to Python code.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3>Rich Standard Library</h3>
+                <p>Built-in functions for common tasks like file I/O, HTTP requests, and data manipulation.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Pipeline Operator</h3>
+                <p>Elegant data transformation with the pipeline operator |> for functional programming patterns.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔧</div>
+                <h3>Modern Features</h3>
+                <p>Classes, conditionals, loops, and advanced language constructs in an intuitive package.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Code Examples Section -->
+<section class="code-examples">
+    <div class="examples-container">
+        <h2 class="section-title">See Clyp in Action</h2>
+        <div class="examples-tabs">
+            <button class="tab-button active" data-tab="basic">Basic Syntax</button>
+            <button class="tab-button" data-tab="structures">Data Structures</button>
+            <button class="tab-button" data-tab="advanced">Advanced</button>
+        </div>
+        
+        <div class="tab-content active" id="basic">
+            <div class="code-example">
+                <div class="example-header">
+                    <h3>{{ examples.hello_world.title }}</h3>
+                    <p>{{ examples.hello_world.description }}</p>
+                </div>
+                <div class="code-window">
+                    <div class="code-header">
+                        <div class="code-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span class="code-title">hello_world.clyp</span>
+                    </div>
+                    <div class="code-content">
+                        {{ examples.hello_world.highlighted_code | safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="structures">
+            <div class="code-example">
+                <div class="example-header">
+                    <h3>{{ examples.data_structures.title }}</h3>
+                    <p>{{ examples.data_structures.description }}</p>
+                </div>
+                <div class="code-window">
+                    <div class="code-header">
+                        <div class="code-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span class="code-title">data_structures.clyp</span>
+                    </div>
+                    <div class="code-content">
+                        {{ examples.data_structures.highlighted_code | safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="advanced">
+            <div class="code-example">
+                <div class="example-header">
+                    <h3>{{ examples.advanced.title }}</h3>
+                    <p>{{ examples.advanced.description }}</p>
+                </div>
+                <div class="code-window">
+                    <div class="code-header">
+                        <div class="code-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span class="code-title">advanced_features.clyp</span>
+                    </div>
+                    <div class="code-content">
+                        {{ examples.advanced.highlighted_code | safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Installation Section -->
+<section id="get-started" class="installation">
+    <div class="install-container">
+        <h2 class="section-title">Get Started</h2>
+        <div class="install-steps">
+            <div class="install-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Install Clyp</h3>
+                    <div class="code-block">
+                        <code>pip install clyp</code>
+                        <button class="copy-btn" onclick="copyToClipboard('pip install clyp')">Copy</button>
+                    </div>
+                </div>
+            </div>
+            <div class="install-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Create a Clyp file</h3>
+                    <div class="code-block">
+                        <code>echo 'str message = &quot;Hello, Clyp!&quot;; print(message);' > hello.clyp</code>
+                        <button class="copy-btn" onclick="copyToClipboard('echo &#39;str message = &quot;Hello, Clyp!&quot;; print(message);&#39; &gt; hello.clyp')">Copy</button>
+                    </div>
+                </div>
+            </div>
+            <div class="install-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Run your program</h3>
+                    <div class="code-block">
+                        <code>clyp hello.clyp</code>
+                        <button class="copy-btn" onclick="copyToClipboard('clyp hello.clyp')">Copy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="install-cta">
+            <p>Ready to dive deeper?</p>
+            <a href="{{ url_for('website.examples') }}" class="btn btn-primary">Explore Examples</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Tab functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const tabId = this.getAttribute('data-tab');
+            
+            // Remove active class from all buttons and contents
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked button and corresponding content
+            this.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+});
+
+// Copy to clipboard function
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(function() {
+        // Show temporary feedback
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        
+        setTimeout(() => {
+            btn.textContent = originalText;
+            btn.classList.remove('copied');
+        }, 2000);
+    });
+}
+</script>
+{% endblock %}

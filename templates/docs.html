@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="docs-layout">
+    <aside class="docs-sidebar">
+        <h2 class="docs-title">Clyp Docs</h2>
+        <ul class="docs-nav">
+            {% for doc in docs_nav %}
+            <li>
+                <a href="/docs/{{ doc.slug }}" class="docs-link {% if doc.slug == current_slug %}active{% endif %}">
+                    {{ doc.title }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </aside>
+    <section class="docs-content">
+        <div class="docs-content-inner">
+            {{ current_doc_html|safe }}
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block head %}
+<style>
+/* Docs Layout */
+.docs-layout {
+    display: flex;
+    min-height: 70vh;
+    background: var(--bg-secondary);
+}
+.docs-sidebar {
+    width: 260px;
+    background: var(--bg-card);
+    border-right: 1px solid var(--border-color);
+    padding: 2rem 1.5rem 2rem 2rem;
+    box-sizing: border-box;
+    position: sticky;
+    top: 64px;
+    align-self: flex-start;
+    min-height: calc(100vh - 64px);
+}
+.docs-title {
+    margin-top: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+    letter-spacing: 0.02em;
+}
+.docs-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.docs-link {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    margin-bottom: 2px;
+    transition: background 0.15s, color 0.15s;
+}
+.docs-link.active,
+.docs-link:hover {
+    background: var(--primary-color);
+    color: #fff;
+}
+.docs-content {
+    flex: 1;
+    padding: 2.5rem 3rem;
+    background: var(--bg-primary);
+    min-width: 0;
+}
+.docs-content-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: 2.5rem 2rem;
+    border: 1px solid var(--border-color);
+}
+.docs-content-inner h1,
+.docs-content-inner h2,
+.docs-content-inner h3 {
+    color: var(--primary-color);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.4rem;
+}
+.docs-content-inner h1 { font-size: 2.2rem; }
+.docs-content-inner h2 { font-size: 1.5rem; }
+.docs-content-inner h3 { font-size: 1.15rem; }
+.docs-content-inner p {
+    margin-bottom: 1.25rem;
+    color: var(--text-primary);
+    line-height: 1.7;
+}
+.docs-content-inner ul, .docs-content-inner ol {
+    margin: 1.25rem 0 1.25rem 2rem;
+}
+.docs-content-inner code {
+    background: var(--bg-tertiary);
+    color: var(--primary-color);
+    padding: 0.2em 0.4em;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.95em;
+    border: 1px solid var(--border-color);
+}
+.docs-content-inner pre {
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: 1.2rem;
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border: 1px solid var(--code-border);
+    font-family: var(--font-mono);
+    font-size: 0.98em;
+}
+.docs-content-inner pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    border: none;
+    font-size: inherit;
+}
+.docs-content-inner a {
+    color: var(--primary-color);
+    text-decoration: underline;
+    transition: color 0.15s;
+}
+.docs-content-inner a:hover {
+    color: var(--secondary-color);
+}
+@media (max-width: 1000px) {
+    .docs-layout { flex-direction: column; }
+    .docs-sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        padding: 1.5rem 1rem;
+        min-height: unset;
+        position: static;
+    }
+    .docs-content {
+        padding: 1.5rem 0.5rem;
+    }
+    .docs-content-inner {
+        padding: 1.5rem 0.5rem;
+    }
+}
+@media (max-width: 600px) {
+    .docs-content-inner {
+        padding: 1rem 0.2rem;
+    }
+    .docs-sidebar {
+        padding: 1rem 0.5rem;
+    }
+}
+{{ pygments_css|safe }}
+</style>
+{% endblock %}
