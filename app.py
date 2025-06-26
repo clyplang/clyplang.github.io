@@ -11,6 +11,7 @@ from clyp_lexer import ClypLexer
 import mistune
 from pathlib import Path
 import re
+import json
 
 DEVELOPMENT = False  # Set to False in production
 
@@ -173,6 +174,16 @@ def get_docs():
         })
     return docs
 
+def load_banners():
+    """Load banners from banner.json if present."""
+    try:
+        with open('banner.json', encoding='utf-8') as f:
+            banners = json.load(f)
+            # Filter out banners missing text
+            return [b for b in banners if b.get('text')]
+    except Exception:
+        return []
+
 @website_bp.route('/')
 async def index():
     """Main landing page with syntax highlighting"""
@@ -182,7 +193,8 @@ async def index():
             **example,
             'highlighted_code': highlight_code(example['code'], 'clyp')
         }
-    return await render_template('index.html', examples=highlighted_examples)
+    banners = load_banners()
+    return await render_template('index.html', examples=highlighted_examples, banners=banners)
 
 @website_bp.route('/examples')
 async def examples():
@@ -193,18 +205,19 @@ async def examples():
             **example,
             'highlighted_code': highlight_code(example['code'], 'clyp')
         }
-    return await render_template('examples.html', examples=highlighted_examples)
+    banners = load_banners()
+    return await render_template('examples.html', examples=highlighted_examples, banners=banners)
 
 @website_bp.route('/docs/')
 @website_bp.route('/docs/<slug>')
 async def docs(slug=None):
     """Documentation page, rendered from Markdown files in the docs folder."""
     all_docs = get_docs()
-    
+    banners = load_banners()
     if not all_docs:
         pygments_css = HtmlFormatter(style='github-dark').get_style_defs('.highlight')
         no_docs_html = render_markdown("### No Documentation Found\n\nPlease add `.md` files to the `website/docs` directory.")
-        return await render_template('docs.html', docs_nav=[], current_doc_html=no_docs_html, current_doc_title="Not Found", current_slug=None, pygments_css=pygments_css)
+        return await render_template('docs.html', docs_nav=[], current_doc_html=no_docs_html, current_doc_title="Not Found", current_slug=None, pygments_css=pygments_css, banners=banners)
 
     if slug is None:
         # Default to the first document
@@ -216,18 +229,16 @@ async def docs(slug=None):
         abort(404, "Documentation page not found")
 
     rendered_docs = render_markdown(current_doc['content'])
-    
     docs_nav = [{'slug': doc['slug'], 'title': doc['title']} for doc in all_docs]
-    
     pygments_css = HtmlFormatter(style='github-dark').get_style_defs('.highlight')
-
     return await render_template(
         'docs.html', 
         docs_nav=docs_nav, 
         current_doc_html=rendered_docs, 
         current_doc_title=current_doc['title'],
         current_slug=current_doc['slug'],
-        pygments_css=pygments_css
+        pygments_css=pygments_css,
+        banners=banners
     )
 
 @website_bp.route('/api/highlight', methods=['POST'])

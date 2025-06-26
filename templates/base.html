@@ -50,6 +50,20 @@
         </div>
     </nav>
 
+    <!-- Banner (if present) -->
+    {% if banners %}
+    <div class="site-banner-container">
+        {% for banner in banners %}
+        <div class="site-banner">
+            <span class="banner-text">{{ banner.text }}</span>
+            {% if banner.link and banner.link_text %}
+                <a class="banner-link" href="{{ banner.link }}">{{ banner.link_text }}</a>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
     <!-- Main Content -->
     <main class="main-content">
         {% block content %}{% endblock %}
@@ -88,4 +102,3 @@
     {% block scripts %}{% endblock %}
 </body>
 </html>
-    
