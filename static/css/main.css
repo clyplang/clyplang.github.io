@@ -2145,11 +2145,11 @@ pre {
 }
 
 .list-disc {
-    list-style: disc;
+    list-style: none;
 }
 
 .list-decimal {
-    list-style: decimal;
+    list-style: none;
 }
 
 .border {
