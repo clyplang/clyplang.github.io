@@ -10,6 +10,7 @@ from pygments.formatters import HtmlFormatter
 from clyp_lexer import ClypLexer
 import mistune
 from pathlib import Path
+import re
 
 # Create blueprint for the main website
 website_bp = Blueprint('website', __name__, url_prefix='/clyp')
@@ -92,15 +93,14 @@ print("Pipeline result: " + toString(final_value));'''
 }
 
 def highlight_code(code, language='clyp'):
-    """Highlight code using Pygments with enhanced formatting"""
+    """Highlight code using Pygments with enhanced formatting, removing line-numbers and language-badge."""
     try:
         # Use our custom Clyp lexer for .clyp files, fallback to Python
         if language == 'clyp':
             lexer = ClypLexer()
         else:
             lexer = get_lexer_by_name(language)
-        
-        # Enhanced formatter with better styling
+
         formatter = HtmlFormatter(
             style='github-dark',
             cssclass='highlight',
@@ -108,9 +108,8 @@ def highlight_code(code, language='clyp'):
             linenos=False,
             noclasses=False
         )
-        return highlight(code, lexer, formatter)
+        highlighted = highlight(code, lexer, formatter)
     except Exception:
-        # Final fallback to text if language not supported
         lexer = get_lexer_by_name('text')
         formatter = HtmlFormatter(
             style='github-dark',
@@ -119,7 +118,14 @@ def highlight_code(code, language='clyp'):
             linenos=False,
             noclasses=False
         )
-        return highlight(code, lexer, formatter)
+        highlighted = highlight(code, lexer, formatter)
+
+    # Remove <div class="line-numbers">...</div> and <span class="language-badge">...</span>
+    highlighted = re.sub(r'<div class="line-numbers">.*?</div>', '', highlighted, flags=re.DOTALL)
+    print("Highlighted code:", highlighted)  # Debugging line
+    highlighted = re.sub(r'<span class="language-badge">.*?</span>', '', highlighted, flags=re.DOTALL)
+    print("Highlighted code after removing badges:", highlighted)  # Debugging line
+    return highlighted
 
 def render_markdown(content):
     """Render markdown content to HTML with syntax highlighting."""
@@ -140,7 +146,7 @@ def render_markdown(content):
 
 def get_docs():
     """Load all documentation files from the docs directory."""
-    docs_dir = Path('website/docs')
+    docs_dir = Path('docs')
     docs = []
     if not docs_dir.is_dir():
         return docs
