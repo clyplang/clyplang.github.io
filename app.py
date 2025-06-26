@@ -3,7 +3,7 @@ Clyp Website - A modern, beautiful website for the Clyp programming language.
 Built with Quart for async performance and modern web standards.
 """
 
-from quart import Blueprint, render_template, jsonify, request, abort
+from quart import Blueprint, render_template, jsonify, request, abort, Quart
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import HtmlFormatter
@@ -232,9 +232,6 @@ async def api_highlight():
     highlighted = highlight_code(code, language)
     return jsonify({'highlighted': highlighted})
 
-if __name__ == '__main__':
-    from quart import Quart
-    app = Quart(__name__)
-    app.register_blueprint(website_bp, url_prefix='/') 
-
-    app.run(debug=True, port=5000)
+# Vercel expects an 'app' object at the module level
+app = Quart(__name__)
+app.register_blueprint(website_bp, url_prefix='/')
