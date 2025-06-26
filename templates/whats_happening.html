@@ -39,6 +39,43 @@ function formatDate(dateStr) {
     return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
 }
 
+function getReleaseType(name) {
+    // Normalize for easier matching
+    const n = name.toLowerCase();
+    if (/alpha/.test(n)) return 'alpha';
+    if (/beta/.test(n)) return 'beta';
+    if (/rc(\d*)|release candidate/.test(n)) return 'rc';
+    return 'release';
+}
+
+function formatReleaseName(name) {
+    // Remove -alpha, -beta, -rc, and similar, then add [Type]
+    let base = name;
+    let type = getReleaseType(name);
+    // Remove patterns
+    base = base.replace(/[- ]?(alpha|beta|rc\d*|rc|release candidate( \d*)?)/i, '').trim();
+    // Remove trailing or leading dashes/spaces
+    base = base.replace(/[- ]+$/, '').replace(/^[- ]+/, '');
+    let label = '';
+    if (type === 'alpha') label = 'Alpha';
+    else if (type === 'beta') label = 'Beta';
+    else if (type === 'rc') label = 'Release Candidate';
+    else label = 'Release';
+    return `${base} [${label}]`;
+}
+
+function getTagColor(type) {
+    if (type === 'alpha') return '#ff6b6b'; // Red
+    if (type === 'beta') return '#45b7d1'; // Blue
+    if (type === 'rc') return '#ffd600'; // Yellow
+    return '#4ecdc4'; // Green
+}
+
+function renderReleaseTag(type, label) {
+    const color = getTagColor(type);
+    return `<span class="release-tag" style="background:${color};color:#fff;border-radius:0.4em;padding:0.1em 0.6em;font-size:0.85em;margin-left:0.5em;vertical-align:middle;">${label}</span>`;
+}
+
 async function loadReleases() {
     const releases = await fetchGitHub('https://api.github.com/repos/CodeSoftGit/clyp/releases');
     const el = document.getElementById('releases-list');
@@ -47,13 +84,19 @@ async function loadReleases() {
         el.innerHTML = '<div class="wh-empty">No releases found.</div>';
         return;
     }
-    el.innerHTML = releases.slice(0, 5).map(r => `
+    el.innerHTML = releases.slice(0, 5).map(r => {
+        const type = getReleaseType(r.name || r.tag_name);
+        const label = type === 'alpha' ? 'Alpha' : type === 'beta' ? 'Beta' : type === 'rc' ? 'Release Candidate' : 'Release';
+        const formatted = formatReleaseName(r.name || r.tag_name);
+        const tag = renderReleaseTag(type, label);
+        return `
         <div class="wh-item">
-            <div class="wh-title"><a href="${r.html_url}" target="_blank">${r.name || r.tag_name}</a></div>
+            <div class="wh-title"><a href="${r.html_url}" target="_blank">${formatted}${tag}</a></div>
             <div class="wh-meta">Published <span>${formatDate(r.published_at)}</span></div>
             <div class="wh-body">${r.body ? r.body.substring(0, 180).replace(/\n/g, ' ') + (r.body.length > 180 ? '…' : '') : ''}</div>
         </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
 async function loadPRs() {
@@ -92,6 +135,7 @@ window.addEventListener('DOMContentLoaded', () => {
 .wh-meta { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 0.5rem; }
 .wh-body { color: var(--text-secondary); font-size: 0.98rem; }
 .wh-loading, .wh-empty { color: var(--text-light); text-align: center; padding: 1.5rem 0; }
+.release-tag { display: inline-block; padding: 0.2em 0.6em; border-radius: 0.4em; font-size: 0.85em; margin-left: 0.5em; vertical-align: middle; }
 @media (max-width: 900px) { .whats-happening-flex { flex-direction: column; gap: 2rem; } }
 </style>
 {% endblock %}
