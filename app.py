@@ -7,7 +7,7 @@ from quart import Blueprint, render_template, jsonify, request, abort
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import HtmlFormatter
-from clyp_lexer import ClypLexer
+from .clyp_lexer import ClypLexer
 import mistune
 from pathlib import Path
 
