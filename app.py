@@ -12,6 +12,7 @@ import mistune
 from pathlib import Path
 import re
 import json
+import time
 
 DEVELOPMENT = False  # Set to False in production
 
@@ -179,10 +180,18 @@ def load_banners():
     try:
         with open('banner.json', encoding='utf-8') as f:
             banners = json.load(f)
-            # Filter out banners missing text
             return [b for b in banners if b.get('text')]
     except Exception:
         return []
+
+def get_current_banner():
+    """Return a single banner, alternating every 30 seconds."""
+    banners = load_banners()
+    if not banners:
+        return None
+    # Alternate based on current time (30s interval)
+    idx = int(time.time() // 30) % len(banners)
+    return banners[idx]
 
 @website_bp.route('/')
 async def index():
@@ -193,8 +202,8 @@ async def index():
             **example,
             'highlighted_code': highlight_code(example['code'], 'clyp')
         }
-    banners = load_banners()
-    return await render_template('index.html', examples=highlighted_examples, banners=banners)
+    banner = get_current_banner()
+    return await render_template('index.html', examples=highlighted_examples, banner=banner)
 
 @website_bp.route('/examples')
 async def examples():
@@ -205,19 +214,19 @@ async def examples():
             **example,
             'highlighted_code': highlight_code(example['code'], 'clyp')
         }
-    banners = load_banners()
-    return await render_template('examples.html', examples=highlighted_examples, banners=banners)
+    banner = get_current_banner()
+    return await render_template('examples.html', examples=highlighted_examples, banner=banner)
 
 @website_bp.route('/docs/')
 @website_bp.route('/docs/<slug>')
 async def docs(slug=None):
     """Documentation page, rendered from Markdown files in the docs folder."""
     all_docs = get_docs()
-    banners = load_banners()
+    banner = get_current_banner()
     if not all_docs:
         pygments_css = HtmlFormatter(style='github-dark').get_style_defs('.highlight')
         no_docs_html = render_markdown("### No Documentation Found\n\nPlease add `.md` files to the `website/docs` directory.")
-        return await render_template('docs.html', docs_nav=[], current_doc_html=no_docs_html, current_doc_title="Not Found", current_slug=None, pygments_css=pygments_css, banners=banners)
+        return await render_template('docs.html', docs_nav=[], current_doc_html=no_docs_html, current_doc_title="Not Found", current_slug=None, pygments_css=pygments_css, banner=banner)
 
     if slug is None:
         # Default to the first document
@@ -238,7 +247,7 @@ async def docs(slug=None):
         current_doc_title=current_doc['title'],
         current_slug=current_doc['slug'],
         pygments_css=pygments_css,
-        banners=banners
+        banner=banner
     )
 
 @website_bp.route('/api/highlight', methods=['POST'])

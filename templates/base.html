@@ -51,16 +51,14 @@
     </nav>
 
     <!-- Banner (if present) -->
-    {% if banners %}
-    <div class="site-banner-container">
-        {% for banner in banners %}
-        <div class="site-banner">
+    {% if banner %}
+    <div class="site-banner-container" style="margin:0;padding:0;">
+        <div class="site-banner" style="margin:0;">
             <span class="banner-text">{{ banner.text }}</span>
             {% if banner.link and banner.link_text %}
                 <a class="banner-link" href="{{ banner.link }}">{{ banner.link_text }}</a>
             {% endif %}
         </div>
-        {% endfor %}
     </div>
     {% endif %}
 
