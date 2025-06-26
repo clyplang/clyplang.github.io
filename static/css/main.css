@@ -1609,3 +1609,87 @@ body {
         display: none;
     }
 }
+
+/* --- Horizontal Python vs Clyp Fixes Timeline --- */
+.fixes-timeline-horizontal {
+    width: 100%;
+    overflow-x: auto;
+    padding: var(--spacing-xl) 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.fixes-timeline-row-horizontal {
+    display: flex;
+    gap: 2.5rem;
+    align-items: stretch;
+    width: 100%;
+    justify-content: center;
+}
+.fixes-timeline-item-horizontal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 220px;
+    position: relative;
+    transition: transform 0.5s cubic-bezier(.4,2,.6,1);
+}
+.fixes-timeline-problem-horizontal {
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 60px;
+    width: 100%;
+    justify-content: center;
+    transition: background 0.3s, color 0.3s;
+}
+.fixes-timeline-arrow-horizontal {
+    font-size: 2rem;
+    margin: 0.5rem 0;
+    color: var(--primary-color);
+    transition: color 0.3s;
+}
+.fixes-timeline-fix-horizontal {
+    background: var(--bg-card);
+    color: var(--primary-color);
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    border-top: none;
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 60px;
+    width: 100%;
+    justify-content: center;
+    font-weight: 600;
+    transition: background 0.3s, color 0.3s;
+}
+.fixes-timeline-item-horizontal .fix-icon {
+    font-size: 1.2em;
+}
+@media (max-width: 900px) {
+    .fixes-timeline-row-horizontal {
+        gap: 1.2rem;
+    }
+    .fixes-timeline-item-horizontal {
+        min-width: 160px;
+    }
+}
+@media (max-width: 600px) {
+    .fixes-timeline-row-horizontal {
+        gap: 0.5rem;
+    }
+    .fixes-timeline-item-horizontal {
+        min-width: 120px;
+    }
+}
