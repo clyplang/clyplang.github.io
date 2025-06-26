@@ -1307,6 +1307,74 @@ body {
     }
 }
 
+/* --- Improved Python vs Clyp Fixes Table --- */
+.fixes-table {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    margin: 2.5rem 0 1.5rem 0;
+}
+.fixes-row {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 0.5rem;
+}
+.fixes-cell {
+    flex: 1 1 260px;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    padding: var(--spacing-lg) var(--spacing-md);
+    display: flex;
+    align-items: center;
+    font-size: 1.08rem;
+    min-width: 180px;
+    max-width: 350px;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+.fixes-cell.bad {
+    color: var(--text-secondary);
+    border-left: 4px solid #ff6b6b;
+    background: linear-gradient(90deg, #ffeaea 0%, var(--bg-card) 100%);
+}
+.fixes-cell.good {
+    color: var(--text-primary);
+    border-left: 4px solid #4ecdc4;
+    background: linear-gradient(90deg, var(--bg-card) 0%, #e6fcfa 100%);
+    font-weight: 600;
+}
+.fixes-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--primary-color);
+    min-width: 48px;
+    max-width: 48px;
+    user-select: none;
+    transition: color 0.2s;
+}
+.fixes-cell .fix-icon {
+    margin-right: 0.7em;
+    font-size: 1.2em;
+}
+@media (max-width: 900px) {
+    .fixes-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.2rem;
+    }
+    .fixes-arrow {
+        min-width: unset;
+        max-width: unset;
+        font-size: 1.5rem;
+        justify-content: flex-start;
+        margin: 0.2em 0 0.2em 1.2em;
+    }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .hero-content {
