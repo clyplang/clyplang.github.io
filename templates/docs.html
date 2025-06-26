@@ -22,6 +22,14 @@
 {% endblock %}
 
 {% block head %}
+<meta property="og:title" content="Clyp Documentation" />
+<meta property="og:description" content="Learn about Clyp, a modern Python-like language. Explore syntax, features, and guides in the official documentation." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://codesoft.is-a.dev/clyp/docs" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Clyp Documentation" />
+<meta name="twitter:description" content="Learn about Clyp, a modern Python-like language. Explore syntax, features, and guides in the official documentation." />
+<link rel="canonical" href="https://codesoft.is-a.dev/clyp/docs" />
 <style>
 /* Docs Layout */
 .docs-layout {
@@ -139,6 +147,38 @@
 .docs-content-inner a:hover {
     color: var(--secondary-color);
 }
+/* Embeds styling */
+.embed-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    margin: 2rem 0;
+}
+.embed-container iframe, .embed-container video {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+}
+.copy-code-btn {
+    float: right;
+    margin-left: 1em;
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 0.2em 0.7em;
+    font-size: 0.95em;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.copy-code-btn.copied {
+    background: var(--secondary-color);
+}
 @media (max-width: 1000px) {
     .docs-layout { flex-direction: column; }
     .docs-sidebar {
@@ -166,4 +206,30 @@
 }
 {{ pygments_css|safe }}
 </style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Copy code functionality for all <pre><code> blocks
+function addCopyButtonsToCodeBlocks() {
+    document.querySelectorAll('.docs-content-inner pre code').forEach(function(codeBlock) {
+        if (codeBlock.parentElement.querySelector('.copy-code-btn')) return;
+        const btn = document.createElement('button');
+        btn.className = 'copy-code-btn';
+        btn.textContent = 'Copy';
+        btn.onclick = function(event) {
+            navigator.clipboard.writeText(codeBlock.textContent).then(function() {
+                btn.textContent = 'Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = 'Copy';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        };
+        codeBlock.parentElement.insertBefore(btn, codeBlock);
+    });
+}
+document.addEventListener('DOMContentLoaded', addCopyButtonsToCodeBlocks);
+</script>
 {% endblock %}
