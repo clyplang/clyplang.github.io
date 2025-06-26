@@ -67,7 +67,8 @@ function getTagColor(type) {
 
 function renderReleaseTag(type, label) {
     const color = getTagColor(type);
-    return `<span class="release-tag" style="background:${color};color:#fff;border-radius:0.4em;padding:0.1em 0.6em;font-size:0.85em;margin-left:0.5em;vertical-align:middle;"></span>`;
+    // Show the label (e.g., Alpha, Beta, Release Candidate, Release) inside the colored tag
+    return `<span class="release-tag" style="background:${color};color:#fff;border-radius:0.4em;padding:0.1em 0.6em;font-size:0.85em;margin-left:0.5em;vertical-align:middle;">${label}</span>`;
 }
 
 async function loadReleases() {
