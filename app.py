@@ -12,8 +12,10 @@ import mistune
 from pathlib import Path
 import re
 
+DEVELOPMENT = False  # Set to False in production
+
 # Create blueprint for the main website
-website_bp = Blueprint('website', __name__, url_prefix='/clyp')
+website_bp = Blueprint('website', __name__)
 
 # Sample Clyp code examples
 EXAMPLES = {
@@ -238,6 +240,16 @@ async def api_highlight():
     highlighted = highlight_code(code, language)
     return jsonify({'highlighted': highlighted})
 
-# Vercel expects an 'app' object at the module level
+
+if DEVELOPMENT:
+    static_url_path = '/clyp/static'
+else:
+    static_url_path = '/static'
+
 app = Quart(__name__)
-app.register_blueprint(website_bp, url_prefix='/')
+app.register_blueprint(
+    website_bp,
+    static_folder='static',
+    static_url_path=static_url_path,
+    template_folder='templates'
+)
