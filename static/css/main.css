@@ -1942,7 +1942,7 @@ p {
 }
 
 ul {
-    list-style: disc;
+    list-style: none;
     padding: 0;
     margin: 0;
 }

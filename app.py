@@ -9,6 +9,9 @@ from pygments.lexers import get_lexer_by_name
 from pygments.formatters import HtmlFormatter
 from clyp_lexer import ClypLexer
 import mistune
+from mistune.plugins.table import table as plugin_table
+from mistune.plugins.formatting import strikethrough as plugin_strikethrough
+from mistune.plugins.url import url as plugin_url
 from pathlib import Path
 import re
 import json
@@ -151,14 +154,10 @@ def render_markdown(content):
             return '<pre><code>' + mistune.escape(code) + '</code></pre>'
 
     renderer = HighlightRenderer()
-    # enable tables, strikethrough, and automatic link parsing
+    # enable tables, strikethrough (~~) and automatic URL linking
     markdown = mistune.create_markdown(
         renderer=renderer,
-        plugins=[
-            mistune.plugins.table,
-            mistune.plugins.strikethrough,
-            mistune.plugins.linkify
-        ]
+        plugins=[plugin_table, plugin_strikethrough, plugin_url]
     )
     return markdown(content)
 
