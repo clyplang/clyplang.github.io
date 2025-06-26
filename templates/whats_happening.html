@@ -49,19 +49,13 @@ function getReleaseType(name) {
 }
 
 function formatReleaseName(name) {
-    // Remove -alpha, -beta, -rc, and similar, then add [Type]
+    // Remove -alpha, -beta, -rc, and similar, but do NOT add [Tag] text
     let base = name;
-    let type = getReleaseType(name);
     // Remove patterns
     base = base.replace(/[- ]?(alpha|beta|rc\d*|rc|release candidate( \d*)?)/i, '').trim();
     // Remove trailing or leading dashes/spaces
     base = base.replace(/[- ]+$/, '').replace(/^[- ]+/, '');
-    let label = '';
-    if (type === 'alpha') label = 'Alpha';
-    else if (type === 'beta') label = 'Beta';
-    else if (type === 'rc') label = 'Release Candidate';
-    else label = 'Release';
-    return `${base} [${label}]`;
+    return base;
 }
 
 function getTagColor(type) {
@@ -73,7 +67,7 @@ function getTagColor(type) {
 
 function renderReleaseTag(type, label) {
     const color = getTagColor(type);
-    return `<span class="release-tag" style="background:${color};color:#fff;border-radius:0.4em;padding:0.1em 0.6em;font-size:0.85em;margin-left:0.5em;vertical-align:middle;">${label}</span>`;
+    return `<span class="release-tag" style="background:${color};color:#fff;border-radius:0.4em;padding:0.1em 0.6em;font-size:0.85em;margin-left:0.5em;vertical-align:middle;"></span>`;
 }
 
 async function loadReleases() {
