@@ -124,11 +124,8 @@ def highlight_code(code, language='clyp'):
         )
         highlighted = highlight(code, lexer, formatter)
 
-    # Remove <div class="line-numbers">...</div> and <span class="language-badge">...</span>
     highlighted = re.sub(r'<div class="line-numbers">.*?</div>', '', highlighted, flags=re.DOTALL)
-    print("Highlighted code:", highlighted)  # Debugging line
     highlighted = re.sub(r'<span class="language-badge">.*?</span>', '', highlighted, flags=re.DOTALL)
-    print("Highlighted code after removing badges:", highlighted)  # Debugging line
     return highlighted
 
 def render_markdown(content):
