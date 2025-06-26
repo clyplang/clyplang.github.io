@@ -1504,6 +1504,26 @@ body {
     margin: 0;
 }
 
+/* Banner link as button */
+.site-banner .banner-link {
+    display: inline-block;
+    background: #fff;
+    color: var(--primary-color, #ff6b6b);
+    padding: 0.5em 1.25em;
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border: none;
+    margin-left: 1em;
+}
+.site-banner .banner-link:hover, .site-banner .banner-link:focus {
+    background: var(--primary-hover, #ff5252);
+    color: #fff;
+    text-decoration: none;
+}
+
 /* --- Python vs Clyp Fixes Timeline --- */
 .fixes-timeline {
     display: flex;
