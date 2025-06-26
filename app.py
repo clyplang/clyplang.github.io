@@ -130,20 +130,36 @@ def highlight_code(code, language='clyp'):
     return highlighted
 
 def render_markdown(content):
-    """Render markdown content to HTML with syntax highlighting."""
+    """Render markdown content to HTML with syntax highlighting and table support."""
     class HighlightRenderer(mistune.HTMLRenderer):
         def block_code(self, code, info=''):
             if info:
+                # choose ClypLexer for 'clyp', otherwise Pygments lexer
                 if info == 'clyp':
                     lexer = ClypLexer()
                 else:
                     lexer = get_lexer_by_name(info, stripall=True)
-                formatter = HtmlFormatter(style='github-dark', cssclass='highlight', wrapcode=True)
+                formatter = HtmlFormatter(
+                    style='github-dark',
+                    cssclass='highlight',
+                    wrapcode=True,
+                    linenos=False,
+                    noclasses=False
+                )
                 return highlight(code, lexer, formatter)
+            # fallback for code blocks without language info
             return '<pre><code>' + mistune.escape(code) + '</code></pre>'
 
     renderer = HighlightRenderer()
-    markdown = mistune.create_markdown(renderer=renderer)
+    # enable tables, strikethrough, and automatic link parsing
+    markdown = mistune.create_markdown(
+        renderer=renderer,
+        plugins=[
+            mistune.plugins.table,
+            mistune.plugins.strikethrough,
+            mistune.plugins.linkify
+        ]
+    )
     return markdown(content)
 
 def get_docs():
