@@ -52,6 +52,30 @@
     </div>
 </section>
 
+<!-- Live Stats Section -->
+<section class="live-stats-section">
+    <div class="live-stats-container">
+        <div class="live-stats-grid">
+            <div class="live-stat" id="pypi-downloads">
+                <div class="stat-label">PyPI Downloads</div>
+                <div class="stat-value" id="pypi-downloads-value">...</div>
+            </div>
+            <div class="live-stat" id="github-downloads">
+                <div class="stat-label">GitHub Releases Downloads</div>
+                <div class="stat-value" id="github-downloads-value">...</div>
+            </div>
+            <div class="live-stat" id="github-stars">
+                <div class="stat-label">GitHub Stars</div>
+                <div class="stat-value" id="github-stars-value">...</div>
+            </div>
+            <div class="live-stat" id="github-commits">
+                <div class="stat-label">GitHub Commits</div>
+                <div class="stat-value" id="github-commits-value">...</div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Features Section -->
 <section class="features">
     <div class="features-container">
@@ -247,5 +271,64 @@ function copyToClipboard(text) {
         }, 2000);
     });
 }
+
+// Live Stats Fetching
+async function updateLiveStats() {
+    // Replace with your actual PyPI and GitHub info
+    const pypiPackage = 'clyp';
+    const githubUser = 'CodeSoftGit'; // CHANGE to your GitHub username/org
+    const githubRepo = 'clyp';     // CHANGE to your GitHub repo name
+
+    // PyPI Downloads (last month, via pypistats.org API)
+    fetch(`https://pypistats.org/api/packages/${pypiPackage}/recent`)
+        .then(r => r.json())
+        .then(data => {
+            const val = data && data.data && data.data.last_month ? data.data.last_month : 'N/A';
+            document.getElementById('pypi-downloads-value').textContent = val.toLocaleString();
+        })
+        .catch(() => document.getElementById('pypi-downloads-value').textContent = 'N/A');
+
+    // GitHub Stars & Commits
+    fetch(`https://api.github.com/repos/${githubUser}/${githubRepo}`)
+        .then(r => r.json())
+        .then(data => {
+            document.getElementById('github-stars-value').textContent = data.stargazers_count?.toLocaleString() || 'N/A';
+        });
+    fetch(`https://api.github.com/repos/${githubUser}/${githubRepo}/commits?per_page=1`)
+        .then(r => r.headers.get('Link'))
+        .then(link => {
+            // Parse last page number from Link header
+            if (!link) return 'N/A';
+            const match = link.match(/&page=(\d+)>; rel="last"/);
+            if (match) {
+                document.getElementById('github-commits-value').textContent = parseInt(match[1]).toLocaleString();
+            } else {
+                document.getElementById('github-commits-value').textContent = 'N/A';
+            }
+        })
+        .catch(() => document.getElementById('github-commits-value').textContent = 'N/A');
+
+    // GitHub Release Downloads (sum all assets in latest release)
+    fetch(`https://api.github.com/repos/${githubUser}/${githubRepo}/releases`)
+        .then(r => r.json())
+        .then(releases => {
+            let total = 0;
+            if (Array.isArray(releases)) {
+                releases.forEach(rel => {
+                    if (rel.assets) {
+                        rel.assets.forEach(asset => {
+                            total += asset.download_count || 0;
+                        });
+                    }
+                });
+            }
+            document.getElementById('github-downloads-value').textContent = total ? total.toLocaleString() : 'N/A';
+        })
+        .catch(() => document.getElementById('github-downloads-value').textContent = 'N/A');
+}
+
+// Update on load and every 60 seconds
+updateLiveStats();
+setInterval(updateLiveStats, 60000);
 </script>
 {% endblock %}
