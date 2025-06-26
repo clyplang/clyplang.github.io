@@ -113,7 +113,7 @@ Prints the arguments and return value of a function call.
 
 ```clyp
 @trace
-function add(int a, int b) returns int {
+def add(int a, int b) returns int {
     return a + b;
 }
 add(2, 3); # Will print call and return info
@@ -125,7 +125,7 @@ Caches the result of a function for a time-to-live (TTL) duration. `ttl` can be 
 
 ```clyp
 @cache('10s')
-function slow_api_call() returns str {
+def slow_api_call() returns str {
     # ... takes a long time ...
     return "some data";
 }

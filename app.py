@@ -27,7 +27,7 @@ str name = "World";
 print("Hello, " + name + "!");
 
 # Define a function to greet someone
-function greet(str person) returns str {
+def greet(str person) returns str {
     return "Greetings, " + person + "!";
 };
 
@@ -64,11 +64,11 @@ repeat [3] times {
 class Counter {
     int count = 0;
     
-    function increment(self) returns null {
+    def increment(self) returns null {
         self.count = self.count + 1;
     };
     
-    function get_count(self) returns int {
+    def get_count(self) returns int {
         return self.count;
     };
 };
@@ -79,11 +79,11 @@ c.increment();
 print("Count is: " + toString(c.get_count()));
 
 # Pipeline operator example
-function double(int n) returns int {
+def double(int n) returns int {
     return n * 2;
 };
 
-function add_five(int n) returns int {
+def add_five(int n) returns int {
     return n + 5;
 };
 

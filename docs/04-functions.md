@@ -4,21 +4,21 @@ Functions are reusable blocks of code that perform a specific task.
 
 ## Defining Functions
 
-You define a function using the `function` keyword. You must specify the type of each parameter and the type of the value the function returns.
+You define a function using the `def` keyword. You must specify the type of each parameter and the type of the value the function returns.
 
 ```clyp
 # A function that takes two integers and returns their sum
-function add(int a, int b) returns int {
+def add(int a, int b) returns int {
     return a + b;
 }
 
 # A function that takes a string and returns nothing (void)
-function greet(str name) returns void {
+def greet(str name) returns void {
     print("Hello, " + name);
 }
 ```
 
-If a function does not return a value, use `void` as the return type. If it can return nothing, use `null`.
+If a function does not return a value, use `null` as the return type.
 
 ### Python Equivalent
 
@@ -36,7 +36,7 @@ def greet(name: str) -> None:
 You can provide default values for parameters, making them optional when the function is called.
 
 ```clyp
-function power(int base, int exp = 2) returns int {
+def power(int base, int exp = 2) returns int {
     # In a real scenario, you'd implement the power logic
     # For now, this is a placeholder
     return base * base; # Simplified for exp=2

@@ -14,17 +14,16 @@ class Counter {
     }
 
     # Method to increment the count
-    function increment(self) returns void {
+    def increment(self) returns void {
         self.count = self.count + 1;
     }
 
     # Method to get the current count
-    function get_count(self) returns int {
+    def get_count(self) returns int {
         return self.count;
     }
 }
 ```
-
 ### The `self` Keyword
 
 The `self` keyword refers to the instance of the class itself. It's used to access attributes and methods of the object from within its methods. It is equivalent to `self` in Python or `this` in other languages.

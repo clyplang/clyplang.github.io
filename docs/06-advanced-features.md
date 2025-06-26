@@ -7,11 +7,11 @@ Clyp includes powerful features for writing clean and modular code.
 The pipeline operator `|>` allows you to chain function calls together in a readable, linear sequence. It takes the result of the expression on its left and passes it as the first argument to the function on its right.
 
 ```clyp
-function double(int n) returns int {
+def double(int n) returns int {
     return n * 2;
 }
 
-function add_five(int n) returns int {
+def add_five(int n) returns int {
     return n + 5;
 }
 
@@ -56,7 +56,7 @@ Clyp allows you to organize your code into multiple files (modules) and import t
 Assume you have a file named `math_utils.clyp`:
 ```clyp
 # filepath: math_utils.clyp
-function add(int a, int b) returns int {
+def add(int a, int b) returns int {
     return a + b;
 }
 ```
