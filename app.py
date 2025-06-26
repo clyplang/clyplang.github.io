@@ -257,6 +257,11 @@ async def api_highlight():
     highlighted = highlight_code(code, language)
     return jsonify({'highlighted': highlighted})
 
+@website_bp.route('/whats-happening')
+async def whats_happening():
+    """What's Happening page"""
+    banner = get_current_banner()
+    return await render_template('whats_happening.html', banner=banner)
 
 if DEVELOPMENT:
     static_url_path = '/static'

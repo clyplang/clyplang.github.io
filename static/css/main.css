@@ -1693,3 +1693,129 @@ body {
         min-width: 120px;
     }
 }
+
+/* --- What's Happening Section --- */
+.whats-happening-section {
+    background: linear-gradient(120deg, var(--bg-secondary) 60%, var(--accent-color) 100%);
+    padding: 3.5rem 0 3rem 0;
+    animation: fadeInUp 0.7s cubic-bezier(.4,2,.6,1);
+}
+.whats-happening-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+.whats-happening-flex {
+    display: flex;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.whats-happening-card {
+    background: linear-gradient(120deg, var(--bg-card) 80%, var(--bg-secondary) 100%);
+    border-radius: 1.2rem;
+    box-shadow: 0 8px 32px 0 rgba(80, 80, 120, 0.10), var(--shadow-md);
+    flex: 1 1 370px;
+    padding: 2.2rem 2rem 2rem 2rem;
+    min-width: 320px;
+    max-width: 520px;
+    border: 1.5px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.2s, transform 0.2s;
+    animation: fadeInUp 0.8s cubic-bezier(.4,2,.6,1);
+}
+.whats-happening-card::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 120px; height: 120px;
+    background: radial-gradient(circle, var(--primary-color) 0%, transparent 80%);
+    opacity: 0.08;
+    z-index: 0;
+}
+.whats-happening-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+    letter-spacing: 0.01em;
+    font-weight: 700;
+    z-index: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+.wh-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    z-index: 1;
+    position: relative;
+}
+.wh-item {
+    border-left: 4px solid var(--primary-color);
+    background: linear-gradient(90deg, var(--bg-tertiary) 80%, var(--secondary-color) 120%);
+    border-radius: 0.7rem;
+    padding: 1.1rem 1.3rem 1.1rem 1.2rem;
+    box-shadow: 0 2px 8px 0 rgba(80, 80, 120, 0.06), var(--shadow-sm);
+    transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+    border-right: 2px solid transparent;
+}
+.wh-item:hover {
+    border-color: var(--accent-color);
+    box-shadow: 0 4px 16px 0 rgba(80, 80, 120, 0.13), var(--shadow-md);
+    transform: translateY(-2px) scale(1.012);
+    background: linear-gradient(90deg, var(--bg-tertiary) 60%, var(--accent-color) 120%);
+}
+.wh-title {
+    font-weight: 700;
+    font-size: 1.13rem;
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.01em;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+}
+.wh-title a {
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.wh-title a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+.wh-meta {
+    color: var(--text-secondary);
+    font-size: 0.97rem;
+    margin-bottom: 0.5rem;
+    font-family: var(--font-mono);
+    opacity: 0.85;
+}
+.wh-body {
+    color: var(--text-secondary);
+    font-size: 1.01rem;
+    line-height: 1.5;
+    word-break: break-word;
+    opacity: 0.98;
+}
+.wh-loading, .wh-empty {
+    color: var(--text-light);
+    text-align: center;
+    padding: 1.5rem 0;
+    font-size: 1.08rem;
+    font-style: italic;
+    opacity: 0.7;
+}
+@media (max-width: 900px) {
+    .whats-happening-flex { flex-direction: column; gap: 2rem; }
+    .whats-happening-card { max-width: 100%; }
+}
+@media (max-width: 600px) {
+    .whats-happening-card { padding: 1.2rem 0.7rem; }
+    .whats-happening-section { padding: 2rem 0 1.5rem 0; }
+}
