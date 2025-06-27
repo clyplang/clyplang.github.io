@@ -335,6 +335,82 @@ async def api_live_stats():
             stats[k] = f"{stats[k]:,}"
     return jsonify(stats)
 
+@website_bp.route('/release/<version>')
+async def release_page(version):
+    """Release details page for a specific version/tag."""
+    github_user = 'CodeSoftGit'
+    github_repo = 'clyp'
+    banner = get_current_banner()
+    # Fetch all releases and find the one matching the version/tag
+    release_data = None
+    async with aiohttp.ClientSession() as session:
+        try:
+            async with session.get(f'https://api.github.com/repos/{github_user}/{github_repo}/releases') as resp:
+                releases = await resp.json()
+                for rel in releases:
+                    # Match by tag_name or name (case-insensitive, ignore v prefix)
+                    tag = rel.get('tag_name', '').lstrip('v')
+                    name = rel.get('name', '').lstrip('v')
+                    if version == tag or version == name:
+                        release_data = rel
+                        break
+        except Exception:
+            release_data = None
+    if not release_data:
+        abort(404, f"Release '{version}' not found.")
+    # Determine release type
+    def get_release_type(name):
+        n = name.lower()
+        if 'alpha' in n:
+            return 'alpha'
+        if 'beta' in n:
+            return 'beta'
+        if 'rc' in n or 'release candidate' in n:
+            return 'rc'
+        return 'release'
+    rel_type = get_release_type(release_data.get('name', '') or release_data.get('tag_name', ''))
+    # Format version for display (add -[tag] if not a plain release)
+    base_version = version
+    if rel_type != 'release':
+        display_version = f"{base_version}-[{rel_type}]"
+    else:
+        display_version = base_version
+    # Find .tar.gz asset and pip command
+    tar_gz_url = None
+    for asset in release_data.get('assets', []):
+        if asset.get('name', '').endswith('.tar.gz'):
+            tar_gz_url = asset.get('browser_download_url')
+            break
+    # Pip install command
+    pip_command = None
+    if rel_type == 'release':
+        pip_command = f"pip install clyp=={base_version}"
+    elif tar_gz_url:
+        pip_command = f"pip install {tar_gz_url}"
+    # Render markdown for description
+    description_html = render_markdown(release_data.get('body', '') or '')
+    # Format date
+    from datetime import datetime
+    published_at = release_data.get('published_at')
+    release_date = None
+    if published_at:
+        try:
+            release_date = datetime.strptime(published_at, '%Y-%m-%dT%H:%M:%SZ').strftime('%B %d, %Y')
+        except Exception:
+            release_date = published_at
+    return await render_template(
+        'release.html',
+        version=display_version,
+        base_version=base_version,
+        rel_type=rel_type,
+        release_date=release_date,
+        description_html=description_html,
+        pip_command=pip_command,
+        tar_gz_url=tar_gz_url,
+        github_url=release_data.get('html_url'),
+        banner=banner
+    )
+
 if DEVELOPMENT:
     static_url_path = '/static'
 else:

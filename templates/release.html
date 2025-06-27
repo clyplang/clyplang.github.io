@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Release {{ version }} · Clyp{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div class="header-container">
+        <h1>Release <span style="font-family:var(--font-mono);">{{ base_version }}</span>
+            {% if rel_type != 'release' %}
+                <span class="release-tag" style="background:{% if rel_type == 'alpha' %}#ff6b6b{% elif rel_type == 'beta' %}#45b7d1{% elif rel_type == 'rc' %}#ffd600{% else %}#4ecdc4{% endif %};color:#fff;border-radius:0.4em;padding:0.1em 0.6em;font-size:0.85em;margin-left:0.5em;vertical-align:middle;">
+                    {{ rel_type|capitalize }}
+                </span>
+            {% endif %}
+        </h1>
+        {% if release_date %}
+        <p class="subtitle">Published on {{ release_date }}</p>
+        {% endif %}
+        <p><a href="{{ github_url }}" target="_blank" rel="noopener">View on GitHub</a></p>
+        {% if rel_type == 'alpha' %}
+        <div style="background:#fff3f3;color:#b71c1c;border:1px solid #ff6b6b;padding:0.7em 1em;border-radius:0.5em;margin-top:1em;font-size:1em;max-width:500px;">
+            <strong>Warning:</strong> This version is likely to contain bugs and may change majorly.
+        </div>
+        {% elif rel_type == 'beta' %}
+        <div style="background:#f0f8fb;color:#156082;border:1px solid #45b7d1;padding:0.7em 1em;border-radius:0.5em;margin-top:1em;font-size:1em;max-width:500px;">
+            <strong>Warning:</strong> This version is likely to contain bugs.
+        </div>
+        {% endif %}
+    </div>
+</div>
+<section class="release-section" style="max-width: 800px; margin: 2rem auto; background: var(--bg-card); border-radius: 1rem; box-shadow: var(--shadow-md); padding: 2.5rem 2rem;">
+    <h2 style="margin-bottom:1.2rem;">Release Details</h2>
+    <ul style="list-style:none; padding:0; margin-bottom:2rem;">
+        <li><strong>Version:</strong> <span style="font-family:var(--font-mono);">{{ base_version }}</span>
+            {% if rel_type != 'release' %}
+                <span class="release-tag" style="background:{% if rel_type == 'alpha' %}#ff6b6b{% elif rel_type == 'beta' %}#45b7d1{% elif rel_type == 'rc' %}#ffd600{% else %}#4ecdc4{% endif %};color:#fff;border-radius:0.4em;padding:0.1em 0.6em;font-size:0.85em;margin-left:0.5em;vertical-align:middle;">
+                    {{ rel_type|capitalize }}
+                </span>
+            {% endif %}
+        </li>
+        {% if rel_type != 'release' %}
+        <li><strong>Type:</strong> <span style="text-transform:capitalize;">{{ rel_type }}</span></li>
+        {% endif %}
+        {% if release_date %}
+        <li><strong>Date:</strong> {{ release_date }}</li>
+        {% endif %}
+    </ul>
+    {% if pip_command %}
+    <div style="margin-bottom:2rem;">
+        <h3>Install this version</h3>
+        <code class="install-command" style="font-size:1.1em;">{{ pip_command }}</code>
+        {% if tar_gz_url and rel_type != 'release' %}
+        <div style="margin-top:0.5rem; font-size:0.97em; color:var(--text-secondary);">(Pre-release: install directly from the tarball)</div>
+        {% endif %}
+    </div>
+    {% endif %}
+    <h3>Description</h3>
+    <div class="release-description docs-preview" style="margin-bottom:2rem;">
+        {{ description_html|safe }}
+    </div>
+    <div style="margin-top:2.5rem;">
+        <a href="/clyp/whats-happening" class="btn btn-secondary">Back to What's Happening</a>
+    </div>
+</section>
+{% endblock %}
