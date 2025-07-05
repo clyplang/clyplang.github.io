@@ -1,17 +1,22 @@
 [
     {
-        "text": "🚀 Clyp 0.1 is here! Check it out and get started today.",
+        "text": "🚀 Clyp 1.0 is here! Check it out and get started today.",
         "link": "https://codesoft.is-a.dev/clyp/docs/",
         "link_text": "View Documentation"
     },
     {
         "text": "⭐ Love Clyp? Show your support by starring us on GitHub!",
-        "link": "https://github.com/CodeSoftGit/clyp",
+        "link": "https://github.com/clyplang/clyp",
         "link_text": "Star on GitHub"
     },
     {
         "text": "Help shape Clyp’s future—share your feedback with us.",
         "link": "https://form.typeform.com/to/B37gPvaL?utm_source=clypbanner",
         "link_text": "Take Our Survey"
+    },
+    {
+        "text": "🎉 Clyp is now open source! Contribute on GitHub and help us grow.",
+        "link": "https://github.com/clyplang/clyp",
+        "link_text": "Contribute"
     }
 ]
