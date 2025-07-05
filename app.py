@@ -162,13 +162,15 @@ def render_markdown(content):
     return markdown(content)
 
 def get_docs():
-    """Load all documentation files from the docs directory."""
+    """Load all documentation files from the docs directory, excluding README.md."""
     docs_dir = Path('docs')
     docs = []
     if not docs_dir.is_dir():
         return docs
     
     for md_file in sorted(docs_dir.glob('*.md')):
+        if md_file.name.lower() == 'readme.md':
+            continue  # Skip README.md
         content = md_file.read_text(encoding='utf-8')
         # Extract title from the first line: # Title
         first_line = content.split('\n', 1)[0]
