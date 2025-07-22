@@ -4,12 +4,12 @@
     {{ super() }}
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://codesoft.is-a.dev/clyp/">
+    <meta property="og:url" content="https://clyp-kappa.vercel.app/">
     <meta property="og:title" content="Clyp – Modern Python-like Language">
     <meta property="og:description" content="A clean, expressive programming language that transpiles to Python. Enjoy static-like typing, simplified syntax, and seamless Python interoperability.">
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://codesoft.is-a.dev/clyp/">
+    <meta name="twitter:url" content="https://clyp-kappa.vercel.app/">
     <meta name="twitter:title" content="Clyp – Modern Python-like Language">
     <meta name="twitter:description" content="A clean, expressive programming language that transpiles to Python. Enjoy static-like typing, simplified syntax, and seamless Python interoperability.">
 {% endblock %}
@@ -30,7 +30,7 @@
                 </p>
                 <div class="hero-actions">
                     <a href="#get-started" class="btn btn-primary">Get Started</a>
-                    <a href="/clyp{{ url_for('website.examples') }}" class="btn btn-secondary">View Examples</a>
+                    <a href="{{ url_for('website.examples') }}" class="btn btn-secondary">View Examples</a>
                 </div>
             </div>
             <div class="hero-code">
@@ -228,7 +228,7 @@
         </div>
         <div class="install-cta">
             <p>Ready to dive deeper?</p>
-            <a href="/clyp{{ url_for('website.examples') }}" class="btn btn-primary">Explore Examples</a>
+            <a href="{{ url_for('website.examples') }}" class="btn btn-primary">Explore Examples</a>
         </div>
     </div>
 </section>
@@ -274,7 +274,7 @@ function copyToClipboard(text) {
 
 // Live Stats Fetching (server-side API)
 async function updateLiveStats() {
-    fetch('/clyp/api/live_stats')
+    fetch('/api/live_stats')
         .then(r => r.json())
         .then(stats => {
             document.getElementById('pypi-downloads-value').textContent = stats.pypi_downloads || 'N/A';

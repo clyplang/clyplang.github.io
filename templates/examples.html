@@ -5,12 +5,12 @@
 {% block meta %}
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://codesoft.is-a.dev/clyp/examples">
+<meta property="og:url" content="https://clyp-kappa.vercel.app/examples">
 <meta property="og:title" content="Clyp Code Examples">
 <meta property="og:description" content="Explore the power and elegance of Clyp through these comprehensive code examples.">
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="https://codesoft.is-a.dev/clyp/examples">
+<meta name="twitter:url" content="https://clyp-kappa.vercel.app/examples">
 <meta name="twitter:title" content="Clyp Code Examples">
 <meta name="twitter:description" content="Explore the power and elegance of Clyp through these comprehensive code examples.">
 {% endblock %}
@@ -66,7 +66,7 @@
                 <div class="step-icon">📖</div>
                 <h3>Read the Documentation</h3>
                 <p>Learn about Clyp's syntax, features, and standard library</p>
-                <a href="/clyp{{ url_for('website.docs') }}" class="step-link">View Docs →</a>
+                <a href="{{ url_for('website.docs') }}" class="step-link">View Docs →</a>
             </div>
             <div class="step-card">
                 <div class="step-icon">🚀</div>
