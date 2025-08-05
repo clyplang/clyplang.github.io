@@ -104,14 +104,58 @@ function initializeNavigation() {
         lastScrollY = currentScrollY;
     });
     
-    // Mobile menu toggle (if implemented)
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const navMenu = document.querySelector('.nav-menu');
+    // Mobile menu toggle functionality
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const navMenu = document.getElementById('nav-menu');
     
-    if (mobileMenuBtn && navMenu) {
-        mobileMenuBtn.addEventListener('click', () => {
+    if (mobileMenuToggle && navMenu) {
+        mobileMenuToggle.addEventListener('click', function() {
             navMenu.classList.toggle('active');
             document.body.classList.toggle('menu-open');
+            
+            // Update hamburger icon
+            const icon = mobileMenuToggle.querySelector('span');
+            if (navMenu.classList.contains('active')) {
+                icon.innerHTML = '✕';
+                icon.style.fontSize = '1.2rem';
+            } else {
+                icon.innerHTML = '☰';
+                icon.style.fontSize = '1.5rem';
+            }
+        });
+        
+        // Close mobile menu when clicking on nav links
+        const navLinks = navMenu.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navMenu.classList.remove('active');
+                document.body.classList.remove('menu-open');
+                const icon = mobileMenuToggle.querySelector('span');
+                icon.innerHTML = '☰';
+                icon.style.fontSize = '1.5rem';
+            });
+        });
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!navbar.contains(e.target) && navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                document.body.classList.remove('menu-open');
+                const icon = mobileMenuToggle.querySelector('span');
+                icon.innerHTML = '☰';
+                icon.style.fontSize = '1.5rem';
+            }
+        });
+        
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                navMenu.classList.remove('active');
+                document.body.classList.remove('menu-open');
+                const icon = mobileMenuToggle.querySelector('span');
+                icon.innerHTML = '☰';
+                icon.style.fontSize = '1.5rem';
+            }
         });
     }
 }

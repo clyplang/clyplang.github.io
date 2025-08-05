@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>{% block title %}Clyp - Modern Programming Language{% endblock %}</title>
     
     <!-- Fonts -->
@@ -27,7 +30,10 @@
                     <span class="brand-text">Clyp</span>
                 </a>
             </div>
-            <div class="nav-menu">
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation menu">
+                <span>☰</span>
+            </button>
+            <div class="nav-menu" id="nav-menu">
                 <a href="{{ url_for('website.index') }}" class="nav-link {% if request.endpoint == 'website.index' %}active{% endif %}">Home</a>
                 <a href="{{ url_for('website.examples') }}" class="nav-link {% if request.endpoint == 'website.examples' %}active{% endif %}">Examples</a>
                 <a href="{{ url_for('website.docs') }}" class="nav-link {% if request.endpoint == 'website.docs' %}active{% endif %}">Docs</a>
