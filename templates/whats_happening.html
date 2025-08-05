@@ -74,7 +74,7 @@ function renderReleaseTag(type, label) {
 function getReleasePageUrl(r) {
     // Try to use tag_name, fallback to name, strip leading 'v'
     let version = (r.tag_name || r.name || '').replace(/^v/, '');
-    return `https://clyp-kappa.vercel.app/release/${version}`;
+    return `https://clyp.codesft.dev/release/${version}`;
 }
 
 async function loadReleases() {
