@@ -3,7 +3,7 @@ Clyp Website - A modern, beautiful website for the Clyp programming language.
 Built with Quart for async performance and modern web standards.
 """
 
-from quart import Blueprint, render_template, jsonify, request, abort, Quart
+from quart import Blueprint, Response, render_template, jsonify, request, abort, Quart
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import HtmlFormatter
@@ -411,6 +411,15 @@ async def release_page(version):
         tar_gz_url=tar_gz_url,
         github_url=release_data.get('html_url'),
         banner=banner
+    )
+
+@website_bp.route('/github')
+async def github_redirect():
+    """Redirect to the GitHub repository."""
+    return Response(
+        'Redirecting to GitHub...',
+        status=302,
+        headers={'Location': 'https://github.com/clyplang/clyp'}
     )
 
 if DEVELOPMENT:
