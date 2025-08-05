@@ -281,12 +281,26 @@ async def whats_happening():
     banner = get_current_banner()
     return await render_template('whats_happening.html', banner=banner)
 
+from functools import lru_cache
+
+@lru_cache(maxsize=1)
+def _cached_stats():
+    # This function is synchronous, so we just cache the last result and timestamp.
+    # Real caching for async would use aiocache or similar, but for simplicity, we use lru_cache and time.
+    return {'stats': None, 'timestamp': 0}
+
 @website_bp.route('/api/live_stats')
 async def api_live_stats():
-    """API endpoint to fetch live stats for PyPI and GitHub."""
+    """API endpoint to fetch live stats for PyPI and GitHub, with simple caching."""
+    import time
+    CACHE_SECONDS = 60
     pypi_package = 'clyp'
-    github_user = 'CodeSoftGit'  # CHANGE to your GitHub username/org
-    github_repo = 'clyp'         # CHANGE to your GitHub repo name
+    github_user = 'clyplang'
+    github_repo = 'clyp'
+    now = time.time()
+    cached = _cached_stats()
+    if cached['stats'] and now - cached['timestamp'] < CACHE_SECONDS:
+        return jsonify(cached['stats'])
     stats = {
         'pypi_downloads': 'N/A',
         'github_downloads': 'N/A',
@@ -335,12 +349,16 @@ async def api_live_stats():
     for k in stats:
         if isinstance(stats[k], int):
             stats[k] = f"{stats[k]:,}"
+    # Update cache
+    _cached_stats.cache_clear()
+    _cached_stats.__wrapped__.stats = stats
+    _cached_stats.__wrapped__.timestamp = now
     return jsonify(stats)
 
 @website_bp.route('/release/<version>')
 async def release_page(version):
     """Release details page for a specific version/tag."""
-    github_user = 'CodeSoftGit'
+    github_user = 'clyplang'
     github_repo = 'clyp'
     banner = get_current_banner()
     # Fetch all releases and find the one matching the version/tag
@@ -422,15 +440,13 @@ async def github_redirect():
         headers={'Location': 'https://github.com/clyplang/clyp'}
     )
 
-if DEVELOPMENT:
-    static_url_path = '/static'
-else:
-    static_url_path = '/clyp/static'
-
 app = Quart(__name__)
 app.register_blueprint(
     website_bp,
     static_folder='static',
-    static_url_path=static_url_path,
+    static_url_path='/static',
     template_folder='templates'
 )
+
+if __name__ == '__main__':
+    app.run(debug=DEVELOPMENT, host='0.0.0.0', port=5000)

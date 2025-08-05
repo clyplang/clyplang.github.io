@@ -60,10 +60,6 @@
                 <div class="stat-label">PyPI Downloads</div>
                 <div class="stat-value" id="pypi-downloads-value">...</div>
             </div>
-            <div class="live-stat" id="github-downloads">
-                <div class="stat-label">GitHub Releases Downloads</div>
-                <div class="stat-value" id="github-downloads-value">...</div>
-            </div>
             <div class="live-stat" id="github-stars">
                 <div class="stat-label">GitHub Stars</div>
                 <div class="stat-value" id="github-stars-value">...</div>
@@ -278,13 +274,11 @@ async function updateLiveStats() {
         .then(r => r.json())
         .then(stats => {
             document.getElementById('pypi-downloads-value').textContent = stats.pypi_downloads || 'N/A';
-            document.getElementById('github-downloads-value').textContent = stats.github_downloads || 'N/A';
             document.getElementById('github-stars-value').textContent = stats.github_stars || 'N/A';
             document.getElementById('github-commits-value').textContent = stats.github_commits || 'N/A';
         })
         .catch(() => {
             document.getElementById('pypi-downloads-value').textContent = 'N/A';
-            document.getElementById('github-downloads-value').textContent = 'N/A';
             document.getElementById('github-stars-value').textContent = 'N/A';
             document.getElementById('github-commits-value').textContent = 'N/A';
         });

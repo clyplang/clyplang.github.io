@@ -1876,10 +1876,7 @@ body {
     justify-content: center;
     transition: box-shadow 0.2s, transform 0.2s;
 }
-.live-stat:hover {
-    box-shadow: var(--shadow-lg);
-    transform: translateY(-2px) scale(1.03);
-}
+/* Removed hover effect */
 .stat-label {
     color: var(--text-secondary);
     font-size: 1rem;
