@@ -3,7 +3,7 @@ Clyp Website - A modern, beautiful website for the Clyp programming language.
 Built with Quart for async performance and modern web standards.
 """
 
-from quart import Blueprint, Response, render_template, jsonify, request, abort, Quart
+from quart import Blueprint, Response, redirect, render_template, jsonify, request, abort, Quart
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import HtmlFormatter
@@ -236,34 +236,7 @@ async def examples():
 @website_bp.route('/docs/<slug>')
 async def docs(slug=None):
     """Documentation page, rendered from Markdown files in the docs folder."""
-    all_docs = get_docs()
-    banner = get_current_banner()
-    if not all_docs:
-        pygments_css = HtmlFormatter(style='github-dark').get_style_defs('.highlight')
-        no_docs_html = render_markdown("### No Documentation Found\n\nPlease add `.md` files to the `website/docs` directory.")
-        return await render_template('docs.html', docs_nav=[], current_doc_html=no_docs_html, current_doc_title="Not Found", current_slug=None, pygments_css=pygments_css, banner=banner)
-
-    if slug is None:
-        # Default to the first document
-        current_doc = all_docs[0]
-    else:
-        current_doc = next((doc for doc in all_docs if doc['slug'] == slug), None)
-
-    if current_doc is None:
-        abort(404, "Documentation page not found")
-
-    rendered_docs = render_markdown(current_doc['content'])
-    docs_nav = [{'slug': doc['slug'], 'title': doc['title']} for doc in all_docs]
-    pygments_css = HtmlFormatter(style='github-dark').get_style_defs('.highlight')
-    return await render_template(
-        'docs.html', 
-        docs_nav=docs_nav, 
-        current_doc_html=rendered_docs, 
-        current_doc_title=current_doc['title'],
-        current_slug=current_doc['slug'],
-        pygments_css=pygments_css,
-        banner=banner
-    )
+    return redirect("https://clypdocs.codesft.dev")
 
 @website_bp.route('/api/highlight', methods=['POST'])
 async def api_highlight():
