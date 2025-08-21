@@ -17,6 +17,7 @@ import re
 import json
 import time
 import aiohttp
+from functools import lru_cache
 
 DEVELOPMENT = False  # Set to False in production
 
@@ -33,7 +34,7 @@ str name = "World";
 print("Hello, " + name + "!");
 
 # Define a function to greet someone
-def greet(str person) returns str {
+greet(str person) returns str {
     return "Greetings, " + person + "!";
 };
 
@@ -59,7 +60,7 @@ print("Flattened list:");
 print(flattened);
 
 # Repeat loop for iteration
-repeat [3] times {
+repeat 3 {
     print("Hello from a repeat loop!");
 };'''
     },
@@ -70,11 +71,11 @@ repeat [3] times {
 class Counter {
     int count = 0;
     
-    def increment(self) returns null {
+    increment(self) returns null {
         self.count = self.count + 1;
     };
-    
-    def get_count(self) returns int {
+
+    get_count(self) returns int {
         return self.count;
     };
 };
@@ -82,21 +83,7 @@ class Counter {
 let c = Counter();
 c.increment();
 c.increment();
-print("Count is: " + toString(c.get_count()));
-
-# Pipeline operator example
-def double(int n) returns int {
-    return n * 2;
-};
-
-def add_five(int n) returns int {
-    return n + 5;
-};
-
-let initial_value = 10;
-# Pipeline passes value left to right
-let final_value = initial_value |> double |> add_five;
-print("Pipeline result: " + toString(final_value));'''
+print("Count is: " + toString(c.get_count()));'''
     }
 }
 
@@ -254,7 +241,16 @@ async def whats_happening():
     banner = get_current_banner()
     return await render_template('whats_happening.html', banner=banner)
 
-from functools import lru_cache
+@website_bp.route('/download')
+async def download():
+    """Download page"""
+    return redirect("https://clyp.codesft.dev/#get-started")
+
+@website_bp.route('/download/win')
+@website_bp.route('/download/windows')
+async def download_win():
+    """Download page for Windows"""
+    return redirect("https://github.com/clyplang/clypinstaller/releases/latest/download/install.exe")
 
 @lru_cache(maxsize=1)
 def _cached_stats():

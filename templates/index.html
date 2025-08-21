@@ -199,32 +199,29 @@
 <section id="get-started" class="installation">
     <div class="install-container">
         <h2 class="section-title">Get Started</h2>
-        <div class="install-steps">
-            <div class="install-step">
-                <div class="step-number">1</div>
-                <div class="step-content">
-                    <h3>Install Clyp</h3>
-                    <div class="code-block">
-                        <code>pip install clyp</code>
-                    </div>
+        <div class="install-columns" style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin: 2.5rem 0;">
+            <!-- Windows Column -->
+            <div class="install-col" style="flex:1 1 260px; min-width:260px; max-width:350px; background: var(--bg-card); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); padding: 2rem 1.5rem; display: flex; flex-direction: column; align-items: center; margin-bottom: 1.5rem;">
+                <div style="font-size:2.2rem; margin-bottom:0.7rem;">🪟</div>
+                <h3 style="font-size:1.25rem; font-weight:700; margin-bottom:0.7rem; color:var(--primary-color);">Windows</h3>
+                <p style="color:var(--text-secondary); text-align:center; margin-bottom:1.2rem;">Download the official installer for Windows 10/11 (64-bit).</p>
+                <a style="text-align:center" href="https://github.com/clyplang/clypinstaller/releases/latest/download/install.exe" class="btn btn-primary" style="width:100%; text-align:center; font-size:1.08rem; margin-bottom:0.7rem;" download>
+                    Download Installer
+                </a>
+                <div style="font-size:0.95rem; color:var(--text-light); margin-top:0.5rem; text-align:center;">
+                    <span>Just run the installer and follow the prompts.</span>
                 </div>
             </div>
-            <div class="install-step">
-                <div class="step-number">2</div>
-                <div class="step-content">
-                    <h3>Create a Clyp file</h3>
-                    <div class="code-block">
-                        <code>echo 'str message = &quot;Hello, Clyp!&quot;; print(message);' > hello.clyp</code>
-                    </div>
+            <!-- Other Platforms Column -->
+            <div class="install-col" style="flex:1 1 260px; min-width:260px; max-width:350px; background: var(--bg-card); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); padding: 2rem 1.5rem; display: flex; flex-direction: column; align-items: center; margin-bottom: 1.5rem;">
+                <div style="font-size:2.2rem; margin-bottom:0.7rem;">🐧🍎💻</div>
+                <h3 style="font-size:1.25rem; font-weight:700; margin-bottom:0.7rem; color:var(--primary-color);">Other Platforms</h3>
+                <p style="color:var(--text-secondary); text-align:center; margin-bottom:1.2rem;">Install via <b>pip</b> on Linux, macOS, or WSL:</p>
+                <div class="code-block" style="width:100%; display:flex; align-items:center; background:var(--code-bg); color:var(--code-text); border-radius:var(--radius-md); padding:0.7rem 1rem; margin-bottom:0.7rem;">
+                    <code id="pip-install-cmd" style="font-size:1rem; background:none; color:inherit; flex:1;">pip install clyp</code>
                 </div>
-            </div>
-            <div class="install-step">
-                <div class="step-number">3</div>
-                <div class="step-content">
-                    <h3>Run your program</h3>
-                    <div class="code-block">
-                        <code>clyp go hello.clyp</code>
-                    </div>
+                <div style="font-size:0.95rem; color:var(--text-light); margin-top:0.5rem; text-align:center;">
+                    <span>Requires Python 3.8+ and pip.</span>
                 </div>
             </div>
         </div>
@@ -258,15 +255,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Copy to clipboard function
-function copyToClipboard(text) {
+// Copy to clipboard function (updated for button feedback)
+function copyToClipboard(text, btn) {
     navigator.clipboard.writeText(text).then(function() {
-        // Show temporary feedback
-        const btn = event.target;
         const originalText = btn.textContent;
         btn.textContent = 'Copied!';
         btn.classList.add('copied');
-        
         setTimeout(() => {
             btn.textContent = originalText;
             btn.classList.remove('copied');
@@ -295,3 +289,7 @@ updateLiveStats();
 setInterval(updateLiveStats, 60000);
 </script>
 {% endblock %}
+// Update on load and every 60 seconds
+updateLiveStats();
+setInterval(updateLiveStats, 60000);
+</script>
