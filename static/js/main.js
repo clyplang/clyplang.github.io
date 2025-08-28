@@ -7,8 +7,313 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeCodeHighlighting();
     initializeAnimations();
     initializeEnhancedFeatures();
+    initializeFancyAnimations();
+    initializeSectionSnapping();
     loadLiveStats();
 });
+
+// 🎨 FANCY ANIMATIONS INITIALIZATION
+function initializeFancyAnimations() {
+    // Add floating particles to hero section
+    addFloatingParticles();
+    
+    // Initialize section navigation indicator
+    createSectionNavigator();
+    
+    // Add fancy animation classes to elements
+    addFancyAnimationClasses();
+    
+    // Initialize magnetic hover effects
+    initializeMagneticHover();
+    
+    // Add liquid button effects
+    addLiquidButtonEffects();
+    
+    // Initialize typewriter effects
+    initializeTypewriterEffects();
+    
+    // Add 3D flip cards
+    add3DFlipCards();
+    
+    // Initialize background patterns
+    addBackgroundPatterns();
+}
+
+// 🎯 SECTION SNAPPING FUNCTIONALITY
+function initializeSectionSnapping() {
+    const sections = document.querySelectorAll('section');
+    let currentSection = 0;
+    let isScrolling = false;
+    
+    // Add keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+            e.preventDefault();
+            navigateToSection(Math.min(currentSection + 1, sections.length - 1));
+        } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+            e.preventDefault();
+            navigateToSection(Math.max(currentSection - 1, 0));
+        }
+    });
+    
+    // Update current section on scroll
+    window.addEventListener('scroll', debounce(() => {
+        if (!isScrolling) {
+            updateCurrentSection();
+        }
+    }, 100));
+    
+    function navigateToSection(index) {
+        if (index >= 0 && index < sections.length && !isScrolling) {
+            isScrolling = true;
+            currentSection = index;
+            
+            const targetSection = sections[index];
+            const navbarHeight = document.querySelector('.navbar')?.offsetHeight || 0;
+            const targetPosition = targetSection.offsetTop - navbarHeight;
+            
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+            
+            updateSectionNavigator();
+            
+            setTimeout(() => {
+                isScrolling = false;
+            }, 1000);
+        }
+    }
+    
+    function updateCurrentSection() {
+        const scrollY = window.pageYOffset;
+        const windowHeight = window.innerHeight;
+        const navbarHeight = document.querySelector('.navbar')?.offsetHeight || 0;
+        
+        sections.forEach((section, index) => {
+            const sectionTop = section.offsetTop - navbarHeight;
+            const sectionHeight = section.offsetHeight;
+            
+            if (scrollY >= sectionTop - windowHeight / 3 && 
+                scrollY < sectionTop + sectionHeight - windowHeight / 3) {
+                currentSection = index;
+                updateSectionNavigator();
+            }
+        });
+    }
+    
+    // Initialize current section
+    updateCurrentSection();
+}
+
+// ✨ CREATE SECTION NAVIGATOR
+function createSectionNavigator() {
+    const sections = document.querySelectorAll('section');
+    if (sections.length === 0) return;
+    
+    const navigator = document.createElement('div');
+    navigator.className = 'section-nav-indicator';
+    
+    const sectionNames = ['Hero', 'Stats', 'Features', 'Examples', 'Install'];
+    
+    sections.forEach((section, index) => {
+        const dot = document.createElement('div');
+        dot.className = 'nav-dot';
+        dot.setAttribute('data-section', index);
+        dot.setAttribute('title', sectionNames[index] || `Section ${index + 1}`);
+        
+        dot.addEventListener('click', () => {
+            const navbarHeight = document.querySelector('.navbar')?.offsetHeight || 0;
+            const targetPosition = section.offsetTop - navbarHeight;
+            
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+        });
+        
+        navigator.appendChild(dot);
+    });
+    
+    document.body.appendChild(navigator);
+}
+
+function updateSectionNavigator() {
+    const dots = document.querySelectorAll('.nav-dot');
+    dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentSection);
+    });
+}
+
+// 🌟 ADD FLOATING PARTICLES
+function addFloatingParticles() {
+    const heroSection = document.querySelector('.hero');
+    if (!heroSection) return;
+    
+    const particleContainer = document.createElement('div');
+    particleContainer.className = 'floating-particles';
+    
+    // Create 20 particles
+    for (let i = 0; i < 20; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        
+        // Random positioning and timing
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 15 + 's';
+        particle.style.animationDuration = (15 + Math.random() * 15) + 's';
+        
+        particleContainer.appendChild(particle);
+    }
+    
+    heroSection.appendChild(particleContainer);
+}
+
+// 🎭 ADD FANCY ANIMATION CLASSES
+function addFancyAnimationClasses() {
+    // Feature cards with different animation types
+    const featureCards = document.querySelectorAll('.feature-card');
+    const animationTypes = [
+        'fancy-slide-in-left',
+        'fancy-slide-in-right', 
+        'fancy-zoom-in',
+        'fancy-slide-in-up',
+        'fancy-rotate-in',
+        'fancy-flip-in'
+    ];
+    
+    featureCards.forEach((card, index) => {
+        const animationType = animationTypes[index % animationTypes.length];
+        card.classList.add(animationType);
+        card.classList.add('glow-hover');
+    });
+    
+    // Make features grid a stagger container
+    const featuresGrid = document.querySelector('.features-grid');
+    if (featuresGrid) {
+        featuresGrid.classList.add('stagger-container');
+        featureCards.forEach(card => card.classList.add('stagger-item'));
+    }
+    
+    // Add fancy animations to other elements
+    const codeWindows = document.querySelectorAll('.code-window');
+    codeWindows.forEach(window => {
+        window.classList.add('fancy', 'glow-hover');
+    });
+    
+    // Add pulse glow to important buttons
+    const primaryBtns = document.querySelectorAll('.btn-primary');
+    primaryBtns.forEach(btn => {
+        btn.classList.add('pulse-glow');
+    });
+}
+
+// 🧲 MAGNETIC HOVER EFFECTS
+function initializeMagneticHover() {
+    const magneticElements = document.querySelectorAll('.feature-card, .btn, .nav-link');
+    
+    magneticElements.forEach(element => {
+        element.classList.add('magnetic-hover');
+        
+        element.addEventListener('mousemove', (e) => {
+            const rect = element.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            const deltaX = (e.clientX - centerX) * 0.15;
+            const deltaY = (e.clientY - centerY) * 0.15;
+            
+            element.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1.05)`;
+        });
+        
+        element.addEventListener('mouseleave', () => {
+            element.style.transform = '';
+        });
+    });
+}
+
+// 💧 LIQUID BUTTON EFFECTS
+function addLiquidButtonEffects() {
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach(btn => {
+        btn.classList.add('liquid-btn');
+    });
+}
+
+// ⌨️ TYPEWRITER EFFECTS
+function initializeTypewriterEffects() {
+    const heroTitle = document.querySelector('.hero-title');
+    if (heroTitle) {
+        const text = heroTitle.innerHTML;
+        heroTitle.innerHTML = `<span class="typewriter-text">${text}</span>`;
+    }
+    
+    // Add morphing text effect to gradient text
+    const gradientTexts = document.querySelectorAll('.gradient-text');
+    gradientTexts.forEach(text => {
+        text.classList.add('morphing-text');
+        text.setAttribute('data-text', text.textContent);
+    });
+}
+
+// 🔄 3D FLIP CARDS
+function add3DFlipCards() {
+    const featureCards = document.querySelectorAll('.feature-card');
+    
+    featureCards.forEach((card, index) => {
+        const content = card.innerHTML;
+        const icon = card.querySelector('.feature-icon')?.textContent || '✨';
+        const title = card.querySelector('h3')?.textContent || 'Feature';
+        
+        card.classList.add('flip-card');
+        card.innerHTML = `
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    ${content}
+                </div>
+                <div class="flip-card-back">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">${icon}</div>
+                    <h3 style="margin-bottom: 1rem; color: white;">${title}</h3>
+                    <p style="color: rgba(255,255,255,0.9);">Click to explore this feature in detail!</p>
+                    <div style="margin-top: 1rem;">
+                        <button class="btn" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white;">
+                            Learn More
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+}
+
+// 🎨 BACKGROUND PATTERNS
+function addBackgroundPatterns() {
+    const sections = document.querySelectorAll('section');
+    sections.forEach((section, index) => {
+        if (index % 2 === 1) { // Add to alternating sections
+            const pattern = document.createElement('div');
+            pattern.className = 'animated-bg-pattern';
+            section.style.position = 'relative';
+            section.appendChild(pattern);
+        }
+    });
+}
+
+// 🔧 UTILITY FUNCTIONS
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Track current section for navigation
+let currentSection = 0;
 
 // Enhanced features initialization
 function initializeEnhancedFeatures() {
@@ -581,26 +886,44 @@ function enhanceCodeBlocks() {
 
 // Initialize animations and scroll effects
 function initializeAnimations() {
-    // Intersection Observer for fade-in animations with better settings
+    // Enhanced Intersection Observer for fancy animations
     const observerOptions = {
-        threshold: 0.15,
-        rootMargin: '0px 0px -100px 0px'
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
     };
     
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('animate-in');
+                
+                // Special handling for stagger containers
+                if (entry.target.classList.contains('stagger-container')) {
+                    const items = entry.target.querySelectorAll('.stagger-item');
+                    items.forEach((item, index) => {
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                            item.style.transform = 'translateY(0) scale(1)';
+                        }, index * 150);
+                    });
+                }
+                
                 // Add staggered animation for multiple elements
                 const siblings = Array.from(entry.target.parentNode.children);
                 const index = siblings.indexOf(entry.target);
-                entry.target.style.animationDelay = `${index * 100}ms`;
+                entry.target.style.transitionDelay = `${index * 100}ms`;
             }
         });
     }, observerOptions);
     
-    // Observe elements that should animate
-    const animatedElements = document.querySelectorAll('.feature-card, .example-card, .step-card, .reference-card');
+    // Observe elements that should animate (including new fancy ones)
+    const animatedElements = document.querySelectorAll(`
+        .feature-card, .example-card, .step-card, .reference-card,
+        .fancy-slide-in-left, .fancy-slide-in-right, .fancy-slide-in-up, 
+        .fancy-slide-in-down, .fancy-zoom-in, .fancy-rotate-in, .fancy-flip-in,
+        .stagger-container, .code-window, .live-stat
+    `);
+    
     animatedElements.forEach((el, index) => {
         el.classList.add('animate-ready');
         observer.observe(el);
@@ -609,14 +932,21 @@ function initializeAnimations() {
     // Enhanced parallax effect for hero section
     const hero = document.querySelector('.hero');
     if (hero) {
-        window.addEventListener('scroll', () => {
+        window.addEventListener('scroll', debounce(() => {
             const scrolled = window.pageYOffset;
-            const rate = scrolled * -0.3;
+            const rate = scrolled * -0.2;
             const heroContent = hero.querySelector('.hero-content');
             if (heroContent) {
                 heroContent.style.transform = `translateY(${rate}px)`;
             }
-        });
+            
+            // Parallax for particles
+            const particles = hero.querySelectorAll('.particle');
+            particles.forEach((particle, index) => {
+                const speed = 0.1 + (index % 3) * 0.05;
+                particle.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        }, 10));
     }
 }
 
