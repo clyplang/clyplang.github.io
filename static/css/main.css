@@ -50,7 +50,7 @@
     --radius-xl: 1rem;
 }
 
-/* Dark mode styles */
+/* Enhanced Dark Mode Transitions */
 [data-theme="dark"] {
     /* Dark mode colors */
     --text-primary: #f7fafc;
@@ -71,6 +71,44 @@
     --code-header-bg: #161b22;
     --code-border: rgba(240, 246, 252, 0.1);
     --code-text: #e6edf3;
+    
+    /* Dark mode specific gradients */
+    --hero-gradient: linear-gradient(135deg, 
+        rgba(255, 107, 107, 0.15) 0%, 
+        rgba(78, 205, 196, 0.15) 35%, 
+        rgba(69, 183, 209, 0.15) 70%, 
+        rgba(255, 107, 107, 0.08) 100%);
+}
+
+/* Enhanced Hero Section for Dark Mode */
+[data-theme="dark"] .hero {
+    background: var(--hero-gradient), var(--bg-primary);
+}
+
+[data-theme="dark"] .hero::before {
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ff6b6b' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+}
+
+/* Enhanced Dark Mode Feature Cards */
+[data-theme="dark"] .feature-card {
+    background: linear-gradient(145deg, var(--bg-card), rgba(45, 55, 72, 0.8));
+    border: 1px solid rgba(255, 107, 107, 0.1);
+}
+
+[data-theme="dark"] .feature-card:hover {
+    border-color: rgba(255, 107, 107, 0.4);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Enhanced Dark Mode Code Windows */
+[data-theme="dark"] .code-window {
+    background: var(--code-bg);
+    border: 1px solid rgba(255, 107, 107, 0.1);
+}
+
+[data-theme="dark"] .code-window:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 107, 107, 0.3);
 }
 
 /* Auto dark mode based on system preference */
@@ -3179,5 +3217,105 @@ pre {
     .features-grid {
         grid-template-columns: 1fr;
         gap: var(--spacing-lg);
+    }
+}
+
+/* Enhanced Animation Keyframes */
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+    15% { opacity: 1; transform: translateX(-50%) translateY(0); }
+    85% { opacity: 1; transform: translateX(-50%) translateY(0); }
+    100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+}
+
+@keyframes loadingDots {
+    0%, 20% { opacity: 0; }
+    50% { opacity: 1; }
+    80%, 100% { opacity: 0; }
+}
+
+.loading-dots span {
+    animation: loadingDots 1.4s infinite;
+}
+
+.loading-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.loading-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+/* Enhanced Theme Toggle Animation */
+.theme-toggle {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.theme-toggle::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, rgba(255, 107, 107, 0.2), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.theme-toggle:hover::before {
+    opacity: 1;
+}
+
+/* Enhanced Tab Animations */
+.tab-content {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.tab-content.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Enhanced Stats Loading Animation */
+.stat-value.loading {
+    background: linear-gradient(90deg, transparent, rgba(255, 107, 107, 0.2), transparent);
+    background-size: 200% 100%;
+    animation: shimmerStat 1.5s infinite;
+}
+
+@keyframes shimmerStat {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* Performance Optimizations */
+.feature-card,
+.code-window,
+.btn,
+.nav-link {
+    will-change: transform;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .hero::before {
+        animation: none;
+    }
+    
+    .site-banner::before {
+        animation: none;
     }
 }

@@ -35,6 +35,29 @@ function enhanceCopyButtons() {
             this.style.transform = 'scale(0.95)';
             this.style.background = 'var(--secondary-color)';
             
+            // Create success message
+            const successMsg = document.createElement('div');
+            successMsg.textContent = '✓ Copied!';
+            successMsg.style.cssText = `
+                position: absolute;
+                top: -30px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: var(--secondary-color);
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 6px;
+                font-size: 0.875rem;
+                font-weight: 500;
+                white-space: nowrap;
+                z-index: 1000;
+                opacity: 0;
+                animation: fadeInOut 2s ease forwards;
+            `;
+            
+            this.style.position = 'relative';
+            this.appendChild(successMsg);
+            
             // Create ripple effect
             const ripple = document.createElement('span');
             ripple.className = 'ripple';
@@ -59,44 +82,61 @@ function enhanceCopyButtons() {
                 this.style.transform = '';
                 this.style.background = '';
                 if (ripple.parentNode) ripple.remove();
-            }, 200);
+                if (successMsg.parentNode) successMsg.remove();
+            }, 2000);
         });
     });
 }
 
-// Add loading animations
+// Add loading animations with enhanced feedback
 function addLoadingAnimations() {
     const statValues = document.querySelectorAll('.stat-value');
     statValues.forEach(stat => {
         if (stat.textContent === '...' || stat.textContent === 'N/A') {
             stat.classList.add('loading');
+            
+            // Add loading dots animation
+            stat.innerHTML = '<span class="loading-dots">Loading<span>.</span><span>.</span><span>.</span></span>';
         }
     });
 }
 
-// Enhanced interactions
+// Enhanced interactions with better performance
 function initializeEnhancedInteractions() {
-    // Enhanced button hover effects
+    // Enhanced button hover effects with smooth transitions
     const buttons = document.querySelectorAll('.btn');
     buttons.forEach(button => {
         button.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-2px)';
+            this.style.transform = 'translateY(-2px) scale(1.02)';
         });
         
         button.addEventListener('mouseleave', function() {
             this.style.transform = '';
         });
+        
+        // Add click animation
+        button.addEventListener('mousedown', function() {
+            this.style.transform = 'translateY(-1px) scale(0.98)';
+        });
+        
+        button.addEventListener('mouseup', function() {
+            this.style.transform = 'translateY(-2px) scale(1.02)';
+        });
     });
     
-    // Enhanced feature card interactions
+    // Enhanced feature card interactions with stagger effect
     const featureCards = document.querySelectorAll('.feature-card');
-    featureCards.forEach(card => {
+    featureCards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 100}ms`;
+        
         card.addEventListener('mouseenter', function() {
             this.style.transform = 'translateY(-8px) scale(1.02)';
+            this.style.zIndex = '10';
         });
         
         card.addEventListener('mouseleave', function() {
             this.style.transform = '';
+            this.style.zIndex = '';
         });
     });
     
@@ -104,13 +144,53 @@ function initializeEnhancedInteractions() {
     const codeWindows = document.querySelectorAll('.code-window');
     codeWindows.forEach(window => {
         window.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-4px)';
+            this.style.transform = 'translateY(-4px) scale(1.01)';
         });
         
         window.addEventListener('mouseleave', function() {
             this.style.transform = '';
         });
     });
+    
+    // Add scroll-triggered animations for performance
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                updateScrollEffects();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
+}
+
+// Enhanced scroll effects
+function updateScrollEffects() {
+    const scrolled = window.pageYOffset;
+    
+    // Enhanced parallax for hero
+    const heroContent = document.querySelector('.hero-content');
+    if (heroContent) {
+        const rate = scrolled * -0.2;
+        heroContent.style.transform = `translateY(${rate}px)`;
+    }
+    
+    // Add navbar blur effect on scroll
+    const navbar = document.querySelector('.navbar');
+    if (navbar) {
+        if (scrolled > 50) {
+            navbar.style.backdropFilter = 'blur(20px)';
+            navbar.style.background = document.documentElement.getAttribute('data-theme') === 'dark' 
+                ? 'rgba(26, 32, 44, 0.95)' 
+                : 'rgba(255, 255, 255, 0.95)';
+        } else {
+            navbar.style.backdropFilter = 'blur(10px)';
+            navbar.style.background = document.documentElement.getAttribute('data-theme') === 'dark' 
+                ? 'rgba(26, 32, 44, 0.8)' 
+                : 'rgba(255, 255, 255, 0.8)';
+        }
+    }
 }
 
 // Add scroll progress indicator
