@@ -1,4 +1,4 @@
-// Main JavaScript for Clyp website with enhanced interactions
+// Main JavaScript for Clyp website
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize all components
     initializeTheme();
@@ -7,37 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeCodeHighlighting();
     initializeAnimations();
     initializeEnhancedFeatures();
-    initializeMagneticEffects();
     loadLiveStats();
 });
-
-// Magnetic cursor effects for buttons and interactive elements
-function initializeMagneticEffects() {
-    const magneticElements = document.querySelectorAll('.btn, .feature-card, .tab-button, .nav-link');
-    
-    magneticElements.forEach(el => {
-        el.addEventListener('mousemove', magneticMove);
-        el.addEventListener('mouseleave', magneticReset);
-    });
-}
-
-function magneticMove(e) {
-    const item = e.currentTarget;
-    const rect = item.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    
-    const intensity = 0.3;
-    
-    item.style.transform = `translate(${x * intensity}px, ${y * intensity}px) scale(1.02)`;
-    item.style.transition = 'transform 0.1s ease';
-}
-
-function magneticReset(e) {
-    const item = e.currentTarget;
-    item.style.transform = '';
-    item.style.transition = 'transform 0.3s ease';
-}
 
 // Enhanced features initialization
 function initializeEnhancedFeatures() {
@@ -52,75 +23,40 @@ function initializeEnhancedFeatures() {
     
     // Add scroll progress indicator
     addScrollProgress();
-    
-    // Initialize typewriter effect
-    initializeTypewriter();
-    
-    // Initialize floating elements
-    initializeFloatingElements();
 }
 
-// Typewriter effect for hero title
-function initializeTypewriter() {
-    const title = document.querySelector('.hero-title .gradient-text');
-    if (title) {
-        const text = title.textContent;
-        title.innerHTML = '<span class="typewriter"></span>';
-        const typewriter = title.querySelector('.typewriter');
-        
-        let i = 0;
-        const speed = 100;
-        
-        function typeChar() {
-            if (i < text.length) {
-                typewriter.textContent += text.charAt(i);
-                i++;
-                setTimeout(typeChar, speed);
-            } else {
-                typewriter.style.borderRight = '3px solid var(--primary-color)';
-                typewriter.style.animation = 'blink 1s step-end infinite';
-            }
-        }
-        
-        setTimeout(typeChar, 500);
-    }
-}
-
-// Add floating particles to hero section
-function initializeFloatingElements() {
-    const hero = document.querySelector('.hero');
-    if (hero) {
-        for (let i = 0; i < 20; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'floating-particle';
-            particle.style.cssText = `
-                position: absolute;
-                width: ${Math.random() * 4 + 2}px;
-                height: ${Math.random() * 4 + 2}px;
-                background: rgba(255, 107, 107, ${Math.random() * 0.5 + 0.2});
-                border-radius: 50%;
-                left: ${Math.random() * 100}%;
-                top: ${Math.random() * 100}%;
-                animation: float ${Math.random() * 10 + 10}s ease-in-out infinite;
-                animation-delay: ${Math.random() * 5}s;
-                pointer-events: none;
-            `;
-            hero.appendChild(particle);
-        }
-    }
-}
-
-// Enhanced copy buttons with better feedback and ripple effects
+// Enhanced copy buttons with better feedback
 function enhanceCopyButtons() {
     const copyButtons = document.querySelectorAll('.copy-code-btn, [onclick*="copyCode"]');
     
     copyButtons.forEach(button => {
         button.addEventListener('click', function(e) {
-            e.preventDefault();
-            
             // Enhanced feedback animation
             this.style.transform = 'scale(0.95)';
             this.style.background = 'var(--secondary-color)';
+            
+            // Create success message
+            const successMsg = document.createElement('div');
+            successMsg.textContent = '✓ Copied!';
+            successMsg.style.cssText = `
+                position: absolute;
+                top: -30px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: var(--secondary-color);
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 6px;
+                font-size: 0.875rem;
+                font-weight: 500;
+                white-space: nowrap;
+                z-index: 1000;
+                opacity: 0;
+                animation: fadeInOut 2s ease forwards;
+            `;
+            
+            this.style.position = 'relative';
+            this.appendChild(successMsg);
             
             // Create ripple effect
             const ripple = document.createElement('span');
@@ -132,7 +68,6 @@ function enhanceCopyButtons() {
                 transform: scale(0);
                 animation: ripple 0.6s linear;
                 pointer-events: none;
-                z-index: 10;
             `;
             
             const rect = this.getBoundingClientRect();
@@ -141,230 +76,79 @@ function enhanceCopyButtons() {
             ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
             ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
             
-            this.style.position = 'relative';
             this.appendChild(ripple);
-            
-            // Create enhanced success message
-            const successMsg = document.createElement('div');
-            successMsg.textContent = '✓ Copied!';
-            successMsg.style.cssText = `
-                position: absolute;
-                top: -40px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
-                color: white;
-                padding: 0.5rem 1rem;
-                border-radius: 8px;
-                font-size: 0.875rem;
-                font-weight: 600;
-                white-space: nowrap;
-                z-index: 1000;
-                opacity: 0;
-                animation: fadeInOut 2.5s ease forwards;
-                box-shadow: var(--shadow-lg);
-            `;
-            
-            this.appendChild(successMsg);
-            
-            // Copy text functionality
-            const codeBlock = this.closest('.code-window, .code-block').querySelector('code, pre');
-            if (codeBlock) {
-                navigator.clipboard.writeText(codeBlock.textContent).catch(() => {
-                    // Fallback for older browsers
-                    const textArea = document.createElement('textarea');
-                    textArea.value = codeBlock.textContent;
-                    document.body.appendChild(textArea);
-                    textArea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(textArea);
-                });
-            }
             
             setTimeout(() => {
                 this.style.transform = '';
                 this.style.background = '';
                 if (ripple.parentNode) ripple.remove();
                 if (successMsg.parentNode) successMsg.remove();
-            }, 2500);
+            }, 2000);
         });
     });
-    
-    // Add CSS animation for success message
-    if (!document.querySelector('#fadeInOutStyle')) {
-        const style = document.createElement('style');
-        style.id = 'fadeInOutStyle';
-        style.textContent = `
-            @keyframes fadeInOut {
-                0% { opacity: 0; transform: translateX(-50%) translateY(10px); }
-                20% { opacity: 1; transform: translateX(-50%) translateY(0); }
-                80% { opacity: 1; transform: translateX(-50%) translateY(0); }
-                100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
-            }
-        `;
-        document.head.appendChild(style);
-    }
 }
 
 // Add loading animations with enhanced feedback
 function addLoadingAnimations() {
     const statValues = document.querySelectorAll('.stat-value');
     statValues.forEach(stat => {
-        if (stat.textContent.includes('Loading') || stat.textContent === '...' || stat.textContent === 'N/A') {
+        if (stat.textContent === '...' || stat.textContent === 'N/A') {
             stat.classList.add('loading');
             
-            // Add enhanced loading dots animation
-            stat.innerHTML = '<div class="loading-dots">Loading<span></span><span></span><span></span></div>';
+            // Add loading dots animation
+            stat.innerHTML = '<span class="loading-dots">Loading<span>.</span><span>.</span><span>.</span></span>';
         }
-    });
-    
-    // Add staggered animations to stats cards
-    const statCards = document.querySelectorAll('.live-stat');
-    statCards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        card.style.animation = `fadeInUp 0.6s ease forwards`;
-        card.style.animationDelay = `${index * 200 + 800}ms`;
     });
 }
 
-// Enhanced interactions with better performance and sophisticated effects
+// Enhanced interactions with better performance
 function initializeEnhancedInteractions() {
     // Enhanced button hover effects with smooth transitions
     const buttons = document.querySelectorAll('.btn');
-    buttons.forEach((button, index) => {
-        // Stagger animation
-        button.style.animationDelay = `${index * 100}ms`;
-        
-        button.addEventListener('mouseenter', function(e) {
-            this.style.transform = 'translateY(-3px) scale(1.02)';
-            
-            // Add dynamic glow effect
-            this.style.boxShadow = 'var(--shadow-xl), 0 0 30px rgba(255, 107, 107, 0.4)';
+    buttons.forEach(button => {
+        button.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px) scale(1.02)';
         });
         
         button.addEventListener('mouseleave', function() {
             this.style.transform = '';
-            this.style.boxShadow = '';
         });
         
-        // Add enhanced click animation with ripple
-        button.addEventListener('mousedown', function(e) {
+        // Add click animation
+        button.addEventListener('mousedown', function() {
             this.style.transform = 'translateY(-1px) scale(0.98)';
-            
-            // Create ripple effect
-            const ripple = document.createElement('span');
-            ripple.style.cssText = `
-                position: absolute;
-                border-radius: 50%;
-                background: rgba(255, 255, 255, 0.5);
-                transform: scale(0);
-                animation: ripple 0.6s linear;
-                pointer-events: none;
-                z-index: 1;
-            `;
-            
-            const rect = this.getBoundingClientRect();
-            const size = Math.max(rect.height, rect.width);
-            ripple.style.width = ripple.style.height = size + 'px';
-            ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
-            ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
-            
-            this.style.position = 'relative';
-            this.appendChild(ripple);
-            
-            setTimeout(() => {
-                if (ripple.parentNode) ripple.remove();
-            }, 600);
         });
         
         button.addEventListener('mouseup', function() {
-            this.style.transform = 'translateY(-3px) scale(1.02)';
+            this.style.transform = 'translateY(-2px) scale(1.02)';
         });
     });
     
     // Enhanced feature card interactions with stagger effect
     const featureCards = document.querySelectorAll('.feature-card');
     featureCards.forEach((card, index) => {
-        // Stagger the initial animation
-        card.style.animationDelay = `${index * 150 + 200}ms`;
+        card.style.animationDelay = `${index * 100}ms`;
         
         card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-12px) scale(1.03)';
+            this.style.transform = 'translateY(-8px) scale(1.02)';
             this.style.zIndex = '10';
-            
-            // Add enhanced glow effect
-            this.style.boxShadow = 'var(--shadow-xl), 0 0 40px rgba(255, 107, 107, 0.2)';
-            
-            // Animate the icon
-            const icon = this.querySelector('.feature-icon');
-            if (icon) {
-                icon.style.transform = 'scale(1.2) rotate(5deg)';
-                icon.style.animation = 'float 2s ease-in-out infinite';
-            }
         });
         
         card.addEventListener('mouseleave', function() {
             this.style.transform = '';
             this.style.zIndex = '';
-            this.style.boxShadow = '';
-            
-            // Reset icon animation
-            const icon = this.querySelector('.feature-icon');
-            if (icon) {
-                icon.style.transform = '';
-                icon.style.animation = '';
-            }
         });
     });
     
     // Enhanced code window interactions
     const codeWindows = document.querySelectorAll('.code-window');
-    codeWindows.forEach((window, index) => {
-        window.style.animationDelay = `${index * 200 + 500}ms`;
-        
+    codeWindows.forEach(window => {
         window.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-6px) scale(1.02)';
-            
-            // Animate the dots
-            const dots = this.querySelectorAll('.dot');
-            dots.forEach((dot, i) => {
-                setTimeout(() => {
-                    dot.style.transform = 'scale(1.2)';
-                    dot.style.boxShadow = `0 0 15px ${dot.style.background}`;
-                }, i * 100);
-            });
+            this.style.transform = 'translateY(-4px) scale(1.01)';
         });
         
         window.addEventListener('mouseleave', function() {
             this.style.transform = '';
-            
-            // Reset dots
-            const dots = this.querySelectorAll('.dot');
-            dots.forEach(dot => {
-                dot.style.transform = '';
-                dot.style.boxShadow = '';
-            });
-        });
-    });
-    
-    // Enhanced tab interactions
-    const tabButtons = document.querySelectorAll('.tab-button');
-    tabButtons.forEach((tab, index) => {
-        tab.addEventListener('click', function() {
-            // Remove active from all tabs with animation
-            tabButtons.forEach(t => {
-                t.classList.remove('active');
-                t.style.transform = '';
-            });
-            
-            // Add active to clicked tab with bounce effect
-            this.classList.add('active');
-            this.style.transform = 'translateY(-3px) scale(1.05)';
-            
-            setTimeout(() => {
-                this.style.transform = 'translateY(-2px) scale(1.02)';
-            }, 150);
         });
     });
     
@@ -432,80 +216,46 @@ function addScrollProgress() {
     });
 }
 
-// Enhanced live stats loading with smooth animations
+// Enhanced live stats loading
 async function loadLiveStats() {
     try {
         const response = await fetch('/api/live_stats');
         const stats = await response.json();
         
-        // Remove loading states with smooth transition
+        // Remove loading states
         document.querySelectorAll('.stat-value').forEach(stat => {
             stat.classList.remove('loading');
         });
         
-        // Update stats with enhanced animation
-        setTimeout(() => {
-            animateStatUpdate('pypi-downloads-value', stats.pypi_downloads || 'N/A');
-        }, 200);
-        
-        setTimeout(() => {
-            animateStatUpdate('github-stars-value', stats.github_stars || 'N/A');
-        }, 400);
-        
-        setTimeout(() => {
-            animateStatUpdate('github-commits-value', stats.github_commits || 'N/A');
-        }, 600);
+        // Update stats with animation
+        animateStatUpdate('pypi-downloads-value', stats.pypi_downloads || 'N/A');
+        animateStatUpdate('github-stars-value', stats.github_stars || 'N/A');
+        animateStatUpdate('github-commits-value', stats.github_commits || 'N/A');
         
     } catch (error) {
-        console.log('Stats unavailable, using fallback with enhanced animation');
-        
-        // Enhanced fallback animation
-        setTimeout(() => {
-            document.querySelectorAll('.stat-value').forEach((stat, index) => {
-                stat.classList.remove('loading');
-                setTimeout(() => {
-                    stat.style.transition = 'all 0.5s ease';
-                    stat.innerHTML = '<span style="color: var(--text-light);">N/A</span>';
-                }, index * 200);
-            });
-        }, 1000);
+        console.log('Stats unavailable, using fallback');
+        document.querySelectorAll('.stat-value').forEach(stat => {
+            stat.classList.remove('loading');
+            if (stat.textContent === '...') {
+                stat.textContent = 'N/A';
+            }
+        });
     }
 }
 
-// Enhanced stat update animation with countUp effect
+// Animate stat updates
 function animateStatUpdate(elementId, newValue) {
     const element = document.getElementById(elementId);
     if (!element) return;
     
-    element.style.transition = 'all 0.5s ease';
     element.style.transform = 'scale(0.8)';
     element.style.opacity = '0.5';
     
     setTimeout(() => {
-        // Add a more sophisticated update animation
-        if (typeof newValue === 'number') {
-            // Animate counting up for numbers
-            let current = 0;
-            const increment = newValue / 20;
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= newValue) {
-                    current = newValue;
-                    clearInterval(timer);
-                }
-                element.textContent = Math.floor(current).toLocaleString();
-            }, 50);
-        } else {
-            element.textContent = newValue;
-        }
-        
-        element.style.transform = 'scale(1.1)';
+        element.textContent = newValue;
+        element.style.transform = 'scale(1)';
         element.style.opacity = '1';
-        
-        setTimeout(() => {
-            element.style.transform = 'scale(1)';
-        }, 200);
-    }, 300);
+    }, 200);
 }
 
 // Add CSS for ripple animation
