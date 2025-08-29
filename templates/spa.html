@@ -1,0 +1,729 @@
+{% extends "base.html" %}
+
+{% block title %}Clyp - Modern Programming Language{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://clyp.codesft.dev/">
+    <meta property="og:title" content="Clyp – Modern Python-like Language">
+    <meta property="og:description" content="A clean, expressive programming language that transpiles to Python. Enjoy static-like typing, simplified syntax, and seamless Python interoperability.">
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://clyp.codesft.dev/">
+    <meta name="twitter:title" content="Clyp – Modern Python-like Language">
+    <meta name="twitter:description" content="A clean, expressive programming language that transpiles to Python. Enjoy static-like typing, simplified syntax, and seamless Python interoperability.">
+{% endblock %}
+
+{% block content %}
+
+<!-- Home Page Content -->
+<div id="home-page" class="page-content">
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        <span class="title-highlight">Clyp</span>
+                        Modern Python-like Language
+                    </h1>
+                    <p class="hero-description">
+                        A clean, expressive programming language that transpiles to Python. Enjoy static-like typing, simplified syntax, and seamless Python interoperability.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="#get-started" class="btn-primary">Get Started</a>
+                        <a href="#/examples" class="btn-secondary spa-link">View Examples</a>
+                    </div>
+                </div>
+                <div class="hero-demo">
+                    <div class="code-window">
+                        <div class="code-header">
+                            <div class="code-dots">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                            </div>
+                            <span class="code-title">hello_world.clyp</span>
+                            <button class="copy-code-btn" onclick="copyCode(this, `{{ examples.hello_world.code }}`)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                                </svg>
+                                Copy
+                            </button>
+                            <span class="code-language">clyp</span>
+                        </div>
+                        <div class="code-content">
+                            {{ examples.hello_world.highlighted_code | safe }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="https://tinylaunch.com" target="_blank">
+                <img src="https://img.shields.io/badge/Featured%20on-TinyLaunch-blue?style=for-the-badge" alt="TinyLaunch Badge" />
+            </a>
+        </div>
+    </section>
+
+    <!-- Live Stats Section -->
+    <section class="live-stats">
+        <div class="stats-container">
+            <div class="live-stat" id="pypi-downloads">
+                <div class="stat-label">PyPI Downloads</div>
+                <div class="stat-value" id="pypi-downloads-value">Loading<span class="loading-dot">.</span><span class="loading-dot">.</span><span class="loading-dot">.</span></div>
+            </div>
+            <div class="live-stat" id="github-stars">
+                <div class="stat-label">GitHub Stars</div>
+                <div class="stat-value" id="github-stars-value">Loading<span class="loading-dot">.</span><span class="loading-dot">.</span><span class="loading-dot">.</span></div>
+            </div>
+            <div class="live-stat" id="github-commits">
+                <div class="stat-label">GitHub Commits</div>
+                <div class="stat-value" id="github-commits-value">Loading<span class="loading-dot">.</span><span class="loading-dot">.</span><span class="loading-dot">.</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="features-container">
+            <h2 class="section-title">Why Choose Clyp?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Static-like Typing</h3>
+                    <p>Variables are declared with their types, providing clarity and catching errors early in development.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <h3>Clean Syntax</h3>
+                    <p>Uses familiar C-like syntax with {} for blocks and ; for statements, making code more readable.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🐍</div>
+                    <h3>Python Interop</h3>
+                    <p>Seamlessly use Python libraries and functions. Clyp transpiles directly to Python code.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>Rich Standard Library</h3>
+                    <p>Built-in functions for common tasks like file I/O, HTTP requests, and data manipulation.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Pipeline Operator</h3>
+                    <p>Elegant data transformation with the pipeline operator |> for functional programming patterns.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔧</div>
+                    <h3>Modern Features</h3>
+                    <p>Classes, conditionals, loops, and advanced language constructs in an intuitive package.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Examples Section -->
+    <section class="code-examples">
+        <div class="examples-container">
+            <h2 class="section-title">See Clyp in Action</h2>
+            <div class="examples-tabs">
+                <button class="tab-button active" data-tab="basic">Basic Syntax</button>
+                <button class="tab-button" data-tab="structures">Data Structures</button>
+                <button class="tab-button" data-tab="advanced">Advanced</button>
+            </div>
+            
+            <div class="tab-content active" id="basic">
+                <div class="code-example">
+                    <div class="example-header">
+                        <h3>{{ examples.hello_world.title }}</h3>
+                        <p>{{ examples.hello_world.description }}</p>
+                    </div>
+                    <div class="code-window">
+                        <div class="code-header">
+                            <div class="code-dots">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                            </div>
+                            <span class="code-title">hello_world.clyp</span>
+                            <button class="copy-code-btn" onclick="copyCode(this, `{{ examples.hello_world.code }}`)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                                </svg>
+                                Copy
+                            </button>
+                            <span class="code-language">clyp</span>
+                        </div>
+                        <div class="code-content">
+                            {{ examples.hello_world.highlighted_code | safe }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="structures">
+                <div class="code-example">
+                    <div class="example-header">
+                        <h3>{{ examples.data_structures.title }}</h3>
+                        <p>{{ examples.data_structures.description }}</p>
+                    </div>
+                    <div class="code-window">
+                        <div class="code-header">
+                            <div class="code-dots">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                            </div>
+                            <span class="code-title">data_structures.clyp</span>
+                            <button class="copy-code-btn" onclick="copyCode(this, `{{ examples.data_structures.code }}`)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                                </svg>
+                                Copy
+                            </button>
+                            <span class="code-language">clyp</span>
+                        </div>
+                        <div class="code-content">
+                            {{ examples.data_structures.highlighted_code | safe }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="advanced">
+                <div class="code-example">
+                    <div class="example-header">
+                        <h3>{{ examples.advanced.title }}</h3>
+                        <p>{{ examples.advanced.description }}</p>
+                    </div>
+                    <div class="code-window">
+                        <div class="code-header">
+                            <div class="code-dots">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                            </div>
+                            <span class="code-title">advanced_features.clyp</span>
+                            <button class="copy-code-btn" onclick="copyCode(this, `{{ examples.advanced.code }}`)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                                </svg>
+                                Copy
+                            </button>
+                            <span class="code-language">clyp</span>
+                        </div>
+                        <div class="code-content">
+                            {{ examples.advanced.highlighted_code | safe }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation Section -->
+    <section id="get-started" class="installation">
+        <div class="install-container">
+            <h2 class="section-title">Get Started</h2>
+            <div class="install-columns" style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin: 2.5rem 0;">
+                <!-- Windows Column -->
+                <div class="install-column">
+                    <div class="install-icon">🪟</div>
+                    <h3>Windows</h3>
+                    <p>Download the official installer for Windows 10/11 (64-bit).</p>
+                    <a href="https://github.com/clyplang/clypinstaller/releases/latest/download/install.exe" class="btn-primary download-btn">Download Installer</a>
+                    <div class="install-note">Just run the installer and follow the prompts.</div>
+                </div>
+                
+                <!-- Other Platforms Column -->
+                <div class="install-column">
+                    <div class="install-icon">🐧🍎💻</div>
+                    <h3>Other Platforms</h3>
+                    <p>Install via <code>pip</code> on Linux, macOS, or WSL:</p>
+                    <div class="install-command">
+                        <code>pip install clyp</code>
+                        <button onclick="copyToClipboard('pip install clyp')" class="copy-btn">Copy</button>
+                    </div>
+                    <div class="install-note">Requires Python 3.8+ and pip.</div>
+                </div>
+            </div>
+            <div class="next-steps">
+                <p>Ready to dive deeper?</p>
+                <a href="#/examples" class="btn-secondary spa-link">Explore Examples</a>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Examples Page Content -->
+<div id="examples-page" class="page-content" style="display: none;">
+    <!-- Examples Header -->
+    <section class="page-header">
+        <div class="header-container">
+            <h1>Code Examples</h1>
+            <p>Explore the power and elegance of Clyp through these comprehensive examples</p>
+        </div>
+    </section>
+
+    <!-- Examples Grid -->
+    <section class="examples-grid">
+        <div class="examples-container">
+            <div class="example-card">
+                <div class="example-header">
+                    <h2>{{ examples.hello_world.title }}</h2>
+                    <p>{{ examples.hello_world.description }}</p>
+                </div>
+                <div class="code-window">
+                    <div class="code-header">
+                        <div class="code-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span class="code-title">hello_world.clyp</span>
+                        <button class="copy-code-btn" onclick="copyCode(this, `{{ examples.hello_world.code }}`)">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                            </svg>
+                            Copy
+                        </button>
+                        <span class="code-language">clyp</span>
+                    </div>
+                    <div class="code-content">
+                        {{ examples.hello_world.highlighted_code | safe }}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="example-card">
+                <div class="example-header">
+                    <h2>{{ examples.data_structures.title }}</h2>
+                    <p>{{ examples.data_structures.description }}</p>
+                </div>
+                <div class="code-window">
+                    <div class="code-header">
+                        <div class="code-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span class="code-title">data_structures.clyp</span>
+                        <button class="copy-code-btn" onclick="copyCode(this, `{{ examples.data_structures.code }}`)">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                            </svg>
+                            Copy
+                        </button>
+                        <span class="code-language">clyp</span>
+                    </div>
+                    <div class="code-content">
+                        {{ examples.data_structures.highlighted_code | safe }}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="example-card">
+                <div class="example-header">
+                    <h2>{{ examples.advanced.title }}</h2>
+                    <p>{{ examples.advanced.description }}</p>
+                </div>
+                <div class="code-window">
+                    <div class="code-header">
+                        <div class="code-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span class="code-title">advanced.clyp</span>
+                        <button class="copy-code-btn" onclick="copyCode(this, `{{ examples.advanced.code }}`)">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                            </svg>
+                            Copy
+                        </button>
+                        <span class="code-language">clyp</span>
+                    </div>
+                    <div class="code-content">
+                        {{ examples.advanced.highlighted_code | safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Code Editor -->
+    <section class="interactive-editor">
+        <div class="editor-container">
+            <h2>Try Clyp Online</h2>
+            <p>Experiment with Clyp code right in your browser!</p>
+            
+            <div class="editor-layout">
+                <div class="editor-section">
+                    <h3>Code Editor</h3>
+                    <textarea id="code-editor" placeholder="Enter your Clyp code here...">str greeting = "Hello, World!";
+print(greeting);</textarea>
+                </div>
+                <div class="output-section">
+                    <h3>Output</h3>
+                    <div id="code-output">Run your code to see output here...</div>
+                </div>
+            </div>
+            
+            <div class="editor-controls">
+                <button onclick="runCode()" class="btn-primary">Run Code</button>
+                <button onclick="clearEditor()" class="btn-secondary">Clear</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- What's Next Section -->
+    <section class="whats-next">
+        <div class="next-container">
+            <h2>What's Next?</h2>
+            <div class="next-steps-grid">
+                <div class="step-card">
+                    <div class="step-icon">📖</div>
+                    <h3>Read the Documentation</h3>
+                    <p>Learn about Clyp's syntax, features, and standard library</p>
+                    <a href="https://clypdocs.codesft.dev" class="step-link">View Docs →</a>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon">🚀</div>
+                    <h3>Install Clyp</h3>
+                    <p>Get started with Clyp on your local machine</p>
+                    <div class="install-command">
+                        <code>pip install clyp</code>
+                        <button onclick="copyToClipboard('pip install clyp')" class="mini-copy-btn">Copy</button>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon">🛠️</div>
+                    <h3>Contribute</h3>
+                    <p>Help improve Clyp by contributing to the project</p>
+                    <a href="https://github.com/CodeSoftGit/clyp" class="step-link">GitHub →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- What's Happening Page Content -->
+<div id="whats-happening-page" class="page-content" style="display: none;">
+    <div class="page-header">
+        <div class="header-container">
+            <h1>What's Happening</h1>
+            <p class="subtitle">Stay up to date with the latest releases and pull requests for Clyp!</p>
+        </div>
+    </div>
+    <section class="whats-happening-section">
+        <div class="whats-happening-container">
+            <div class="whats-happening-flex">
+                <div class="whats-happening-card">
+                    <h2>🚀 Recent Releases</h2>
+                    <div id="releases-list" class="wh-list loading">
+                        <div class="wh-loading">Loading releases…</div>
+                    </div>
+                </div>
+                <div class="whats-happening-card">
+                    <h2>🔀 Open Pull Requests</h2>
+                    <div id="prs-list" class="wh-list loading">
+                        <div class="wh-loading">Loading pull requests…</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Single Page Application Router
+class SPARouter {
+    constructor() {
+        this.routes = {
+            '': 'home-page',
+            'home': 'home-page',
+            'examples': 'examples-page',
+            'whats-happening': 'whats-happening-page'
+        };
+        this.currentPage = '';
+        this.init();
+    }
+
+    init() {
+        // Handle initial page load
+        this.handleRoute();
+        
+        // Handle browser back/forward
+        window.addEventListener('popstate', () => this.handleRoute());
+        
+        // Handle SPA navigation links
+        document.addEventListener('click', (e) => {
+            const link = e.target.closest('.spa-link, a[href^="#/"]');
+            if (link) {
+                e.preventDefault();
+                const route = link.getAttribute('href').replace('#/', '');
+                this.navigate(route);
+            }
+        });
+        
+        // Update navigation links to use SPA routing
+        this.updateNavigation();
+    }
+
+    handleRoute() {
+        const hash = window.location.hash.replace('#/', '') || window.location.pathname.replace('/', '') || '';
+        const route = hash.split('?')[0]; // Remove query parameters
+        this.showPage(route);
+    }
+
+    navigate(route) {
+        const url = route ? `#/${route}` : '#/';
+        history.pushState(null, '', url);
+        this.showPage(route);
+    }
+
+    showPage(route) {
+        // Hide all pages
+        document.querySelectorAll('.page-content').forEach(page => {
+            page.style.display = 'none';
+        });
+
+        // Show target page
+        const pageId = this.routes[route] || this.routes[''];
+        const page = document.getElementById(pageId);
+        if (page) {
+            page.style.display = 'block';
+            this.currentPage = route;
+            
+            // Update page title
+            this.updatePageTitle(route);
+            
+            // Update navigation active states
+            this.updateNavActiveStates(route);
+            
+            // Handle page-specific initialization
+            this.initializePage(route);
+        }
+    }
+
+    updatePageTitle(route) {
+        const titles = {
+            '': 'Clyp - Modern Programming Language',
+            'home': 'Clyp - Modern Programming Language',
+            'examples': 'Examples - Clyp Programming Language',
+            'whats-happening': 'What\'s Happening · Clyp'
+        };
+        document.title = titles[route] || titles[''];
+    }
+
+    updateNavActiveStates(route) {
+        // Remove active class from all nav links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+        });
+
+        // Add active class to current route
+        const routeMap = {
+            '': 'website.index',
+            'home': 'website.index',
+            'examples': 'website.examples',
+            'whats-happening': 'website.whats_happening'
+        };
+        
+        const endpoint = routeMap[route];
+        if (endpoint) {
+            document.querySelectorAll(`.nav-link`).forEach(link => {
+                const href = link.getAttribute('href');
+                if ((route === '' || route === 'home') && href === '/') {
+                    link.classList.add('active');
+                } else if (route === 'examples' && href === '/examples') {
+                    link.classList.add('active');
+                } else if (route === 'whats-happening' && href === '/whats-happening') {
+                    link.classList.add('active');
+                }
+            });
+        }
+    }
+
+    updateNavigation() {
+        // Update navigation links to use SPA routing
+        document.querySelectorAll('.nav-link').forEach(link => {
+            const href = link.getAttribute('href');
+            if (href === '/') {
+                link.setAttribute('href', '#/');
+                link.classList.add('spa-link');
+            } else if (href === '/examples') {
+                link.setAttribute('href', '#/examples');
+                link.classList.add('spa-link');
+            } else if (href === '/whats-happening') {
+                link.setAttribute('href', '#/whats-happening');
+                link.classList.add('spa-link');
+            }
+        });
+    }
+
+    initializePage(route) {
+        if (route === 'whats-happening') {
+            // Load GitHub data for what's happening page
+            this.loadWhatsHappeningData();
+        } else if (route === 'examples') {
+            // Initialize code editor
+            this.initializeCodeEditor();
+        }
+    }
+
+    loadWhatsHappeningData() {
+        // Load GitHub releases and PRs
+        if (typeof loadWhatsHappeningData === 'function') {
+            loadWhatsHappeningData();
+        }
+    }
+
+    initializeCodeEditor() {
+        // Auto-resize textarea
+        const editor = document.getElementById('code-editor');
+        if (editor) {
+            editor.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = this.scrollHeight + 'px';
+            });
+        }
+    }
+}
+
+// Interactive Code Editor Functions
+function runCode() {
+    const editor = document.getElementById('code-editor');
+    const output = document.getElementById('code-output');
+    if (!editor || !output) return;
+
+    const code = editor.value.trim();
+    if (!code) {
+        output.innerHTML = '<div class="output-line">No code to run</div>';
+        return;
+    }
+
+    // Simple simulation of Clyp code execution
+    output.innerHTML = '<div class="output-line">Running...</div>';
+    
+    setTimeout(() => {
+        if (code.includes('print(')) {
+            const matches = code.match(/print\([^)]+\)/g);
+            if (matches) {
+                const results = matches.map(match => {
+                    const content = match.replace(/print\(|\)/g, '').replace(/"/g, '');
+                    return content;
+                });
+                output.innerHTML = results.map(result => `<div class="output-line">${result}</div>`).join('');
+            }
+        } else {
+            output.innerHTML = '<div class="output-line">No output</div>';
+        }
+    }, 500);
+}
+
+function clearEditor() {
+    const editor = document.getElementById('code-editor');
+    const output = document.getElementById('code-output');
+    if (editor) editor.value = '';
+    if (output) output.innerHTML = 'Run your code to see output here...';
+}
+
+// Initialize SPA Router
+let router;
+document.addEventListener('DOMContentLoaded', function() {
+    router = new SPARouter();
+});
+
+// Copy function
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        console.log('Text copied to clipboard');
+    });
+}
+
+// What's Happening data loading function
+async function loadWhatsHappeningData() {
+    const github_user = 'clyplang';
+    const github_repo = 'clyp';
+    
+    async function fetchGitHub(url) {
+        try {
+            const resp = await fetch(url, {headers: { 'Accept': 'application/vnd.github+json' }});
+            if (!resp.ok) return [];
+            return await resp.json();
+        } catch (error) {
+            return [];
+        }
+    }
+
+    function formatDate(dateStr) {
+        const d = new Date(dateStr);
+        return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    function getReleaseType(name) {
+        const n = name.toLowerCase();
+        if (/alpha/.test(n)) return 'alpha';
+        if (/beta/.test(n)) return 'beta';
+        if (/rc(\d*)|release candidate/.test(n)) return 'rc';
+        return 'release';
+    }
+
+    function formatReleaseName(name) {
+        let base = name;
+        base = base.replace(/[-_](alpha|beta|rc\d*|release[-_]?candidate)/gi, '');
+        base = base.replace(/\s+(alpha|beta|rc\d*|release\s+candidate)/gi, '');
+        return base.trim();
+    }
+
+    // Load releases
+    const releases = await fetchGitHub(`https://api.github.com/repos/${github_user}/${github_repo}/releases?per_page=5`);
+    const releasesList = document.getElementById('releases-list');
+    if (releasesList) {
+        if (releases.length === 0) {
+            releasesList.innerHTML = '<div class="wh-empty">No releases found</div>';
+        } else {
+            releasesList.innerHTML = releases.map(rel => {
+                const relType = getReleaseType(rel.name || rel.tag_name);
+                const displayName = formatReleaseName(rel.name || rel.tag_name);
+                return `
+                    <div class="wh-item">
+                        <div class="wh-item-header">
+                            <a href="${rel.html_url}" target="_blank" class="wh-item-title">${displayName}</a>
+                            <span class="wh-item-meta">${formatDate(rel.published_at)}</span>
+                        </div>
+                        <div class="wh-item-body">${rel.body ? rel.body.substring(0, 100) + '...' : 'No description available'}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+        releasesList.classList.remove('loading');
+    }
+
+    // Load pull requests
+    const prs = await fetchGitHub(`https://api.github.com/repos/${github_user}/${github_repo}/pulls?state=open&per_page=5`);
+    const prsList = document.getElementById('prs-list');
+    if (prsList) {
+        if (prs.length === 0) {
+            prsList.innerHTML = '<div class="wh-empty">No open pull requests</div>';
+        } else {
+            prsList.innerHTML = prs.map(pr => `
+                <div class="wh-item">
+                    <div class="wh-item-header">
+                        <a href="${pr.html_url}" target="_blank" class="wh-item-title">${pr.title}</a>
+                        <span class="wh-item-meta">${formatDate(pr.created_at)}</span>
+                    </div>
+                    <div class="wh-item-body">by ${pr.user.login}</div>
+                </div>
+            `).join('');
+        }
+        prsList.classList.remove('loading');
+    }
+}
+</script>
+{% endblock %}

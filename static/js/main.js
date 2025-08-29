@@ -8,7 +8,267 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeAnimations();
     initializeEnhancedFeatures();
     loadLiveStats();
+    
+    // Initialize SPA router if we're on the SPA page
+    if (document.getElementById('home-page')) {
+        initializeSPARouter();
+    }
 });
+
+// Single Page Application Router
+function initializeSPARouter() {
+    const routes = {
+        '': 'home-page',
+        'home': 'home-page',
+        'examples': 'examples-page',
+        'whats-happening': 'whats-happening-page'
+    };
+
+    function handleRoute() {
+        const hash = window.location.hash.replace('#/', '') || window.location.pathname.replace('/', '') || '';
+        const route = hash.split('?')[0]; // Remove query parameters
+        showPage(route, routes);
+    }
+
+    function navigate(route) {
+        const url = route ? `#/${route}` : '#/';
+        history.pushState(null, '', url);
+        showPage(route, routes);
+    }
+
+    function showPage(route, routes) {
+        // Hide all pages
+        document.querySelectorAll('.page-content').forEach(page => {
+            page.style.display = 'none';
+            page.classList.remove('active');
+        });
+
+        // Show target page
+        const pageId = routes[route] || routes[''];
+        const page = document.getElementById(pageId);
+        if (page) {
+            page.style.display = 'block';
+            
+            // Trigger animation after display change
+            setTimeout(() => {
+                page.classList.add('active');
+            }, 10);
+            
+            // Update page title
+            updatePageTitle(route);
+            
+            // Update navigation active states
+            updateNavActiveStates(route);
+            
+            // Handle page-specific initialization
+            initializePage(route);
+        }
+    }
+
+    function updatePageTitle(route) {
+        const titles = {
+            '': 'Clyp - Modern Programming Language',
+            'home': 'Clyp - Modern Programming Language',
+            'examples': 'Examples - Clyp Programming Language',
+            'whats-happening': 'What\'s Happening · Clyp'
+        };
+        document.title = titles[route] || titles[''];
+    }
+
+    function updateNavActiveStates(route) {
+        // Remove active class from all nav links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+        });
+
+        // Add active class to current route
+        document.querySelectorAll('.nav-link').forEach(link => {
+            const href = link.getAttribute('href');
+            if ((route === '' || route === 'home') && href === '/') {
+                link.classList.add('active');
+            } else if (route === 'examples' && href === '/examples') {
+                link.classList.add('active');
+            } else if (route === 'whats-happening' && href === '/whats-happening') {
+                link.classList.add('active');
+            }
+        });
+    }
+
+    function initializePage(route) {
+        if (route === 'whats-happening') {
+            // Load GitHub data for what's happening page
+            loadWhatsHappeningData();
+        } else if (route === 'examples') {
+            // Initialize code editor
+            initializeCodeEditor();
+        }
+    }
+
+    // Handle initial page load
+    handleRoute();
+    
+    // Handle browser back/forward
+    window.addEventListener('popstate', handleRoute);
+    
+    // Handle SPA navigation links
+    document.addEventListener('click', (e) => {
+        const link = e.target.closest('.spa-link, a[href^="#/"]');
+        if (link) {
+            e.preventDefault();
+            const route = link.getAttribute('href').replace('#/', '');
+            navigate(route);
+        }
+    });
+    
+    // Update navigation links to use SPA routing
+    updateNavigationLinks();
+
+    function updateNavigationLinks() {
+        // Update navigation links to use SPA routing
+        document.querySelectorAll('.nav-link').forEach(link => {
+            const href = link.getAttribute('href');
+            if (href === '/') {
+                link.setAttribute('href', '#/');
+                link.classList.add('spa-link');
+            } else if (href === '/examples') {
+                link.setAttribute('href', '#/examples');
+                link.classList.add('spa-link');
+            } else if (href === '/whats-happening') {
+                link.setAttribute('href', '#/whats-happening');
+                link.classList.add('spa-link');
+            }
+        });
+    }
+}
+
+// Interactive Code Editor Functions
+function initializeCodeEditor() {
+    // Auto-resize textarea
+    const editor = document.getElementById('code-editor');
+    if (editor) {
+        editor.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = this.scrollHeight + 'px';
+        });
+    }
+}
+
+function runCode() {
+    const editor = document.getElementById('code-editor');
+    const output = document.getElementById('code-output');
+    if (!editor || !output) return;
+
+    const code = editor.value.trim();
+    if (!code) {
+        output.innerHTML = '<div class="output-line">No code to run</div>';
+        return;
+    }
+
+    // Simple simulation of Clyp code execution
+    output.innerHTML = '<div class="output-line">Running...</div>';
+    
+    setTimeout(() => {
+        if (code.includes('print(')) {
+            const matches = code.match(/print\([^)]+\)/g);
+            if (matches) {
+                const results = matches.map(match => {
+                    const content = match.replace(/print\(|\)/g, '').replace(/"/g, '');
+                    return content;
+                });
+                output.innerHTML = results.map(result => `<div class="output-line">${result}</div>`).join('');
+            }
+        } else {
+            output.innerHTML = '<div class="output-line">No output</div>';
+        }
+    }, 500);
+}
+
+function clearEditor() {
+    const editor = document.getElementById('code-editor');
+    const output = document.getElementById('code-output');
+    if (editor) editor.value = '';
+    if (output) output.innerHTML = 'Run your code to see output here...';
+}
+
+// What's Happening data loading function
+async function loadWhatsHappeningData() {
+    const github_user = 'clyplang';
+    const github_repo = 'clyp';
+    
+    async function fetchGitHub(url) {
+        try {
+            const resp = await fetch(url, {headers: { 'Accept': 'application/vnd.github+json' }});
+            if (!resp.ok) return [];
+            return await resp.json();
+        } catch (error) {
+            return [];
+        }
+    }
+
+    function formatDate(dateStr) {
+        const d = new Date(dateStr);
+        return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    function getReleaseType(name) {
+        const n = name.toLowerCase();
+        if (/alpha/.test(n)) return 'alpha';
+        if (/beta/.test(n)) return 'beta';
+        if (/rc(\d*)|release candidate/.test(n)) return 'rc';
+        return 'release';
+    }
+
+    function formatReleaseName(name) {
+        let base = name;
+        base = base.replace(/[-_](alpha|beta|rc\d*|release[-_]?candidate)/gi, '');
+        base = base.replace(/\s+(alpha|beta|rc\d*|release\s+candidate)/gi, '');
+        return base.trim();
+    }
+
+    // Load releases
+    const releases = await fetchGitHub(`https://api.github.com/repos/${github_user}/${github_repo}/releases?per_page=5`);
+    const releasesList = document.getElementById('releases-list');
+    if (releasesList) {
+        if (releases.length === 0) {
+            releasesList.innerHTML = '<div class="wh-empty">No releases found</div>';
+        } else {
+            releasesList.innerHTML = releases.map(rel => {
+                const relType = getReleaseType(rel.name || rel.tag_name);
+                const displayName = formatReleaseName(rel.name || rel.tag_name);
+                return `
+                    <div class="wh-item">
+                        <div class="wh-item-header">
+                            <a href="${rel.html_url}" target="_blank" class="wh-item-title">${displayName}</a>
+                            <span class="wh-item-meta">${formatDate(rel.published_at)}</span>
+                        </div>
+                        <div class="wh-item-body">${rel.body ? rel.body.substring(0, 100) + '...' : 'No description available'}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+        releasesList.classList.remove('loading');
+    }
+
+    // Load pull requests
+    const prs = await fetchGitHub(`https://api.github.com/repos/${github_user}/${github_repo}/pulls?state=open&per_page=5`);
+    const prsList = document.getElementById('prs-list');
+    if (prsList) {
+        if (prs.length === 0) {
+            prsList.innerHTML = '<div class="wh-empty">No open pull requests</div>';
+        } else {
+            prsList.innerHTML = prs.map(pr => `
+                <div class="wh-item">
+                    <div class="wh-item-header">
+                        <a href="${pr.html_url}" target="_blank" class="wh-item-title">${pr.title}</a>
+                        <span class="wh-item-meta">${formatDate(pr.created_at)}</span>
+                    </div>
+                    <div class="wh-item-body">by ${pr.user.login}</div>
+                </div>
+            `).join('');
+        }
+        prsList.classList.remove('loading');
+    }
+}
 
 // Enhanced features initialization
 function initializeEnhancedFeatures() {

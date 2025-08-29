@@ -195,9 +195,8 @@ def get_current_banner():
     idx = int(time.time() // 30) % len(banners)
     return banners[idx]
 
-@website_bp.route('/')
-async def index():
-    """Main landing page with syntax highlighting"""
+async def render_spa_page():
+    """Render the single-page application with all content"""
     highlighted_examples = {}
     for key, example in EXAMPLES.items():
         highlighted_examples[key] = {
@@ -205,19 +204,22 @@ async def index():
             'highlighted_code': highlight_code(example['code'], 'clyp')
         }
     banner = get_current_banner()
-    return await render_template('index.html', examples=highlighted_examples, banner=banner)
+    return await render_template('spa.html', examples=highlighted_examples, banner=banner)
+
+@website_bp.route('/')
+async def index():
+    """Main landing page - serve SPA"""
+    return await render_spa_page()
 
 @website_bp.route('/examples')
 async def examples():
-    """Examples page with syntax highlighting"""
-    highlighted_examples = {}
-    for key, example in EXAMPLES.items():
-        highlighted_examples[key] = {
-            **example,
-            'highlighted_code': highlight_code(example['code'], 'clyp')
-        }
-    banner = get_current_banner()
-    return await render_template('examples.html', examples=highlighted_examples, banner=banner)
+    """Examples page - serve SPA"""
+    return await render_spa_page()
+
+@website_bp.route('/whats-happening')
+async def whats_happening():
+    """What's Happening page - serve SPA"""
+    return await render_spa_page()
 
 @website_bp.route('/docs/')
 @website_bp.route('/docs/<slug>')
@@ -234,12 +236,6 @@ async def api_highlight():
     
     highlighted = highlight_code(code, language)
     return jsonify({'highlighted': highlighted})
-
-@website_bp.route('/whats-happening')
-async def whats_happening():
-    """What's Happening page"""
-    banner = get_current_banner()
-    return await render_template('whats_happening.html', banner=banner)
 
 @website_bp.route('/download')
 async def download():
