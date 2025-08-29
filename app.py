@@ -209,15 +209,8 @@ async def index():
 
 @website_bp.route('/examples')
 async def examples():
-    """Examples page with syntax highlighting"""
-    highlighted_examples = {}
-    for key, example in EXAMPLES.items():
-        highlighted_examples[key] = {
-            **example,
-            'highlighted_code': highlight_code(example['code'], 'clyp')
-        }
-    banner = get_current_banner()
-    return await render_template('examples.html', examples=highlighted_examples, banner=banner)
+    """Examples page - redirect to single page with examples section"""
+    return redirect("/#examples")
 
 @website_bp.route('/docs/')
 @website_bp.route('/docs/<slug>')
@@ -237,9 +230,8 @@ async def api_highlight():
 
 @website_bp.route('/whats-happening')
 async def whats_happening():
-    """What's Happening page"""
-    banner = get_current_banner()
-    return await render_template('whats_happening.html', banner=banner)
+    """What's Happening page - redirect to single page with what's happening section"""
+    return redirect("/#whats-happening")
 
 @website_bp.route('/download')
 async def download():

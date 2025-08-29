@@ -50,15 +50,14 @@
                 <span>☰</span>
             </button>
             <div class="nav-menu" id="nav-menu">
-                <a href="{{ url_for('website.index') }}"
+                <a href="#home"
                     class="nav-link {% if request.endpoint == 'website.index' %}active{% endif %}">Home</a>
-                <a href="{{ url_for('website.examples') }}"
-                    class="nav-link {% if request.endpoint == 'website.examples' %}active{% endif %}">Examples</a>
+                <a href="#examples"
+                    class="nav-link">Examples</a>
                 <a href="https://clypdocs.codesft.dev"
                     class="nav-link {% if request.endpoint == 'website.docs' %}active{% endif %}">Docs</a>
-                <a href="{{ url_for('website.whats_happening') }}"
-                    class="nav-link {% if request.endpoint == 'website.whats_happening' %}active{% endif %}">What's
-                    Happening</a>
+                <a href="#whats-happening"
+                    class="nav-link">What's Happening</a>
                 <a href="https://github.com/clyplang/clyp" class="nav-link external" target="_blank">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                         <path

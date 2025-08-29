@@ -1,0 +1,295 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://clyp.codesft.dev/">
+    <meta property="og:title" content="Clyp – Modern Python-like Language">
+    <meta property="og:description" content="A clean, expressive programming language that transpiles to Python. Enjoy static-like typing, simplified syntax, and seamless Python interoperability.">
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://clyp.codesft.dev/">
+    <meta name="twitter:title" content="Clyp – Modern Python-like Language">
+    <meta name="twitter:description" content="A clean, expressive programming language that transpiles to Python. Enjoy static-like typing, simplified syntax, and seamless Python interoperability.">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-container">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    <span class="gradient-text">Clyp</span>
+                    <br>Modern Python-like Language
+                </h1>
+                <p class="hero-subtitle">
+                    A clean, expressive programming language that transpiles to Python. 
+                    Enjoy static-like typing, simplified syntax, and seamless Python interoperability.
+                </p>
+                <div class="hero-actions">
+                    <a href="#get-started" class="btn btn-primary">Get Started</a>
+                    <a href="{{ url_for('website.examples') }}" class="btn btn-secondary">View Examples</a>
+                </div>
+            </div>
+            <div class="hero-code">
+                <div class="code-window">
+                    <div class="code-header">
+                        <div class="code-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span class="code-title">hello_world.clyp</span>
+                    </div>
+                    <div class="code-content">
+                        {{ examples.hello_world.highlighted_code | safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Add centered TinyLaunch badge under the buttons and code example -->
+        <div class="hero-badge" style="text-align:center; margin-top:1rem;">
+            <a href="https://tinylaunch.com" target="_blank" rel="noopener noreferrer" aria-label="TinyLaunch">
+                <img src="https://tinylaunch.com/tinylaunch_badge_launching_soon.svg" alt="TinyLaunch Badge" style="width:202px; height:auto;" />
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Live Stats Section -->
+<section class="live-stats-section">
+    <div class="live-stats-container">
+        <div class="live-stats-grid">
+            <div class="live-stat" id="pypi-downloads">
+                <div class="stat-label">PyPI Downloads</div>
+                <div class="stat-value" id="pypi-downloads-value">...</div>
+            </div>
+            <div class="live-stat" id="github-stars">
+                <div class="stat-label">GitHub Stars</div>
+                <div class="stat-value" id="github-stars-value">...</div>
+            </div>
+            <div class="live-stat" id="github-commits">
+                <div class="stat-label">GitHub Commits</div>
+                <div class="stat-value" id="github-commits-value">...</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <div class="features-container">
+        <h2 class="section-title">Why Choose Clyp?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Static-like Typing</h3>
+                <p>Variables are declared with their types, providing clarity and catching errors early in development.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">✨</div>
+                <h3>Clean Syntax</h3>
+                <p>Uses familiar C-like syntax with {} for blocks and ; for statements, making code more readable.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🐍</div>
+                <h3>Python Interop</h3>
+                <p>Seamlessly use Python libraries and functions. Clyp transpiles directly to Python code.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3>Rich Standard Library</h3>
+                <p>Built-in functions for common tasks like file I/O, HTTP requests, and data manipulation.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Pipeline Operator</h3>
+                <p>Elegant data transformation with the pipeline operator |> for functional programming patterns.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔧</div>
+                <h3>Modern Features</h3>
+                <p>Classes, conditionals, loops, and advanced language constructs in an intuitive package.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Code Examples Section -->
+<section class="code-examples">
+    <div class="examples-container">
+        <h2 class="section-title">See Clyp in Action</h2>
+        <div class="examples-tabs">
+            <button class="tab-button active" data-tab="basic">Basic Syntax</button>
+            <button class="tab-button" data-tab="structures">Data Structures</button>
+            <button class="tab-button" data-tab="advanced">Advanced</button>
+        </div>
+        
+        <div class="tab-content active" id="basic">
+            <div class="code-example">
+                <div class="example-header">
+                    <h3>{{ examples.hello_world.title }}</h3>
+                    <p>{{ examples.hello_world.description }}</p>
+                </div>
+                <div class="code-window">
+                    <div class="code-header">
+                        <div class="code-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span class="code-title">hello_world.clyp</span>
+                    </div>
+                    <div class="code-content">
+                        {{ examples.hello_world.highlighted_code | safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="structures">
+            <div class="code-example">
+                <div class="example-header">
+                    <h3>{{ examples.data_structures.title }}</h3>
+                    <p>{{ examples.data_structures.description }}</p>
+                </div>
+                <div class="code-window">
+                    <div class="code-header">
+                        <div class="code-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span class="code-title">data_structures.clyp</span>
+                    </div>
+                    <div class="code-content">
+                        {{ examples.data_structures.highlighted_code | safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="advanced">
+            <div class="code-example">
+                <div class="example-header">
+                    <h3>{{ examples.advanced.title }}</h3>
+                    <p>{{ examples.advanced.description }}</p>
+                </div>
+                <div class="code-window">
+                    <div class="code-header">
+                        <div class="code-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span class="code-title">advanced_features.clyp</span>
+                    </div>
+                    <div class="code-content">
+                        {{ examples.advanced.highlighted_code | safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Installation Section -->
+<section id="get-started" class="installation">
+    <div class="install-container">
+        <h2 class="section-title">Get Started</h2>
+        <div class="install-columns" style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin: 2.5rem 0;">
+            <!-- Windows Column -->
+            <div class="install-col" style="flex:1 1 260px; min-width:260px; max-width:350px; background: var(--bg-card); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); padding: 2rem 1.5rem; display: flex; flex-direction: column; align-items: center; margin-bottom: 1.5rem;">
+                <div style="font-size:2.2rem; margin-bottom:0.7rem;">🪟</div>
+                <h3 style="font-size:1.25rem; font-weight:700; margin-bottom:0.7rem; color:var(--primary-color);">Windows</h3>
+                <p style="color:var(--text-secondary); text-align:center; margin-bottom:1.2rem;">Download the official installer for Windows 10/11 (64-bit).</p>
+                <a style="text-align:center" href="https://github.com/clyplang/clypinstaller/releases/latest/download/install.exe" class="btn btn-primary" style="width:100%; text-align:center; font-size:1.08rem; margin-bottom:0.7rem;" download>
+                    Download Installer
+                </a>
+                <div style="font-size:0.95rem; color:var(--text-light); margin-top:0.5rem; text-align:center;">
+                    <span>Just run the installer and follow the prompts.</span>
+                </div>
+            </div>
+            <!-- Other Platforms Column -->
+            <div class="install-col" style="flex:1 1 260px; min-width:260px; max-width:350px; background: var(--bg-card); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); padding: 2rem 1.5rem; display: flex; flex-direction: column; align-items: center; margin-bottom: 1.5rem;">
+                <div style="font-size:2.2rem; margin-bottom:0.7rem;">🐧🍎💻</div>
+                <h3 style="font-size:1.25rem; font-weight:700; margin-bottom:0.7rem; color:var(--primary-color);">Other Platforms</h3>
+                <p style="color:var(--text-secondary); text-align:center; margin-bottom:1.2rem;">Install via <b>pip</b> on Linux, macOS, or WSL:</p>
+                <div class="code-block" style="width:100%; display:flex; align-items:center; background:var(--code-bg); color:var(--code-text); border-radius:var(--radius-md); padding:0.7rem 1rem; margin-bottom:0.7rem;">
+                    <code id="pip-install-cmd" style="font-size:1rem; background:none; color:inherit; flex:1;">pip install clyp</code>
+                </div>
+                <div style="font-size:0.95rem; color:var(--text-light); margin-top:0.5rem; text-align:center;">
+                    <span>Requires Python 3.8+ and pip.</span>
+                </div>
+            </div>
+        </div>
+        <div class="install-cta">
+            <p>Ready to dive deeper?</p>
+            <a href="{{ url_for('website.examples') }}" class="btn btn-primary">Explore Examples</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Tab functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const tabId = this.getAttribute('data-tab');
+            
+            // Remove active class from all buttons and contents
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked button and corresponding content
+            this.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+});
+
+// Copy to clipboard function (updated for button feedback)
+function copyToClipboard(text, btn) {
+    navigator.clipboard.writeText(text).then(function() {
+        const originalText = btn.textContent;
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+            btn.textContent = originalText;
+            btn.classList.remove('copied');
+        }, 2000);
+    });
+}
+
+// Live Stats Fetching (server-side API)
+async function updateLiveStats() {
+    fetch('/api/live_stats')
+        .then(r => r.json())
+        .then(stats => {
+            document.getElementById('pypi-downloads-value').textContent = stats.pypi_downloads || 'N/A';
+            document.getElementById('github-stars-value').textContent = stats.github_stars || 'N/A';
+            document.getElementById('github-commits-value').textContent = stats.github_commits || 'N/A';
+        })
+        .catch(() => {
+            document.getElementById('pypi-downloads-value').textContent = 'N/A';
+            document.getElementById('github-stars-value').textContent = 'N/A';
+            document.getElementById('github-commits-value').textContent = 'N/A';
+        });
+}
+
+// Update on load and every 60 seconds
+updateLiveStats();
+setInterval(updateLiveStats, 60000);
+</script>
+{% endblock %}
+// Update on load and every 60 seconds
+updateLiveStats();
+setInterval(updateLiveStats, 60000);
+</script>
