@@ -152,6 +152,7 @@ try {
   grid-template-columns: 1fr 400px;
   gap: var(--spacing-2xl);
   align-items: start; /* Better alignment for cards */
+  max-width: 100%; /* Ensure grid doesn't overflow */
 }
 
 .activity-feed {
@@ -546,20 +547,21 @@ try {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: var(--spacing-lg);
+    order: 1; /* Show stats first on tablet */
   }
   
   .activity-feed {
     order: 2; /* Move activity feed below stats on tablet */
-  }
-  
-  .stats-panel {
-    order: 1; /* Show stats first on tablet */
   }
 }
 
 @media (max-width: 768px) {
   .activity-dashboard {
     padding: var(--spacing-xl) 0;
+  }
+  
+  .dashboard-grid {
+    gap: var(--spacing-lg);
   }
   
   .feed-header {
@@ -586,10 +588,11 @@ try {
   
   .stats-panel {
     grid-template-columns: 1fr;
+    gap: var(--spacing-md);
   }
   
   .stat-card {
-    margin: 0 calc(-1 * var(--spacing-md)); /* Full width on mobile */
+    margin: 0; /* Remove negative margins that might cause issues */
     border-radius: var(--radius-lg);
   }
   
@@ -599,7 +602,7 @@ try {
   }
   
   .community-card {
-    margin: 0 calc(-1 * var(--spacing-sm));
+    margin: 0; /* Remove negative margins that might cause issues */
   }
 }
 

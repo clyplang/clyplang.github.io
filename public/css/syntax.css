@@ -12,6 +12,7 @@
     position: relative;
     margin: var(--spacing-lg) 0;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    text-align: left; /* Ensure code is always left-aligned */
 }
 
 .highlight pre {
@@ -26,6 +27,7 @@
     white-space: pre-wrap; /* Better text wrapping */
     word-spacing: normal;
     letter-spacing: 0.02em; /* Slight letter spacing for readability */
+    text-align: left; /* Ensure pre text is left-aligned */
 }
 
 .highlight code {
@@ -38,6 +40,7 @@
     font-variant-ligatures: common-ligatures;
     display: block; /* Ensure proper block formatting */
     white-space: pre-wrap;
+    text-align: left; /* Ensure code text is left-aligned */
 }
 
 /* Advanced GitHub Dark Theme - Enhanced for better readability */
@@ -237,6 +240,7 @@
     font-size: 0.95rem; /* Slightly larger font for better readability */
     line-height: 1.8; /* Consistent line spacing */
     overflow-x: auto;
+    text-align: left; /* Ensure all code content is left-aligned */
 }
 
 .code-window .code-content pre {
@@ -246,6 +250,7 @@
     font-size: inherit;
     line-height: inherit;
     color: var(--code-text);
+    text-align: left; /* Ensure pre elements in code windows are left-aligned */
 }
 
 .code-window .code-content code {
@@ -256,6 +261,7 @@
     background: none;
     padding: 0;
     border: none;
+    text-align: left; /* Ensure code elements in code windows are left-aligned */
 }
 
 /* Enhanced copy button for code blocks */
@@ -273,6 +279,24 @@
     transition: all 0.2s ease;
     font-family: var(--font-mono);
     backdrop-filter: blur(10px);
+}
+
+/* Critical Rule: Ensure ALL code text is left-aligned and never centered */
+.highlight,
+.highlight pre,
+.highlight code,
+.code-window,
+.code-window .code-content,
+.code-window .code-content pre,
+.code-window .code-content code,
+.code-block,
+.code-block pre,
+.code-block code,
+pre code,
+code {
+    text-align: left !important;
+    white-space: pre-wrap !important;
+    word-wrap: break-word;
 }
 
 .copy-code-btn:hover {
@@ -310,6 +334,7 @@ code:not(.highlight code) {
     font-weight: 600;
     border: 1px solid var(--border-color);
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    text-align: left; /* Ensure inline code is also left-aligned */
 }
 
 /* Dark mode inline code */
@@ -318,6 +343,7 @@ code:not(.highlight code) {
     color: #79c0ff;
     border-color: var(--border-color);
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+    text-align: left; /* Ensure dark mode inline code is also left-aligned */
 }
 
 /* Improved line numbers styling */
@@ -741,6 +767,8 @@ code:not(.highlight code) {
     background: none;
     border: none;
     font-weight: 500;
+    text-align: left; /* Ensure code block content is left-aligned */
+    white-space: pre-wrap; /* Allow proper line wrapping */
 }
 
 .copy-btn {
@@ -811,6 +839,8 @@ code:not(.highlight code) {
     color: var(--code-text);
     background: none;
     overflow-x: auto;
+    text-align: left; /* Ensure code snippets are left-aligned */
+    white-space: pre-wrap; /* Allow proper line wrapping */
 }
 
 .code-snippet code {
@@ -820,6 +850,7 @@ code:not(.highlight code) {
     border: none;
     font-family: inherit;
     font-size: inherit;
+    text-align: left; /* Ensure code snippet content is left-aligned */
 }
 
 /* Enhanced responsive design for code blocks */

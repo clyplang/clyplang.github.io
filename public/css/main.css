@@ -496,11 +496,14 @@ a:hover {
     color: var(--code-text);
     position: relative;
     z-index: 1;
+    text-align: left; /* Ensure code is left-aligned */
+    white-space: pre-wrap; /* Allow proper line wrapping */
 }
 
 .code-content code {
     font-family: var(--font-mono);
     color: var(--code-text);
+    text-align: left; /* Ensure code is left-aligned */
 }
 
 /* Features Section */
