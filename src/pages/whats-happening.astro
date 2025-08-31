@@ -19,146 +19,656 @@ try {
 
 <Layout title="What's Happening · Clyp" banner={banner}>
   <div class="page-header">
-    <div class="header-container">
+    <div class="container">
       <h1>What's Happening</h1>
-      <p class="subtitle">Stay up to date with the latest releases and pull requests for Clyp!</p>
+      <p>Stay connected with the latest developments in the Clyp ecosystem</p>
     </div>
   </div>
-  <section class="whats-happening-section">
-    <div class="whats-happening-container">
-      <div class="whats-happening-flex">
-        <div class="whats-happening-card">
-          <h2>🚀 Recent Releases</h2>
-          <div id="releases-list" class="wh-list loading">
-            <div class="wh-loading">Loading releases…</div>
+
+  <!-- Dashboard Layout -->
+  <section class="activity-dashboard">
+    <div class="container">
+      <div class="dashboard-grid">
+        <!-- Live Activity Feed -->
+        <div class="activity-feed">
+          <div class="feed-header">
+            <div class="header-icon">📈</div>
+            <div>
+              <h2>Live Activity</h2>
+              <p>Real-time updates from the Clyp repository</p>
+            </div>
+            <div class="live-indicator">
+              <span class="live-dot"></span>
+              <span>Live</span>
+            </div>
+          </div>
+          
+          <div class="timeline" id="activity-timeline">
+            <div class="timeline-loading">
+              <div class="loading-spinner"></div>
+              <p>Loading latest activity...</p>
+            </div>
           </div>
         </div>
-        <div class="whats-happening-card">
-          <h2>🔀 Open Pull Requests</h2>
-          <div id="prs-list" class="wh-list loading">
-            <div class="wh-loading">Loading pull requests…</div>
+
+        <!-- Stats Panel -->
+        <aside class="stats-panel">
+          <div class="stat-card">
+            <div class="stat-header">
+              <h3>🚀 Recent Releases</h3>
+              <button class="refresh-btn" onclick="loadReleases()" title="Refresh">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-8 3.58-8 8s3.58 8 8 8c3.74 0 6.85-2.56 7.72-6h-2.08c-.82 2.33-3.04 4-5.64 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+                </svg>
+              </button>
+            </div>
+            <div id="releases-list" class="stat-content">
+              <div class="loading-placeholder">Loading...</div>
+            </div>
           </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <h3>🔄 Pull Requests</h3>
+              <span class="stat-badge" id="pr-count">0</span>
+            </div>
+            <div id="prs-list" class="stat-content">
+              <div class="loading-placeholder">Loading...</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <h3>📊 Repository Stats</h3>
+            </div>
+            <div class="repo-stats">
+              <div class="repo-stat">
+                <span class="stat-label">Language</span>
+                <span class="stat-value">Python</span>
+              </div>
+              <div class="repo-stat">
+                <span class="stat-label">License</span>
+                <span class="stat-value">MIT</span>
+              </div>
+              <div class="repo-stat">
+                <span class="stat-label">Created</span>
+                <span class="stat-value">2024</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Community Section -->
+  <section class="community-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Join the Community</h2>
+        <p>Connect with other Clyp developers and contributors</p>
+      </div>
+      
+      <div class="community-grid">
+        <div class="community-card">
+          <div class="community-icon">💬</div>
+          <h3>Discussions</h3>
+          <p>Join conversations about features, ask questions, and share ideas with the community.</p>
+          <a href="https://github.com/clyplang/clyp/discussions" target="_blank" class="community-link">
+            Join Discussions →
+          </a>
+        </div>
+        
+        <div class="community-card">
+          <div class="community-icon">🐛</div>
+          <h3>Issues & Bugs</h3>
+          <p>Report bugs, request features, or help solve existing issues to improve Clyp.</p>
+          <a href="https://github.com/clyplang/clyp/issues" target="_blank" class="community-link">
+            View Issues →
+          </a>
+        </div>
+        
+        <div class="community-card">
+          <div class="community-icon">🤝</div>
+          <h3>Contributing</h3>
+          <p>Help make Clyp better by contributing code, documentation, or testing.</p>
+          <a href="https://github.com/clyplang/clyp/blob/main/CONTRIBUTING.md" target="_blank" class="community-link">
+            Start Contributing →
+          </a>
         </div>
       </div>
     </div>
   </section>
 </Layout>
 
+<style>
+.activity-dashboard {
+  padding: var(--spacing-2xl) 0 var(--spacing-4xl);
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: var(--spacing-2xl);
+}
+
+.activity-feed {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+.feed-header {
+  padding: var(--spacing-xl);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.header-icon {
+  font-size: 1.5rem;
+}
+
+.feed-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.feed-header p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.live-indicator {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-left: auto;
+  color: var(--secondary-color);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--secondary-color);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.timeline {
+  max-height: 600px;
+  overflow-y: auto;
+  padding: var(--spacing-lg) 0;
+}
+
+.timeline-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-4xl);
+  color: var(--text-secondary);
+}
+
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--border-color);
+  border-top: 3px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: var(--spacing-lg);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.timeline-item {
+  display: flex;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg) var(--spacing-xl);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: background 0.2s ease;
+}
+
+.timeline-item:hover {
+  background: var(--gradient-subtle);
+}
+
+.timeline-item:last-child {
+  border-bottom: none;
+}
+
+.timeline-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--gradient-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.timeline-content h3 {
+  margin: 0 0 var(--spacing-xs) 0;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
+.timeline-content p {
+  margin: 0 0 var(--spacing-sm) 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.timeline-meta {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.stats-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+.stat-header {
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stat-header h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.stat-badge {
+  background: var(--primary-color);
+  color: white;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-md);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.refresh-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+}
+
+.refresh-btn:hover {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+}
+
+.stat-content {
+  padding: var(--spacing-lg);
+}
+
+.loading-placeholder {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  text-align: center;
+  padding: var(--spacing-lg) 0;
+}
+
+.release-item,
+.pr-item {
+  padding: var(--spacing-md) 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.release-item:last-child,
+.pr-item:last-child {
+  border-bottom: none;
+}
+
+.release-item h4,
+.pr-item h4 {
+  margin: 0 0 var(--spacing-xs) 0;
+  font-size: 0.9rem;
+}
+
+.release-item a,
+.pr-item a {
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.release-item a:hover,
+.pr-item a:hover {
+  color: var(--primary-color);
+}
+
+.release-meta,
+.pr-meta {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.repo-stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.repo-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.stat-value {
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.community-section {
+  background: var(--bg-secondary);
+  padding: var(--spacing-4xl) 0;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: var(--spacing-4xl);
+}
+
+.section-header h2 {
+  font-size: 2rem;
+  margin-bottom: var(--spacing-md);
+}
+
+.section-header p {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+.community-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-xl);
+}
+
+.community-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.community-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-color);
+}
+
+.community-icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-lg);
+}
+
+.community-card h3 {
+  margin-bottom: var(--spacing-md);
+  color: var(--text-primary);
+}
+
+.community-card p {
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-lg);
+  line-height: 1.6;
+}
+
+.community-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.community-link:hover {
+  color: var(--primary-hover);
+}
+
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+  }
+  
+  .stats-panel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
+  }
+}
+
+@media (max-width: 768px) {
+  .feed-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+  }
+  
+  .live-indicator {
+    margin-left: 0;
+  }
+  
+  .timeline-item {
+    padding: var(--spacing-md);
+  }
+  
+  .stats-panel {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
 <script>
+// Data storage
+let releases: any[] = [];
+let pullRequests: any[] = [];
+
 async function fetchGitHub(url: string) {
-  const resp = await fetch(url, {headers: { 'Accept': 'application/vnd.github+json' }});
-  if (!resp.ok) return [];
-  return await resp.json();
+  try {
+    const resp = await fetch(url, {
+      headers: { 'Accept': 'application/vnd.github+json' }
+    });
+    if (!resp.ok) return [];
+    return await resp.json();
+  } catch (error) {
+    console.error('GitHub API error:', error);
+    return [];
+  }
 }
 
 function formatDate(dateStr: string) {
   const d = new Date(dateStr);
-  return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+  return d.toLocaleDateString(undefined, { 
+    year: 'numeric', 
+    month: 'short', 
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
 }
 
-function getReleaseType(name: string) {
-  // Normalize for easier matching
-  const n = name.toLowerCase();
-  if (/alpha/.test(n)) return 'alpha';
-  if (/beta/.test(n)) return 'beta';
-  if (/rc(\d*)|release candidate/.test(n)) return 'rc';
-  return 'release';
+function getRelativeTime(dateStr: string) {
+  const now = new Date();
+  const date = new Date(dateStr);
+  const diffMs = now.getTime() - date.getTime();
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  
+  if (diffDays === 0) return 'Today';
+  if (diffDays === 1) return 'Yesterday';
+  if (diffDays < 7) return `${diffDays} days ago`;
+  if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
+  return `${Math.floor(diffDays / 30)} months ago`;
 }
 
-function formatReleaseName(name: string) {
-  // Remove -alpha, -beta, -rc, and similar, but do NOT add [Tag] text
-  let base = name;
-  // Remove patterns
-  base = base.replace(/[- ]?(alpha|beta|rc\d*|rc|release candidate( \d*)?)/i, '').trim();
-  // Remove trailing or leading dashes/spaces
-  base = base.replace(/[- ]+$/, '').replace(/^[- ]+/, '');
-  return base;
+function createTimelineItem(type: 'release' | 'pr', item: any) {
+  const icon = type === 'release' ? '🚀' : '🔄';
+  const title = type === 'release' ? item.name || item.tag_name : item.title;
+  const description = type === 'release' 
+    ? `New release published`
+    : `Pull request by ${item.user.login}`;
+  const date = type === 'release' ? item.published_at : item.created_at;
+  const url = type === 'release' ? item.html_url : item.html_url;
+  
+  return `
+    <div class="timeline-item">
+      <div class="timeline-icon">${icon}</div>
+      <div class="timeline-content">
+        <h3><a href="${url}" target="_blank">${title}</a></h3>
+        <p>${description}</p>
+        <div class="timeline-meta">${getRelativeTime(date)}</div>
+      </div>
+    </div>
+  `;
 }
 
-function getTagColor(type: string) {
-  if (type === 'alpha') return '#ff6b6b'; // Red
-  if (type === 'beta') return '#45b7d1'; // Blue
-  if (type === 'rc') return '#ffd600'; // Yellow
-  return '#4ecdc4'; // Green
-}
-
-function renderReleaseTag(type: string, label: string) {
-  const color = getTagColor(type);
-  // Show the label (e.g., Alpha, Beta, Release Candidate, Release) inside the colored tag
-  return `<span class="release-tag" style="background:${color};color:#fff;border-radius:0.4em;padding:0.1em 0.6em;font-size:0.85em;margin-left:0.5em;vertical-align:middle;">${label}</span>`;
-}
-
-function getReleasePageUrl(r: any) {
-  // Try to use tag_name, fallback to name, strip leading 'v'
-  let version = (r.tag_name || r.name || '').replace(/^v/, '');
-  return `https://clyp.codesft.dev/release/${version}`;
+function renderTimeline() {
+  // Combine and sort all activities by date
+  const activities: any[] = [];
+  
+  releases.slice(0, 3).forEach(release => {
+    activities.push({
+      type: 'release',
+      date: new Date(release.published_at),
+      item: release
+    });
+  });
+  
+  pullRequests.slice(0, 5).forEach(pr => {
+    activities.push({
+      type: 'pr',
+      date: new Date(pr.created_at),
+      item: pr
+    });
+  });
+  
+  activities.sort((a, b) => b.date.getTime() - a.date.getTime());
+  
+  const timelineEl = document.getElementById('activity-timeline');
+  if (timelineEl) {
+    if (activities.length === 0) {
+      timelineEl.innerHTML = '<div class="timeline-loading"><p>No recent activity found</p></div>';
+    } else {
+      timelineEl.innerHTML = activities
+        .slice(0, 8)
+        .map(activity => createTimelineItem(activity.type, activity.item))
+        .join('');
+    }
+  }
 }
 
 async function loadReleases() {
-  const releases = await fetchGitHub('https://api.github.com/repos/clyplang/clyp/releases');
+  const data = await fetchGitHub('https://api.github.com/repos/clyplang/clyp/releases');
+  releases = data;
+  
   const el = document.getElementById('releases-list');
   if (el) {
-    el.classList.remove('loading');
     if (!releases.length) {
-      el.innerHTML = '<div class="wh-empty">No releases found.</div>';
+      el.innerHTML = '<div class="loading-placeholder">No releases found</div>';
       return;
     }
-    el.innerHTML = releases.slice(0, 5).map((r: any) => {
-      const type = getReleaseType(r.name || r.tag_name);
-      const label = type === 'alpha' ? 'Alpha' : type === 'beta' ? 'Beta' : type === 'rc' ? 'Release Candidate' : 'Release';
-      const formatted = formatReleaseName(r.name || r.tag_name);
-      const tag = renderReleaseTag(type, label);
-      const releasePageUrl = getReleasePageUrl(r);
-      return `
-        <div class="wh-item">
-          <div class="wh-title"><a href="${releasePageUrl}">${formatted}${tag}</a></div>
-          <div class="wh-meta">Published <span>${formatDate(r.published_at)}</span></div>
-          <div class="wh-body">${r.body ? r.body.substring(0, 180).replace(/\n/g, ' ') + (r.body.length > 180 ? '…' : '') : ''}</div>
-        </div>
-      `;
-    }).join('');
-  }
-}
-
-async function loadPRs() {
-  const prs = await fetchGitHub('https://api.github.com/repos/clyplang/clyp/pulls');
-  const el = document.getElementById('prs-list');
-  if (el) {
-    el.classList.remove('loading');
-    if (!prs.length) {
-      el.innerHTML = '<div class="wh-empty">No open pull requests.</div>';
-      return;
-    }
-    el.innerHTML = prs.slice(0, 8).map((pr: any) => `
-      <div class="wh-item">
-        <div class="wh-title"><a href="${pr.html_url}" target="_blank">${pr.title}</a></div>
-        <div class="wh-meta">By <span>${pr.user.login}</span> &middot; Opened <span>${formatDate(pr.created_at)}</span></div>
-        <div class="wh-body">${pr.body ? pr.body.substring(0, 120).replace(/\n/g, ' ') + (pr.body.length > 120 ? '…' : '') : ''}</div>
+    
+    el.innerHTML = releases.slice(0, 5).map(release => `
+      <div class="release-item">
+        <h4><a href="${release.html_url}" target="_blank">${release.name || release.tag_name}</a></h4>
+        <div class="release-meta">${formatDate(release.published_at)}</div>
       </div>
     `).join('');
   }
+  
+  renderTimeline();
 }
 
-window.addEventListener('DOMContentLoaded', () => {
+async function loadPRs() {
+  const data = await fetchGitHub('https://api.github.com/repos/clyplang/clyp/pulls');
+  pullRequests = data;
+  
+  const countEl = document.getElementById('pr-count');
+  if (countEl) {
+    countEl.textContent = pullRequests.length.toString();
+  }
+  
+  const el = document.getElementById('prs-list');
+  if (el) {
+    if (!pullRequests.length) {
+      el.innerHTML = '<div class="loading-placeholder">No open pull requests</div>';
+      return;
+    }
+    
+    el.innerHTML = pullRequests.slice(0, 5).map(pr => `
+      <div class="pr-item">
+        <h4><a href="${pr.html_url}" target="_blank">${pr.title}</a></h4>
+        <div class="pr-meta">by ${pr.user.login} • ${getRelativeTime(pr.created_at)}</div>
+      </div>
+    `).join('');
+  }
+  
+  renderTimeline();
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', () => {
   loadReleases();
   loadPRs();
+  
+  // Refresh every 5 minutes
+  setInterval(() => {
+    loadReleases();
+    loadPRs();
+  }, 5 * 60 * 1000);
 });
-</script>
 
-<style>
-.whats-happening-section { background: var(--bg-secondary); padding: 3rem 0; }
-.whats-happening-container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
-.whats-happening-flex { display: flex; gap: 2.5rem; flex-wrap: wrap; }
-.whats-happening-card { background: var(--bg-card); border-radius: 1rem; box-shadow: var(--shadow-md); flex: 1 1 350px; padding: 2rem; min-width: 320px; }
-.whats-happening-card h2 { font-size: 1.4rem; margin-bottom: 1.5rem; color: var(--primary-color); }
-.wh-list { display: flex; flex-direction: column; gap: 1.5rem; }
-.wh-item { border-left: 4px solid var(--primary-color); background: var(--bg-tertiary); border-radius: 0.5rem; padding: 1rem 1.2rem; box-shadow: var(--shadow-sm); }
-.wh-title { font-weight: 600; font-size: 1.1rem; margin-bottom: 0.3rem; }
-.wh-title a { color: var(--text-primary); text-decoration: none; }
-.wh-title a:hover { color: var(--primary-color); text-decoration: underline; }
-.wh-meta { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 0.5rem; }
-.wh-body { color: var(--text-secondary); font-size: 0.98rem; }
-.wh-loading, .wh-empty { color: var(--text-light); text-align: center; padding: 1.5rem 0; }
-.release-tag { display: inline-block; padding: 0.2em 0.6em; border-radius: 0.4em; font-size: 0.85em; margin-left: 0.5em; vertical-align: middle; }
-@media (max-width: 900px) { .whats-happening-flex { flex-direction: column; gap: 2rem; } }
-</style>
+// Make functions globally available
+declare global {
+  interface Window {
+    loadReleases: () => void;
+  }
+}
+
+window.loadReleases = loadReleases;
+</script>
