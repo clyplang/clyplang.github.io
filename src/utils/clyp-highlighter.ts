@@ -28,47 +28,66 @@ const BUILTINS = [
   'http_get', 'http_post', 'json_parse', 'json_stringify'
 ];
 
-function escapeHtml(text: string): string {
-  return text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-}
+// @ts-ignore: prismjs doesn't have bundled types in this project
+import Prism from 'prismjs';
+// load basic components if available; Prism core is sufficient for a custom definition
+
+// Define the Clyp language for Prism
+Prism.languages.clyp = {
+  'comment': /#.*/,
+  'string': {
+    pattern: /(?:(?:"(?:\\.|[^"\\])*")|(?:'(?:\\.|[^'\\])*'))/,
+    greedy: true
+  },
+  'class-name': {
+    pattern: /(?<=\bclass\s+)[A-Za-z_][A-Za-z0-9_]*/,
+    alias: 'nc'
+  },
+  'function': {
+    pattern: /[A-Za-z_][A-Za-z0-9_]*(?=\s*\()/,
+    alias: 'nf'
+  },
+  'keyword': new RegExp('\\b(?:' + KEYWORDS.join('|') + ')\\b'),
+  'type': new RegExp('\\b(?:' + TYPE_KEYWORDS.join('|') + ')\\b'),
+  'builtin': new RegExp('\\b(?:' + BUILTINS.join('|') + ')\\b'),
+  'number': /\b\d+(?:\.\d+)?\b/,
+  'operator': /\|>|=>|\+\+|--|==|!=|<=|>=|\+|-|\*|\/|%|=|<|>|\|\||&&|!|\|>/,
+  'punctuation': /[{}[\];(),.:]/
+};
+
+// Map Prism token class names to the short classes used in our CSS
+const classMap: Record<string, string> = {
+  'keyword': 'k',
+  'type': 'kt',
+  'function': 'nf',
+  'class-name': 'nc',
+  'string': 's',
+  'number': 'm',
+  'builtin': 'nb',
+  'operator': 'op',
+  'comment': 'c',
+  'punctuation': 'p'
+};
 
 export function highlightClyp(code: string): string {
-  let highlighted = escapeHtml(code);
-  
-  // Replace comments first
-  highlighted = highlighted.replace(/#.*$/gm, '<span class="comment">$&</span>');
-  
-  // String literals
-  highlighted = highlighted.replace(/"([^"\\]|\\.)*"/g, '<span class="string">$&</span>');
-  highlighted = highlighted.replace(/'([^'\\]|\\.)*'/g, '<span class="string">$&</span>');
-  
-  // Numbers
-  highlighted = highlighted.replace(/\b\d+(\.\d+)?\b/g, '<span class="number">$&</span>');
-  
-  // Keywords
-  KEYWORDS.forEach(keyword => {
-    const regex = new RegExp(`\\b${keyword}\\b`, 'g');
-    highlighted = highlighted.replace(regex, `<span class="keyword">${keyword}</span>`);
+  // Use Prism to highlight
+  const raw = Prism.highlight(code, Prism.languages.clyp, 'clyp');
+
+  // Post-process Prism's HTML (.token.NAME) to match our CSS short classes
+  const fixed = raw.replace(/class="([^"]*)"/g, (m: string, cls: string) => {
+    // Only modify spans that include 'token'
+    if (!/\btoken\b/.test(cls)) return `class="${cls}"`;
+  const parts = cls.split(/\s+/).filter(Boolean);
+  // find the first token type (not 'token')
+  const tokenType = parts.find((p: string) => p !== 'token' && p !== 'important');
+    if (tokenType && classMap[tokenType]) {
+      return `class="${classMap[tokenType]}"`;
+    }
+    // fallback: keep original
+    return `class="${cls}"`;
   });
-  
-  // Type keywords
-  TYPE_KEYWORDS.forEach(type => {
-    const regex = new RegExp(`\\b${type}\\b`, 'g');
-    highlighted = highlighted.replace(regex, `<span class="type">${type}</span>`);
-  });
-  
-  // Built-in functions
-  BUILTINS.forEach(builtin => {
-    const regex = new RegExp(`\\b${builtin}\\b`, 'g');
-    highlighted = highlighted.replace(regex, `<span class="builtin">${builtin}</span>`);
-  });
-  
-  return `<div class="highlight"><pre><code>${highlighted}</code></pre></div>`;
+
+  return `<div class="highlight"><pre><code class="language-clyp">${fixed}</code></pre></div>`;
 }
 
 // Code examples from the original Python file
