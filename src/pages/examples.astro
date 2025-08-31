@@ -19,10 +19,9 @@ try {
 
 // Group examples by category
 const exampleCategories = {
-  'Getting Started': ['hello_world', 'variables'],
-  'Control Flow': ['conditionals', 'loops'],
-  'Functions & Data': ['functions', 'classes'],
-  'Advanced Features': ['pipeline', 'file_io']
+  'Getting Started': ['hello_world'],
+  'Data & Structures': ['data_structures'],
+  'Advanced Features': ['advanced']
 };
 ---
 
@@ -51,6 +50,7 @@ const exampleCategories = {
                 <ul class="category-examples">
                   {examples.map(exampleKey => {
                     const example = EXAMPLES[exampleKey];
+                    if (!example) return null;
                     return (
                       <li>
                         <button 
@@ -62,7 +62,7 @@ const exampleCategories = {
                         </button>
                       </li>
                     );
-                  })}
+                  }).filter(Boolean)}
                 </ul>
               </div>
             ))}
