@@ -1,0 +1,145 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { EXAMPLES } from '../utils/clyp-highlighter';
+
+// Load banner data (same logic as index)
+let banner = null;
+try {
+  const bannerData = await fetch(new URL('/banner.json', Astro.url.origin));
+  if (bannerData.ok) {
+    const banners = await bannerData.json();
+    if (banners && banners.length > 0) {
+      const idx = Math.floor(Date.now() / 30000) % banners.length;
+      banner = banners[idx];
+    }
+  }
+} catch (e) {
+  // Banner file not found or invalid, use null
+}
+---
+
+<Layout title="Examples - Clyp Programming Language" banner={banner}>
+  <!-- Examples Header -->
+  <section class="page-header">
+    <div class="header-container">
+      <h1>Code Examples</h1>
+      <p>Explore the power and elegance of Clyp through these comprehensive examples</p>
+    </div>
+  </section>
+
+  <!-- Examples Grid -->
+  <section class="examples-section">
+    <div class="examples-container">
+      {Object.entries(EXAMPLES).map(([key, example]) => (
+        <div class="example-card">
+          <div class="example-header">
+            <h2>{example.title}</h2>
+            <p>{example.description}</p>
+          </div>
+          <div class="code-window">
+            <div class="code-header">
+              <div class="code-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <span class="code-title">{key}.clyp</span>
+              <button class="copy-code-btn" onclick={`copyCode('${key}')`}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                </svg>
+                Copy
+              </button>
+            </div>
+            <div class="code-content">
+              <div class="code-raw" id={`${key}-raw`} style="display: none;">{example.code}</div>
+              <Fragment set:html={example.highlighted_code} />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Next Steps -->
+  <section class="next-steps">
+    <div class="steps-container">
+      <h2>What's Next?</h2>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-icon">📖</div>
+          <h3>Read the Documentation</h3>
+          <p>Learn about Clyp's syntax, features, and standard library</p>
+          <a href="https://clypdocs.codesft.dev" class="step-link">View Docs →</a>
+        </div>
+        <div class="step-card">
+          <div class="step-icon">🚀</div>
+          <h3>Install Clyp</h3>
+          <p>Get started with Clyp on your local machine</p>
+          <div class="install-command">
+            <code>pip install clyp</code>
+            <button onclick="copyToClipboard('pip install clyp')" class="mini-copy-btn">Copy</button>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-icon">🛠️</div>
+          <h3>Contribute</h3>
+          <p>Help improve Clyp by contributing to the project</p>
+          <a href="https://github.com/clyplang/clyp" target="_blank" class="step-link">GitHub →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+// Copy code functionality
+function copyCode(exampleKey: string) {
+  const codeElement = document.getElementById(exampleKey + '-raw');
+  if (codeElement) {
+    const code = codeElement.textContent || '';
+    
+    navigator.clipboard.writeText(code).then(function() {
+      const btn = (event?.target as HTMLElement)?.closest('.copy-code-btn') as HTMLButtonElement;
+      if (btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Copied!';
+        btn.classList.add('copied');
+        
+        setTimeout(() => {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+    });
+  }
+}
+
+// Copy to clipboard function
+function copyToClipboard(text: string) {
+  navigator.clipboard.writeText(text).then(function() {
+    const btn = event?.target as HTMLButtonElement;
+    if (btn) {
+      const originalText = btn.textContent;
+      btn.textContent = '✓';
+      btn.classList.add('copied');
+      
+      setTimeout(() => {
+        btn.textContent = originalText;
+        btn.classList.remove('copied');
+      }, 2000);
+    }
+  });
+}
+
+// Make functions globally available
+declare global {
+  interface Window {
+    copyCode: (exampleKey: string) => void;
+    copyToClipboard: (text: string) => void;
+  }
+}
+
+window.copyCode = copyCode;
+window.copyToClipboard = copyToClipboard;
+</script>
