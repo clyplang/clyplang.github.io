@@ -53,21 +53,10 @@ try {
               <span class="code-title">hello.clyp</span>
             </div>
             <div class="code-content">
-              <Fragment set:html={EXAMPLES.hello_world.highlighted_code || EXAMPLES.hello_world.code} />
+              <div set:html={EXAMPLES.hello_world.highlighted_code || EXAMPLES.hello_world.code}></div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Stats Section -->
-  <section class="stats">
-    <div class="container">
-      <div class="stats-grid">
-        <AnimatedCounter client:load target={10} label="Times Faster" suffix="x" />
-        <AnimatedCounter client:load target={100} label="Python Compatible" suffix="%" />
-        <AnimatedCounter client:load target={1000} label="Lines of Code Saved" suffix="+" />
       </div>
     </div>
   </section>
@@ -146,7 +135,7 @@ try {
               <span class="code-title">example.clyp</span>
             </div>
             <div class="code-content">
-              <Fragment set:html={EXAMPLES.data_structures.highlighted_code || EXAMPLES.data_structures.code} />
+              <div set:html={EXAMPLES.data_structures.highlighted_code || EXAMPLES.data_structures.code}></div>
             </div>
           </div>
         </div>
@@ -162,7 +151,7 @@ try {
               <span class="code-title">advanced.clyp</span>
             </div>
             <div class="code-content">
-              <Fragment set:html={EXAMPLES.advanced.highlighted_code || EXAMPLES.advanced.code} />
+              <div set:html={EXAMPLES.advanced.highlighted_code || EXAMPLES.advanced.code}></div>
             </div>
           </div>
         </div>
