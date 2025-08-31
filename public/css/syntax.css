@@ -7,7 +7,7 @@
     overflow-x: auto;
     font-family: var(--font-mono);
     font-size: 0.9rem;
-    line-height: 1.6;
+    line-height: 1.8; /* Improved line spacing for better readability */
     border: 1px solid var(--code-border);
     position: relative;
     margin: var(--spacing-lg) 0;
@@ -23,6 +23,9 @@
     font-family: var(--font-mono);
     font-size: inherit;
     line-height: inherit;
+    white-space: pre-wrap; /* Better text wrapping */
+    word-spacing: normal;
+    letter-spacing: 0.02em; /* Slight letter spacing for readability */
 }
 
 .highlight code {
@@ -33,6 +36,8 @@
     color: inherit;
     font-weight: 400;
     font-variant-ligatures: common-ligatures;
+    display: block; /* Ensure proper block formatting */
+    white-space: pre-wrap;
 }
 
 /* Advanced GitHub Dark Theme - Enhanced for better readability */
@@ -106,79 +111,111 @@
 .highlight .vm { color: #79c0ff; } /* Name.Variable.Magic */
 .highlight .il { color: #a5d6ff; font-weight: 500; } /* Literal.Number.Integer.Long */
 
-/* Enhanced Clyp-specific syntax highlighting */
+/* Enhanced Clyp-specific syntax highlighting - Support both short and long class names */
+
+/* Keywords like function, returns, class, if, else */
+.highlight .k,
 .highlight .language-clyp .k {
-    color: #ff7b72; /* Keywords like function, returns, class, if, else */
+    color: #ff7b72;
     font-weight: 700;
     text-shadow: 0 0 2px rgba(255, 123, 114, 0.3);
 }
 
+/* Type keywords like int, str, bool, list */
+.highlight .kt,
 .highlight .language-clyp .kt {
-    color: #79c0ff; /* Type keywords like int, str, bool, list */
+    color: #79c0ff;
     font-weight: 600;
     text-shadow: 0 0 2px rgba(121, 192, 255, 0.2);
 }
 
+/* Function names */
+.highlight .nf,
 .highlight .language-clyp .nf {
-    color: #d2a8ff; /* Function names */
+    color: #d2a8ff;
     font-weight: 600;
     text-shadow: 0 0 2px rgba(210, 168, 255, 0.2);
 }
 
+/* Class names */
+.highlight .nc,
 .highlight .language-clyp .nc {
-    color: #ffa657; /* Class names */
+    color: #ffa657;
     font-weight: 700;
     text-shadow: 0 0 2px rgba(255, 166, 87, 0.2);
 }
 
+/* String literals */
+.highlight .s,
+.highlight .s1,
+.highlight .s2,
 .highlight .language-clyp .s,
 .highlight .language-clyp .s1,
 .highlight .language-clyp .s2 {
-    color: #a5d6ff; /* String literals */
+    color: #a5d6ff;
     background-color: rgba(165, 214, 255, 0.05);
     border-radius: 2px;
     padding: 1px 2px;
 }
 
+/* Numbers */
+.highlight .m,
+.highlight .mi,
+.highlight .mf,
 .highlight .language-clyp .m,
 .highlight .language-clyp .mi,
 .highlight .language-clyp .mf {
-    color: #a5d6ff; /* Numbers */
+    color: #a5d6ff;
     font-weight: 600;
     background-color: rgba(165, 214, 255, 0.05);
     border-radius: 2px;
     padding: 1px 2px;
 }
 
+/* Comments */
+.highlight .c,
+.highlight .c1,
 .highlight .language-clyp .c,
 .highlight .language-clyp .c1 {
-    color: #8b949e; /* Comments */
+    color: #8b949e;
     font-style: italic;
     opacity: 0.8;
 }
 
+/* Operators (general) */
+.highlight .o,
 .highlight .language-clyp .o {
-    color: #ff7b72; /* Operators */
+    color: #ff7b72;
     font-weight: 600;
 }
 
 /* Special highlighting for pipeline operator */
+.highlight .op,
 .highlight .language-clyp .op {
-    color: #7ee787; /* Pipeline operator |> */
+    color: #7ee787;
     font-weight: 700;
     font-size: 1.1em;
     text-shadow: 0 0 3px rgba(126, 231, 135, 0.4);
 }
 
+/* Punctuation */
+.highlight .p,
+.highlight .language-clyp .p {
+    color: #e6edf3;
+    opacity: 0.8;
+}
+
 /* Variable declarations */
+.highlight .nv,
 .highlight .language-clyp .nv {
-    color: #79c0ff; /* Variable names */
+    color: #79c0ff;
     font-weight: 500;
 }
 
 /* Built-in functions */
+.highlight .nb,
 .highlight .language-clyp .nb {
-    color: #ffa657; /* Built-ins like print, len, etc. */
+    color: #ffa657;
     font-weight: 600;
     text-shadow: 0 0 2px rgba(255, 166, 87, 0.2);
 }
@@ -191,6 +228,34 @@
     border: none;
     margin: 0;
     box-shadow: none;
+}
+
+.code-window .code-content {
+    padding: var(--spacing-xl); /* Improved padding for better spacing */
+    background: var(--code-bg);
+    font-family: var(--font-mono);
+    font-size: 0.95rem; /* Slightly larger font for better readability */
+    line-height: 1.8; /* Consistent line spacing */
+    overflow-x: auto;
+}
+
+.code-window .code-content pre {
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: var(--code-text);
+}
+
+.code-window .code-content code {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+    background: none;
+    padding: 0;
+    border: none;
 }
 
 /* Enhanced copy button for code blocks */

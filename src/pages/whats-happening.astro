@@ -144,12 +144,14 @@ try {
 <style>
 .activity-dashboard {
   padding: var(--spacing-2xl) 0 var(--spacing-4xl);
+  background: var(--bg-primary);
 }
 
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1fr 400px;
   gap: var(--spacing-2xl);
+  align-items: start; /* Better alignment for cards */
 }
 
 .activity-feed {
@@ -157,6 +159,7 @@ try {
   border: 1px solid var(--border-color);
   border-radius: var(--radius-xl);
   overflow: hidden;
+  min-height: 500px; /* Ensure consistent height */
 }
 
 .feed-header {
@@ -165,15 +168,25 @@ try {
   display: flex;
   align-items: center;
   gap: var(--spacing-lg);
+  background: var(--gradient-subtle); /* Subtle background for header */
 }
 
 .header-icon {
   font-size: 1.5rem;
+  width: 40px; /* Fixed width for consistency */
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gradient-primary);
+  border-radius: 50%;
+  color: white;
 }
 
 .feed-header h2 {
   margin: 0;
   font-size: 1.3rem;
+  color: var(--text-primary);
 }
 
 .feed-header p {
@@ -190,6 +203,10 @@ try {
   color: var(--secondary-color);
   font-size: 0.85rem;
   font-weight: 500;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: rgba(6, 182, 212, 0.1);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(6, 182, 212, 0.2);
 }
 
 .live-dot {
@@ -198,12 +215,13 @@ try {
   background: var(--secondary-color);
   border-radius: 50%;
   animation: pulse 2s infinite;
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
 }
 
 @keyframes pulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.5; }
-  100% { opacity: 1; }
+  0% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.1); }
+  100% { opacity: 1; transform: scale(1); }
 }
 
 .timeline {
@@ -219,6 +237,9 @@ try {
   justify-content: center;
   padding: var(--spacing-4xl);
   color: var(--text-secondary);
+  background: var(--gradient-subtle);
+  margin: var(--spacing-lg);
+  border-radius: var(--radius-lg);
 }
 
 .loading-spinner {
@@ -294,6 +315,14 @@ try {
   border: 1px solid var(--border-color);
   border-radius: var(--radius-xl);
   overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-color);
 }
 
 .stat-header {
@@ -302,20 +331,28 @@ try {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background: var(--gradient-subtle);
 }
 
 .stat-header h3 {
   margin: 0;
   font-size: 1rem;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
 }
 
 .stat-badge {
-  background: var(--primary-color);
+  background: var(--gradient-primary);
   color: white;
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: var(--radius-md);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--radius-lg);
   font-size: 0.8rem;
   font-weight: 600;
+  min-width: 24px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
 }
 
 .refresh-btn {
@@ -326,15 +363,22 @@ try {
   padding: var(--spacing-xs);
   border-radius: var(--radius-sm);
   transition: all 0.2s ease;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .refresh-btn:hover {
   background: var(--bg-elevated);
-  color: var(--text-primary);
+  color: var(--primary-color);
+  transform: rotate(180deg);
 }
 
 .stat-content {
   padding: var(--spacing-lg);
+  min-height: 80px; /* Ensure consistent card heights */
 }
 
 .loading-placeholder {
@@ -342,12 +386,14 @@ try {
   font-size: 0.9rem;
   text-align: center;
   padding: var(--spacing-lg) 0;
+  font-style: italic;
 }
 
 .release-item,
 .pr-item {
   padding: var(--spacing-md) 0;
   border-bottom: 1px solid var(--border-subtle);
+  transition: all 0.2s ease;
 }
 
 .release-item:last-child,
@@ -355,16 +401,26 @@ try {
   border-bottom: none;
 }
 
+.release-item:hover,
+.pr-item:hover {
+  background: var(--gradient-subtle);
+  border-radius: var(--radius-sm);
+  padding-left: var(--spacing-sm);
+  margin: 0 calc(-1 * var(--spacing-sm));
+}
+
 .release-item h4,
 .pr-item h4 {
   margin: 0 0 var(--spacing-xs) 0;
   font-size: 0.9rem;
+  color: var(--text-primary);
 }
 
 .release-item a,
 .pr-item a {
   color: var(--text-primary);
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 .release-item a:hover,
@@ -388,17 +444,27 @@ try {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.repo-stat:last-child {
+  border-bottom: none;
 }
 
 .stat-label {
   color: var(--text-secondary);
   font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .stat-value {
   color: var(--text-primary);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.9rem;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--bg-elevated);
+  border-radius: var(--radius-sm);
 }
 
 .community-section {
@@ -478,20 +544,40 @@ try {
   
   .stats-panel {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: var(--spacing-lg);
+  }
+  
+  .activity-feed {
+    order: 2; /* Move activity feed below stats on tablet */
+  }
+  
+  .stats-panel {
+    order: 1; /* Show stats first on tablet */
   }
 }
 
 @media (max-width: 768px) {
+  .activity-dashboard {
+    padding: var(--spacing-xl) 0;
+  }
+  
   .feed-header {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--spacing-md);
+    padding: var(--spacing-lg);
+  }
+  
+  .header-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 1.2rem;
   }
   
   .live-indicator {
     margin-left: 0;
+    align-self: flex-end;
   }
   
   .timeline-item {
@@ -500,6 +586,43 @@ try {
   
   .stats-panel {
     grid-template-columns: 1fr;
+  }
+  
+  .stat-card {
+    margin: 0 calc(-1 * var(--spacing-md)); /* Full width on mobile */
+    border-radius: var(--radius-lg);
+  }
+  
+  .community-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+  
+  .community-card {
+    margin: 0 calc(-1 * var(--spacing-sm));
+  }
+}
+
+@media (max-width: 480px) {
+  .feed-header {
+    padding: var(--spacing-md);
+  }
+  
+  .stat-header {
+    padding: var(--spacing-md);
+  }
+  
+  .stat-content {
+    padding: var(--spacing-md);
+  }
+  
+  .timeline-loading {
+    padding: var(--spacing-2xl);
+    margin: var(--spacing-md);
+  }
+  
+  .timeline {
+    max-height: 400px; /* Reduced height on small screens */
   }
 }
 </style>
