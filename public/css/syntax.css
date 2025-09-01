@@ -1,0 +1,948 @@
+/* Enhanced Syntax Highlighting Styles */
+.highlight {
+    background: var(--code-bg);
+    color: var(--code-text);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    line-height: 1.8; /* Improved line spacing for better readability */
+    border: 1px solid var(--code-border);
+    position: relative;
+    margin: var(--spacing-lg) 0;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    text-align: left; /* Ensure code is always left-aligned */
+}
+
+.highlight pre {
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    overflow: visible;
+    font-family: var(--font-mono);
+    font-size: inherit;
+    line-height: inherit;
+    white-space: pre-wrap; /* Better text wrapping */
+    word-spacing: normal;
+    letter-spacing: 0.02em; /* Slight letter spacing for readability */
+    text-align: left; /* Ensure pre text is left-aligned */
+}
+
+.highlight code {
+    background: none;
+    padding: 0;
+    font-family: var(--font-mono);
+    font-size: inherit;
+    color: inherit;
+    font-weight: 400;
+    font-variant-ligatures: common-ligatures;
+    display: block; /* Ensure proper block formatting */
+    white-space: pre-wrap;
+    text-align: left; /* Ensure code text is left-aligned */
+}
+
+/* Advanced GitHub Dark Theme - Enhanced for better readability */
+.highlight .hll { background-color: #2d3748; border-radius: 2px; }
+.highlight .c { color: #8b949e; font-style: italic; opacity: 0.8; } /* Comment */
+.highlight .err { color: #f85149; background-color: rgba(248, 81, 73, 0.1); border-radius: 2px; } /* Error */
+.highlight .k { color: #ff7b72; font-weight: 600; } /* Keyword */
+.highlight .l { color: #a5d6ff; } /* Literal */
+.highlight .n { color: #e6edf3; } /* Name */
+.highlight .o { color: #ff7b72; font-weight: 500; } /* Operator */
+.highlight .p { color: #e6edf3; } /* Punctuation */
+.highlight .ch { color: #8b949e; font-style: italic; } /* Comment.Hashbang */
+.highlight .cm { color: #8b949e; font-style: italic; } /* Comment.Multiline */
+.highlight .cp { color: #8b949e; font-weight: 500; } /* Comment.Preproc */
+.highlight .cpf { color: #8b949e; } /* Comment.PreprocFile */
+.highlight .c1 { color: #8b949e; font-style: italic; opacity: 0.8; } /* Comment.Single */
+.highlight .cs { color: #8b949e; font-style: italic; font-weight: 600; } /* Comment.Special */
+.highlight .gd { color: #ffa198; background-color: rgba(248, 81, 73, 0.15); } /* Generic.Deleted */
+.highlight .ge { font-style: italic; } /* Generic.Emph */
+.highlight .gi { color: #56d364; background-color: rgba(86, 211, 100, 0.15); } /* Generic.Inserted */
+.highlight .gs { font-weight: 700; } /* Generic.Strong */
+.highlight .gu { color: #8b949e; font-weight: 600; } /* Generic.Subheading */
+.highlight .kc { color: #79c0ff; font-weight: 600; } /* Keyword.Constant */
+.highlight .kd { color: #ff7b72; font-weight: 600; } /* Keyword.Declaration */
+.highlight .kn { color: #ff7b72; font-weight: 600; } /* Keyword.Namespace */
+.highlight .kp { color: #79c0ff; font-weight: 600; } /* Keyword.Pseudo */
+.highlight .kr { color: #ff7b72; font-weight: 600; } /* Keyword.Reserved */
+.highlight .kt { color: #79c0ff; font-weight: 600; } /* Keyword.Type */
+.highlight .ld { color: #a5d6ff; } /* Literal.Date */
+.highlight .m { color: #a5d6ff; font-weight: 500; } /* Literal.Number */
+.highlight .s { color: #a5d6ff; } /* Literal.String */
+.highlight .na { color: #79c0ff; } /* Name.Attribute */
+.highlight .nb { color: #ffa657; font-weight: 500; } /* Name.Builtin */
+.highlight .nc { color: #ffa657; font-weight: 600; } /* Name.Class */
+.highlight .no { color: #79c0ff; font-weight: 600; } /* Name.Constant */
+.highlight .nd { color: #d2a8ff; font-weight: 500; } /* Name.Decorator */
+.highlight .ni { color: #ffa657; } /* Name.Entity */
+.highlight .ne { color: #ffa657; font-weight: 600; } /* Name.Exception */
+.highlight .nf { color: #d2a8ff; font-weight: 600; } /* Name.Function */
+.highlight .nl { color: #ffa657; } /* Name.Label */
+.highlight .nn { color: #ffa657; font-weight: 500; } /* Name.Namespace */
+.highlight .nx { color: #e6edf3; } /* Name.Other */
+.highlight .py { color: #79c0ff; } /* Name.Property */
+.highlight .nt { color: #7ee787; font-weight: 500; } /* Name.Tag */
+.highlight .nv { color: #79c0ff; } /* Name.Variable */
+.highlight .ow { color: #ff7b72; font-weight: 600; } /* Operator.Word */
+.highlight .w { color: #e6edf3; } /* Text.Whitespace */
+.highlight .mb { color: #a5d6ff; font-weight: 500; } /* Literal.Number.Bin */
+.highlight .mf { color: #a5d6ff; font-weight: 500; } /* Literal.Number.Float */
+.highlight .mh { color: #a5d6ff; font-weight: 500; } /* Literal.Number.Hex */
+.highlight .mi { color: #a5d6ff; font-weight: 500; } /* Literal.Number.Integer */
+.highlight .mo { color: #a5d6ff; font-weight: 500; } /* Literal.Number.Oct */
+.highlight .sa { color: #a5d6ff; } /* Literal.String.Affix */
+.highlight .sb { color: #a5d6ff; } /* Literal.String.Backtick */
+.highlight .sc { color: #a5d6ff; } /* Literal.String.Char */
+.highlight .dl { color: #a5d6ff; opacity: 0.7; } /* Literal.String.Delimiter */
+.highlight .sd { color: #a5d6ff; font-style: italic; } /* Literal.String.Doc */
+.highlight .s2 { color: #a5d6ff; } /* Literal.String.Double */
+.highlight .se { color: #79c0ff; font-weight: 600; } /* Literal.String.Escape */
+.highlight .sh { color: #a5d6ff; } /* Literal.String.Heredoc */
+.highlight .si { color: #a5d6ff; } /* Literal.String.Interpol */
+.highlight .sx { color: #a5d6ff; } /* Literal.String.Other */
+.highlight .sr { color: #7ee787; } /* Literal.String.Regex */
+.highlight .s1 { color: #a5d6ff; } /* Literal.String.Single */
+.highlight .ss { color: #a5d6ff; } /* Literal.String.Symbol */
+.highlight .bp { color: #e6edf3; } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #d2a8ff; font-weight: 600; } /* Name.Function.Magic */
+.highlight .vc { color: #79c0ff; } /* Name.Variable.Class */
+.highlight .vg { color: #79c0ff; } /* Name.Variable.Global */
+.highlight .vi { color: #79c0ff; } /* Name.Variable.Instance */
+.highlight .vm { color: #79c0ff; } /* Name.Variable.Magic */
+.highlight .il { color: #a5d6ff; font-weight: 500; } /* Literal.Number.Integer.Long */
+
+/* Enhanced Clyp-specific syntax highlighting - Support both short and long class names */
+
+/* Keywords like function, returns, class, if, else */
+.highlight .k,
+.highlight .language-clyp .k {
+    color: #ff7b72;
+    font-weight: 700;
+    text-shadow: 0 0 2px rgba(255, 123, 114, 0.3);
+}
+
+/* Type keywords like int, str, bool, list */
+.highlight .kt,
+.highlight .language-clyp .kt {
+    color: #79c0ff;
+    font-weight: 600;
+    text-shadow: 0 0 2px rgba(121, 192, 255, 0.2);
+}
+
+/* Function names */
+.highlight .nf,
+.highlight .language-clyp .nf {
+    color: #d2a8ff;
+    font-weight: 600;
+    text-shadow: 0 0 2px rgba(210, 168, 255, 0.2);
+}
+
+/* Class names */
+.highlight .nc,
+.highlight .language-clyp .nc {
+    color: #ffa657;
+    font-weight: 700;
+    text-shadow: 0 0 2px rgba(255, 166, 87, 0.2);
+}
+
+/* String literals */
+.highlight .s,
+.highlight .s1,
+.highlight .s2,
+.highlight .language-clyp .s,
+.highlight .language-clyp .s1,
+.highlight .language-clyp .s2 {
+    color: #a5d6ff;
+    background-color: rgba(165, 214, 255, 0.05);
+    border-radius: 2px;
+    padding: 1px 2px;
+}
+
+/* Numbers */
+.highlight .m,
+.highlight .mi,
+.highlight .mf,
+.highlight .language-clyp .m,
+.highlight .language-clyp .mi,
+.highlight .language-clyp .mf {
+    color: #a5d6ff;
+    font-weight: 600;
+    background-color: rgba(165, 214, 255, 0.05);
+    border-radius: 2px;
+    padding: 1px 2px;
+}
+
+/* Comments */
+.highlight .c,
+.highlight .c1,
+.highlight .language-clyp .c,
+.highlight .language-clyp .c1 {
+    color: #8b949e;
+    font-style: italic;
+    opacity: 0.8;
+}
+
+/* Operators (general) */
+.highlight .o,
+.highlight .language-clyp .o {
+    color: #ff7b72;
+    font-weight: 600;
+}
+
+/* Special highlighting for pipeline operator */
+.highlight .op,
+.highlight .language-clyp .op {
+    color: #7ee787;
+    font-weight: 700;
+    font-size: 1.1em;
+    text-shadow: 0 0 3px rgba(126, 231, 135, 0.4);
+}
+
+/* Punctuation */
+.highlight .p,
+.highlight .language-clyp .p {
+    color: #e6edf3;
+    opacity: 0.8;
+}
+
+/* Variable declarations */
+.highlight .nv,
+.highlight .language-clyp .nv {
+    color: #79c0ff;
+    font-weight: 500;
+}
+
+/* Built-in functions */
+.highlight .nb,
+.highlight .language-clyp .nb {
+    color: #ffa657;
+    font-weight: 600;
+    text-shadow: 0 0 2px rgba(255, 166, 87, 0.2);
+}
+
+/* Code block improvements */
+.code-window .highlight {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    border: none;
+    margin: 0;
+    box-shadow: none;
+}
+
+.code-window .code-content {
+    padding: var(--spacing-xl); /* Improved padding for better spacing */
+    background: var(--code-bg);
+    font-family: var(--font-mono);
+    font-size: 0.95rem; /* Slightly larger font for better readability */
+    line-height: 1.8; /* Consistent line spacing */
+    overflow-x: auto;
+    text-align: left; /* Ensure all code content is left-aligned */
+}
+
+.code-window .code-content pre {
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: var(--code-text);
+    text-align: left; /* Ensure pre elements in code windows are left-aligned */
+}
+
+.code-window .code-content code {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+    background: none;
+    padding: 0;
+    border: none;
+    text-align: left; /* Ensure code elements in code windows are left-aligned */
+}
+
+/* Enhanced copy button for code blocks */
+.copy-code-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.8);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    transition: all 0.2s ease;
+    font-family: var(--font-mono);
+    backdrop-filter: blur(10px);
+}
+
+/* Critical Rule: Ensure ALL code text is left-aligned and never centered */
+.highlight,
+.highlight pre,
+.highlight code,
+.code-window,
+.code-window .code-content,
+.code-window .code-content pre,
+.code-window .code-content code,
+.code-block,
+.code-block pre,
+.code-block code,
+pre code,
+code {
+    text-align: left !important;
+    white-space: pre-wrap !important;
+    word-wrap: break-word;
+}
+
+.copy-code-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.copy-code-btn:active {
+    transform: translateY(0);
+}
+
+.copy-code-btn.copied {
+    background: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: white;
+    box-shadow: 0 0 20px rgba(78, 205, 196, 0.4);
+}
+
+.copy-code-btn svg {
+    width: 14px;
+    height: 14px;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+/* Enhanced inline code */
+code:not(.highlight code) {
+    background: var(--bg-tertiary);
+    color: var(--primary-color);
+    padding: 0.2rem 0.4rem;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    font-weight: 600;
+    border: 1px solid var(--border-color);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    text-align: left; /* Ensure inline code is also left-aligned */
+}
+
+/* Dark mode inline code */
+[data-theme="dark"] code:not(.highlight code) {
+    background: var(--bg-tertiary);
+    color: #79c0ff;
+    border-color: var(--border-color);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+    text-align: left; /* Ensure dark mode inline code is also left-aligned */
+}
+
+/* Improved line numbers styling */
+.has-line-numbers {
+    display: flex;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--code-header-bg);
+    box-shadow: 1px 0 0 0 var(--code-border), 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.line-numbers {
+    /* background: linear-gradient(180deg, var(--code-header-bg) 80%, var(--bg-secondary) 100%); */
+    /* color: var(--text-light); */
+    /* padding: var(--spacing-lg) var(--spacing-sm) var(--spacing-lg) var(--spacing-lg); */
+    /* font-family: var(--font-mono); */
+    /* font-size: 0.88rem; */
+    /* line-height: 1.6; */
+    /* user-select: none; */
+    /* text-align: right; */
+    /* border-right: 2px solid var(--code-border); */
+    /* margin-right: var(--spacing-md); */
+    /* min-width: 3ch; */
+    /* opacity: 0.85; */
+    /* letter-spacing: 0.02em; */
+    /* box-shadow: 2px 0 8px 0 rgba(0,0,0,0.03); */
+    /* transition: background 0.2s, color 0.2s; */
+    display: none;
+} /* Get rid of line numbers for now cause they are not working properly */
+
+.line-numbers:hover {
+    background: var(--bg-tertiary);
+    color: var(--primary-color);
+    opacity: 1;
+}
+
+.has-line-numbers pre {
+    flex: 1;
+    margin: 0;
+    padding-left: 0;
+}
+
+@media (max-width: 768px) {
+    .line-numbers {
+        padding: var(--spacing-md) var(--spacing-xs) var(--spacing-md) var(--spacing-sm);
+        margin-right: var(--spacing-sm);
+        font-size: 0.78rem;
+    }
+}
+
+/* Code window hover effects */
+.code-window {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+}
+
+.code-window:hover {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
+[data-theme="dark"] .code-window:hover {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Enhanced code selection */
+.highlight pre::selection,
+.highlight code::selection {
+    background: rgba(79, 172, 254, 0.3);
+    color: inherit;
+}
+
+.highlight pre::-moz-selection,
+.highlight code::-moz-selection {
+    background: rgba(79, 172, 254, 0.3);
+    color: inherit;
+}
+
+/* Code block focus indicators */
+.code-window:focus-within {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.1);
+}
+
+/* Syntax highlighting improvements for readability */
+.highlight {
+    font-variant-ligatures: common-ligatures;
+    font-feature-settings: "calt", "liga";
+    text-rendering: optimizeLegibility;
+}
+
+/* Better scrollbar for code blocks */
+.highlight::-webkit-scrollbar {
+    height: 8px;
+    background: var(--code-header-bg);
+}
+
+.highlight::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.highlight::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Enhanced code content styling */
+.code-content {
+    position: relative;
+    overflow: hidden;
+}
+
+.code-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+}
+
+/* Mobile optimizations for code blocks */
+@media (max-width: 768px) {
+    .code-window {
+        margin: var(--spacing-md) -var(--spacing-md);
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        transform: none;
+    }
+    
+    .code-window:hover {
+        transform: none;
+    }
+    
+    .code-header {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+    
+    .code-content {
+        padding: var(--spacing-md);
+    }
+    
+    .highlight {
+        font-size: 0.8rem;
+        padding: var(--spacing-md);
+    }
+    
+    .line-numbers {
+        padding: var(--spacing-md) var(--spacing-xs) var(--spacing-md) var(--spacing-sm);
+        margin-right: var(--spacing-sm);
+        font-size: 0.75rem;
+    }
+}
+
+/* Better typography for code */
+.highlight,
+.highlight pre,
+.highlight code {
+    font-variant-ligatures: common-ligatures;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Code language indicator */
+.code-header::after {
+    content: attr(data-language);
+    font-size: 0.75rem;
+    color: var(--text-light);
+    opacity: 0.7;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2px 6px;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Improved code editor textarea styling */
+#code-editor {
+    background: var(--code-bg);
+    color: var(--code-text);
+    border: 1px solid var(--code-border);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    padding: var(--spacing-lg);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    resize: vertical;
+    min-height: 200px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+#code-editor:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+}
+
+/* Enhanced output styling */
+.output-content {
+    background: var(--code-bg);
+    color: var(--code-text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    padding: var(--spacing-lg);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    border: 1px solid var(--code-border);
+    border-top: none;
+    min-height: 100px;
+}
+
+.output-line {
+    padding: 2px 0;
+    border-left: 3px solid var(--secondary-color);
+    padding-left: var(--spacing-sm);
+    margin: 4px 0;
+    background: rgba(78, 205, 196, 0.05);
+    border-radius: 0 3px 3px 0;
+}
+
+.output-placeholder {
+    color: var(--text-light);
+    font-style: italic;
+    opacity: 0.7;
+}
+
+/* Advanced code styling effects */
+.highlight .token.important {
+    font-weight: 700;
+    color: #ff7b72;
+}
+
+.highlight .token.bold {
+    font-weight: 700;
+}
+
+.highlight .token.italic {
+    font-style: italic;
+}
+
+/* Code block animations */
+@keyframes codeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.code-window {
+    animation: codeSlideIn 0.6s ease-out;
+}
+
+/* Responsive font sizing for code */
+@media (max-width: 480px) {
+    .highlight,
+    #code-editor,
+    .output-content {
+        font-size: 0.75rem;
+    }
+    
+    .code-header {
+        font-size: 0.8rem;
+    }
+}
+
+/* Additional enhancements for better code presentation */
+
+/* Hero section code block special styling */
+.hero-code .code-window {
+    max-width: 600px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hero-code .code-header {
+    background: linear-gradient(135deg, var(--code-header-bg), rgba(45, 45, 45, 0.9));
+}
+
+/* Enhanced code window dots */
+.code-dots {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.code-dots .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.code-dots .dot.red { 
+    background: linear-gradient(135deg, #ff5f57, #ff3b30); 
+}
+
+.code-dots .dot.yellow { 
+    background: linear-gradient(135deg, #ffbd2e, #ff9500); 
+}
+
+.code-dots .dot.green { 
+    background: linear-gradient(135deg, #28ca42, #30d158); 
+}
+
+/* Improved code title styling */
+.code-title {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    margin-left: auto;
+    margin-right: auto;
+    flex: 1;
+    text-align: center;
+}
+
+/* Enhanced tabs for examples */
+.examples-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: var(--spacing-xl);
+    background: var(--bg-tertiary);
+    padding: 4px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+}
+
+.tab-button {
+    background: transparent;
+    border: none;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-md);
+    font-family: var(--font-family);
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.tab-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.6s ease;
+}
+
+.tab-button:hover::before {
+    left: 100%;
+}
+
+.tab-button.active,
+.tab-button:hover {
+    background: var(--bg-card);
+    color: var(--primary-color);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-1px);
+}
+
+.tab-button.active {
+    background: var(--primary-color);
+    color: white;
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
+/* Tab content animations */
+.tab-content {
+    display: none;
+    animation: fadeInUp 0.4s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Enhanced install command styling */
+.code-block {
+    position: relative;
+    background: var(--code-bg);
+    border: 1px solid var(--code-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin: var(--spacing-md) 0;
+}
+
+.code-block code {
+    display: block;
+    padding: var(--spacing-lg);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--code-text);
+    background: none;
+    border: none;
+    font-weight: 500;
+    text-align: left; /* Ensure code block content is left-aligned */
+    white-space: pre-wrap; /* Allow proper line wrapping */
+}
+
+.copy-btn {
+    position: absolute;
+    top: 50%;
+    right: var(--spacing-md);
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.8);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(10px);
+}
+
+.copy-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    transform: translateY(-50%) translateY(-1px);
+}
+
+.copy-btn.copied {
+    background: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: white;
+}
+
+/* Improved install command in footer */
+.install-command {
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    border: 1px solid var(--code-border);
+    display: inline-block;
+    margin-top: var(--spacing-sm);
+    position: relative;
+    overflow: hidden;
+}
+
+.install-command::before {
+    content: '$';
+    color: var(--secondary-color);
+    margin-right: var(--spacing-xs);
+    font-weight: 600;
+}
+
+/* Quick reference code snippets */
+.code-snippet {
+    background: var(--code-bg);
+    border: 1px solid var(--code-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin-top: var(--spacing-md);
+}
+
+.code-snippet pre {
+    margin: 0;
+    padding: var(--spacing-md);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--code-text);
+    background: none;
+    overflow-x: auto;
+    text-align: left; /* Ensure code snippets are left-aligned */
+    white-space: pre-wrap; /* Allow proper line wrapping */
+}
+
+.code-snippet code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+    text-align: left; /* Ensure code snippet content is left-aligned */
+}
+
+/* Enhanced responsive design for code blocks */
+@media (max-width: 768px) {
+    .code-window {
+        font-size: 0.8rem;
+    }
+    
+    .code-title {
+        font-size: 0.75rem;
+    }
+    
+    .code-dots .dot {
+        width: 10px;
+        height: 10px;
+    }
+    
+    .examples-tabs {
+        flex-direction: column;
+        gap: 2px;
+    }
+    
+    .tab-button {
+        text-align: center;
+        padding: var(--spacing-sm);
+    }
+    
+    .code-block code {
+        font-size: 0.8rem;
+        padding: var(--spacing-md);
+    }
+    
+    .copy-btn {
+        position: relative;
+        top: auto;
+        right: auto;
+        transform: none;
+        margin-top: var(--spacing-sm);
+        display: block;
+        width: 100%;
+    }
+}
+
+/* Dark mode specific improvements */
+[data-theme="dark"] .code-window {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .tab-button.active {
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+}
+
+[data-theme="dark"] .code-block {
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Light mode specific improvements */
+[data-theme="light"] .code-window {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .code-block {
+    background: #f8f9fa;
+    border-color: #e9ecef;
+}
+
+[data-theme="light"] .code-block code {
+    color: #495057;
+}
+
+/* Print styles for code blocks */
+@media print {
+    .code-window,
+    .code-block {
+        break-inside: avoid;
+        border: 1px solid #ccc;
+        background: white !important;
+    }
+    
+    .code-content,
+    .code-block code {
+        color: black !important;
+        background: white !important;
+    }
+    
+    .copy-btn,
+    .copy-code-btn {
+        display: none !important;
+    }
+}
+
+
+.language-badge {
+    display: none !important;
+}

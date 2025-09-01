@@ -1,0 +1,190 @@
+---
+import Layout from '../layouts/Layout.astro';
+import LiveActivity from '../components/LiveActivity.tsx';
+import StatsPanel from '../components/StatsPanel.tsx';
+
+// Load banner data (same logic as index)
+let banner = null;
+try {
+  const bannerData = await fetch(new URL('/banner.json', Astro.url.origin));
+  if (bannerData.ok) {
+    const banners = await bannerData.json();
+    if (banners && banners.length > 0) {
+      const idx = Math.floor(Date.now() / 30000) % banners.length;
+      banner = banners[idx];
+    }
+  }
+} catch (e) {
+  // Banner file not found or invalid, use null
+}
+---
+
+<Layout title="What's Happening · Clyp" banner={banner}>
+  <div class="page-header">
+    <div class="container">
+      <h1>What's Happening</h1>
+      <p>Stay connected with the latest developments in the Clyp ecosystem</p>
+    </div>
+  </div>
+
+  <!-- Dashboard Layout -->
+  <section class="activity-dashboard">
+    <div class="container">
+      <div class="dashboard-grid">
+        <!-- Live Activity Feed -->
+        <LiveActivity client:load />
+
+        <!-- Stats Panel -->
+        <StatsPanel client:load />
+      </div>
+    </div>
+  </section>
+
+  <!-- Community Section -->
+  <section class="community-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Join the Community</h2>
+        <p>Connect with other Clyp developers and contributors</p>
+      </div>
+      
+      <div class="community-grid">
+        <div class="community-card">
+          <div class="community-icon"><i class="fas fa-comments"></i></div>
+          <h3>Discussions</h3>
+          <p>Join conversations about features, ask questions, and share ideas with the community.</p>
+          <a href="https://github.com/clyplang/clyp/discussions" target="_blank" class="community-link">
+            Join Discussions →
+          </a>
+        </div>
+        
+        <div class="community-card">
+          <div class="community-icon"><i class="fas fa-bug"></i></div>
+          <h3>Issues & Bugs</h3>
+          <p>Report bugs, request features, or help solve existing issues to improve Clyp.</p>
+          <a href="https://github.com/clyplang/clyp/issues" target="_blank" class="community-link">
+            View Issues →
+          </a>
+        </div>
+        
+        <div class="community-card">
+          <div class="community-icon"><i class="fas fa-handshake"></i></div>
+          <h3>Contributing</h3>
+          <p>Help make Clyp better by contributing code, documentation, or testing.</p>
+          <a href="https://github.com/clyplang/clyp/blob/main/CONTRIBUTING.md" target="_blank" class="community-link">
+            Start Contributing →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+/* Dashboard Layout for What's Happening page */
+.activity-dashboard {
+  padding: var(--spacing-2xl) 0 var(--spacing-4xl);
+  background: var(--bg-primary);
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--spacing-2xl);
+  align-items: start;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-xl);
+}
+
+.community-section {
+  background: var(--bg-secondary);
+  padding: var(--spacing-4xl) 0;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: var(--spacing-4xl);
+}
+
+.section-header h2 {
+  font-size: 2rem;
+  margin-bottom: var(--spacing-md);
+}
+
+.section-header p {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+.community-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-xl);
+}
+
+.community-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.community-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-color);
+}
+
+.community-icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-lg);
+}
+
+.community-card h3 {
+  margin-bottom: var(--spacing-md);
+  color: var(--text-primary);
+}
+
+.community-card p {
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-lg);
+  line-height: 1.6;
+}
+
+.community-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.community-link:hover {
+  color: var(--primary-hover);
+}
+
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+  }
+}
+
+@media (max-width: 768px) {
+  .activity-dashboard {
+    padding: var(--spacing-xl) 0;
+  }
+  
+  .dashboard-grid {
+    gap: var(--spacing-lg);
+  }
+  
+  .community-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+}
+</style>

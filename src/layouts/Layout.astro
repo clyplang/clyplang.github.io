@@ -1,0 +1,119 @@
+---
+import { InteractiveProvider } from '../components/InteractiveProvider';
+
+export interface Props {
+  title?: string;
+  banner?: {
+    text: string;
+    link?: string;
+    link_text?: string;
+  };
+}
+
+const { title = "Clyp - Modern Programming Language", banner } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F1LCQV9XBW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-F1LCQV9XBW');
+    </script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>{title}</title>
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/syntax.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/css/all.min.css">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3e%3cpath d='M50 15L35 35h10v35h10V35h10L50 15z' fill='%23ff6b35'/%3e%3cpath d='M25 65h50v10H25z' fill='%23ff6b35'/%3e%3c/svg%3e">
+</head>
+
+<body>
+    <!-- Interactive Provider - wraps all interactive functionality -->
+    <InteractiveProvider client:load currentPage={currentPath}>
+        <!-- Navigation -->
+        <nav class="nav">
+            <div class="container">
+                <div class="nav-container">
+                    <a href="/" class="nav-brand">
+                        <i class="fas fa-fire"></i> Clyp
+                    </a>
+                    <ul class="nav-links">
+                        <li><a href="/" class:list={["nav-link", { active: currentPath === "/" }]}>Home</a></li>
+                        <li><a href="/examples" class:list={["nav-link", { active: currentPath === "/examples" }]}>Examples</a></li>
+                        <li><a href="https://clypdocs.codesft.dev" class="nav-link" target="_blank">Docs</a></li>
+                        <li><a href="/whats-happening" class:list={["nav-link", { active: currentPath === "/whats-happening" }]}>What's Happening</a></li>
+                        <li><a href="https://github.com/clyplang/clyp" class="nav-link" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Banner (if present) -->
+        {banner && (
+            <div class="banner">
+                <span>{banner.text}</span>
+                {banner.link && banner.link_text && (
+                    <a href={banner.link}>{banner.link_text}</a>
+                )}
+            </div>
+        )}
+
+        <!-- Main Content -->
+        <main>
+            <slot />
+        </main>
+
+        <!-- Footer -->
+        <footer class="py-4" style="border-top: 1px solid var(--border-subtle); margin-top: var(--spacing-4xl);">
+            <div class="container">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--spacing-2xl); margin-bottom: var(--spacing-xl);">
+                    <div>
+                        <h3 style="margin-bottom: var(--spacing-md);"><i class="fas fa-fire"></i> Clyp</h3>
+                        <p style="color: var(--text-secondary);">A modern programming language that transpiles to Python</p>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: var(--spacing-md);">Quick Links</h4>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="margin-bottom: var(--spacing-sm);"><a href="/">Home</a></li>
+                            <li style="margin-bottom: var(--spacing-sm);"><a href="/examples">Examples</a></li>
+                            <li style="margin-bottom: var(--spacing-sm);"><a href="https://clypdocs.codesft.dev" target="_blank">Documentation</a></li>
+                            <li style="margin-bottom: var(--spacing-sm);"><a href="https://github.com/clyplang/clyp" target="_blank">GitHub</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: var(--spacing-md);">Install</h4>
+                        <code style="background: var(--code-bg); padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--radius-md); font-family: var(--font-mono);">pip install clyp</code>
+                    </div>
+                </div>
+                <div style="text-align: center; padding-top: var(--spacing-xl); border-top: 1px solid var(--border-subtle); color: var(--text-muted);">
+                    <p>&copy; 2025 Clyp. Open source under MIT License.</p>
+                </div>
+            </div>
+        </footer>
+    </InteractiveProvider>
+</body>
+</html>

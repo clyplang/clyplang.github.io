@@ -1,0 +1,248 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { EXAMPLES } from '../utils/clyp-highlighter';
+
+// Load banner data (same logic as index)
+let banner = null;
+try {
+  const bannerData = await fetch(new URL('/banner.json', Astro.url.origin));
+  if (bannerData.ok) {
+    const banners = await bannerData.json();
+    if (banners && banners.length > 0) {
+      const idx = Math.floor(Date.now() / 30000) % banners.length;
+      banner = banners[idx];
+    }
+  }
+} catch (e) {
+  // Banner file not found or invalid, use null
+}
+
+// Group examples by category
+const exampleCategories = {
+  'Getting Started': ['hello_world'],
+  'Data & Structures': ['data_structures'],
+  'Advanced Features': ['advanced']
+};
+---
+
+<Layout title="Examples - Clyp Programming Language" banner={banner}>
+  <!-- Hero Section -->
+  <div class="page-header">
+    <div class="container">
+      <h1>Code Examples</h1>
+      <p>Explore Clyp's features through practical examples</p>
+    </div>
+  </div>
+
+  <!-- Code Examples -->
+  <section class="examples-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Learn Clyp</h2>
+        <p>Practical examples to get you started</p>
+      </div>
+      
+      <div class="examples-grid">
+        {Object.entries(exampleCategories).map(([category, examples]) => (
+          <div class="category-section">
+            <h3>{category}</h3>
+            <div class="examples-list">
+              {examples.map(exampleKey => {
+                const example = EXAMPLES[exampleKey];
+                if (!example) return null;
+                return (
+                  <div class="example-card">
+                    <h4>{example.title}</h4>
+                    <p>{example.description}</p>
+                    <div class="code-window">
+                      <div class="code-header">
+                        <div class="code-dots">
+                          <span class="dot red"></span>
+                          <span class="dot yellow"></span>
+                          <span class="dot green"></span>
+                        </div>
+                        <span class="code-title">{exampleKey}.clyp</span>
+                      </div>
+                      <div class="code-content">
+                        <div set:html={example.highlighted_code || `<pre><code>${example.code}</code></pre>`}></div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }).filter(Boolean)}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Ready to Start Section -->
+  <section class="ready-section">
+    <div class="container">
+      <div class="ready-content">
+        <h2>Ready to try Clyp yourself?</h2>
+        <p>Install Clyp and start experimenting with these examples on your local machine.</p>
+        <div class="install-command">
+          <code>pip install clyp</code>
+          <button class="copy-btn" onclick="copyToClipboard('pip install clyp')">Copy</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+.examples-section {
+  padding: var(--spacing-4xl) 0;
+  background: var(--bg-primary);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: var(--spacing-4xl);
+}
+
+.section-header h2 {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-lg);
+}
+
+.section-header p {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+.examples-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4xl);
+}
+
+.category-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: var(--spacing-xl);
+  color: var(--text-primary);
+}
+
+.examples-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: var(--spacing-xl);
+}
+
+.example-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.example-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.example-card h4 {
+  margin-bottom: var(--spacing-md);
+  color: var(--text-primary);
+}
+
+.example-card p {
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-lg);
+}
+
+.ready-section {
+  background: var(--bg-secondary);
+  padding: var(--spacing-4xl) 0;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.ready-content {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.ready-content h2 {
+  font-size: 2rem;
+  margin-bottom: var(--spacing-lg);
+}
+
+.ready-content p {
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-xl);
+}
+
+.install-command {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  background: var(--code-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  margin: 0 auto;
+  max-width: 400px;
+  min-width: 320px;
+}
+
+.install-command code {
+  font-family: var(--font-mono);
+  color: var(--text-accent);
+  font-size: 1rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.copy-btn {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.copy-btn:hover {
+  background: var(--primary-hover);
+}
+
+@media (max-width: 768px) {
+  .examples-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .install-command {
+    flex-direction: column;
+    gap: var(--spacing-md);
+    max-width: 280px;
+    text-align: center;
+  }
+  
+  .install-command code {
+    text-align: center;
+  }
+}
+</style>
+
+<script>
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.target;
+    const originalText = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(() => {
+      btn.textContent = originalText;
+    }, 2000);
+  });
+}
+</script>
