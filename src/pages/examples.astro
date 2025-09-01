@@ -179,20 +179,23 @@ const exampleCategories = {
 .install-command {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: var(--spacing-md);
   background: var(--code-bg);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   padding: var(--spacing-lg);
   margin: 0 auto;
-  max-width: 300px;
+  max-width: 400px;
+  min-width: 320px;
 }
 
 .install-command code {
   font-family: var(--font-mono);
   color: var(--text-accent);
   font-size: 1rem;
+  flex: 1;
+  min-width: 0;
 }
 
 .copy-btn {
@@ -203,7 +206,10 @@ const exampleCategories = {
   border-radius: var(--radius-md);
   cursor: pointer;
   font-size: 0.9rem;
-  transition: background-color 0.2s ease;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .copy-btn:hover {
@@ -217,7 +223,13 @@ const exampleCategories = {
   
   .install-command {
     flex-direction: column;
-    gap: var(--spacing-sm);
+    gap: var(--spacing-md);
+    max-width: 280px;
+    text-align: center;
+  }
+  
+  .install-command code {
+    text-align: center;
   }
 }
 </style>

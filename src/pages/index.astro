@@ -320,6 +320,7 @@ try {
   color: var(--text-accent);
   font-size: 1rem;
   flex: 1;
+  min-width: 0;
 }
 
 .copy-btn {
@@ -402,7 +403,11 @@ try {
   
   .install-command {
     flex-direction: column;
-    gap: var(--spacing-sm);
+    gap: var(--spacing-md);
+    text-align: center;
+  }
+  
+  .install-command code {
     text-align: center;
   }
   
