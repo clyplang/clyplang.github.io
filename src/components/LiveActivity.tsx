@@ -94,39 +94,64 @@ const LiveActivity: React.FC<LiveActivityProps> = ({ className = '' }) => {
   return (
     <div className={`live-activity ${className}`}>
       <div className="activity-header">
-        <h2>Live Activity</h2>
-        <p>Real-time updates from the Clyp repository</p>
+        <div className="header-content">
+          <div>
+            <h2>🔴 Live Activity</h2>
+            <p>Real-time updates from the Clyp repository</p>
+          </div>
+        </div>
       </div>
 
       <div className="activity-content">
         {loading ? (
-          <div className="loading">Loading latest activity...</div>
+          <div className="skeleton-container">
+            <div className="activity-loading">
+              <div className="loading-spinner"></div>
+              <p>Loading latest activity...</p>
+            </div>
+          </div>
         ) : error ? (
-          <div className="error">
+          <div className="activity-error">
+            <div className="error-icon">⚠️</div>
             <p>{error}</p>
-            <button onClick={() => fetchActivities()}>Try Again</button>
+            <button className="retry-button" onClick={() => fetchActivities()}>
+              Try Again
+            </button>
           </div>
         ) : activities.length === 0 ? (
-          <div className="empty">No recent activity</div>
+          <div className="activity-empty">
+            <div className="empty-icon">📭</div>
+            <p>No recent activity</p>
+          </div>
         ) : (
-          <div className="activity-list">
-            {activities.map((activity) => (
+          <div className="activity-timeline">
+            {activities.map((activity, index) => (
               <div 
                 key={activity.id}
-                className="activity-item"
+                className={`activity-card activity-card--visible`}
                 onClick={() => typeof window !== 'undefined' && window.open(activity.url, '_blank')}
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="activity-type">
-                  {activity.type === 'release' ? '🚀' : '🔄'}
+                <div className={`activity-icon`} data-type={activity.type}>
+                  {activity.type === 'release' ? '🚀' : 
+                   activity.type === 'pr' ? '🔄' : 
+                   activity.type === 'commit' ? '📝' : '🐛'}
                 </div>
-                <div className="activity-details">
-                  <h3>{activity.title}</h3>
-                  <p>{activity.description}</p>
+                <div className="activity-content">
+                  <h3 className="activity-title">{activity.title}</h3>
+                  <p className="activity-description">{activity.description}</p>
                   <div className="activity-meta">
-                    {activity.author && <span>by {activity.author}</span>}
-                    <span>{formatDate(activity.date)}</span>
+                    {activity.author && (
+                      <div className="activity-author">
+                        <span>👤 {activity.author}</span>
+                      </div>
+                    )}
+                    <div className="activity-time">
+                      {formatDate(activity.date)}
+                    </div>
                   </div>
                 </div>
+                <div className="activity-hover-indicator">→</div>
               </div>
             ))}
           </div>
