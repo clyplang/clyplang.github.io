@@ -73,10 +73,46 @@ try {
         <h2>Get Started with Clyp</h2>
         <p>Install Clyp and start building amazing things today</p>
       </div>
-      <div class="install-command">
-        <code>pip install clyp</code>
-        <button class="copy-btn" onclick="copyToClipboard('pip install clyp')">Copy</button>
+      
+      <!-- Installation Options -->
+      <div class="install-options">
+        <!-- Default pip install -->
+        <div class="install-option primary">
+          <div class="install-header">
+            <div class="install-icon">🐍</div>
+            <div class="install-details">
+              <h3>Universal Install</h3>
+              <p>Works on all platforms with Python</p>
+            </div>
+          </div>
+          <div class="install-command">
+            <code>pip install clyp</code>
+            <button class="copy-btn" onclick="copyToClipboard('pip install clyp')">Copy</button>
+          </div>
+        </div>
+        
+        <!-- Windows x86-64 installer -->
+        <div class="install-option">
+          <div class="install-header">
+            <div class="install-icon">🪟</div>
+            <div class="install-details">
+              <h3>Windows x86-64</h3>
+              <p>Native installer for Windows systems</p>
+            </div>
+          </div>
+          <div class="install-command">
+            <a href="https://github.com/clyplang/clypinstaller/releases/latest/download/install.exe" class="download-btn">
+              <span>Download installer.exe</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7,10 12,15 17,10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </a>
+          </div>
+        </div>
       </div>
+      
       <div class="next-steps">
         <p>Ready to explore? Check out our <a href="/examples">examples</a> or read the <a href="https://clypdocs.codesft.dev" target="_blank">documentation</a>.</p>
       </div>
@@ -207,22 +243,83 @@ try {
   background: var(--bg-secondary);
 }
 
-.install-command {
+.install-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: var(--spacing-xl);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.install-option {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+  transition: all 0.3s ease;
+}
+
+.install-option.primary {
+  border: 2px solid var(--primary-color);
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%);
+  box-shadow: var(--glow-primary);
+}
+
+.install-option:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-color);
+}
+
+.install-option.primary:hover {
+  box-shadow: var(--shadow-glow);
+}
+
+.install-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.install-icon {
+  font-size: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 50px;
+  height: 50px;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-lg);
+}
+
+.install-details h3 {
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xs);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.install-details p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.install-command {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: var(--spacing-md);
   background: var(--code-bg);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   padding: var(--spacing-lg);
-  margin: 0 auto var(--spacing-2xl);
-  max-width: 300px;
 }
 
 .install-command code {
   font-family: var(--font-mono);
   color: var(--text-accent);
+  font-size: 1rem;
+  flex: 1;
 }
 
 .copy-btn {
@@ -233,11 +330,42 @@ try {
   border-radius: var(--radius-md);
   cursor: pointer;
   font-size: 0.9rem;
-  transition: background-color 0.2s ease;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .copy-btn:hover {
   background: var(--primary-hover);
+  transform: scale(1.05);
+}
+
+.download-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background: var(--gradient-primary);
+  color: white;
+  text-decoration: none;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  transition: all 0.2s ease;
+  flex: 1;
+  justify-content: center;
+}
+
+.download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.download-btn svg {
+  transition: transform 0.2s ease;
+}
+
+.download-btn:hover svg {
+  transform: translateY(2px);
 }
 
 .next-steps {
@@ -267,24 +395,58 @@ try {
     gap: var(--spacing-md);
   }
   
+  .install-options {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+  
   .install-command {
     flex-direction: column;
     gap: var(--spacing-sm);
+    text-align: center;
+  }
+  
+  .download-btn {
+    width: 100%;
   }
 }
 </style>
 
 <script>
 function copyToClipboard(text) {
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = event?.target;
-    if (btn) {
-      const originalText = btn.textContent;
-      btn.textContent = 'Copied!';
-      setTimeout(() => {
-        btn.textContent = originalText;
-      }, 2000);
-    }
-  });
+  if (typeof window !== 'undefined' && navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = event?.target;
+      if (btn) {
+        const originalText = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(() => {
+          btn.textContent = originalText;
+        }, 2000);
+      }
+    }).catch(() => {
+      // Fallback for browsers that don't support clipboard API
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      
+      const btn = event?.target;
+      if (btn) {
+        const originalText = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(() => {
+          btn.textContent = originalText;
+        }, 2000);
+      }
+    });
+  }
+}
+
+// Make function available globally
+if (typeof window !== 'undefined') {
+  window.copyToClipboard = copyToClipboard;
 }
 </script>
