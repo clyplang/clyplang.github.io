@@ -14,14 +14,19 @@ const LiveStats: React.FC = () => {
   });
 
   const updateLiveStats = async () => {
+    // Only run on client side
+    if (typeof window === 'undefined') return;
+    
     try {
-      const response = await fetch('/api/live_stats');
-      if (response.ok) {
-        const data = await response.json();
+      // Fetch directly from GitHub API (client-side)
+      const githubResponse = await fetch('https://api.github.com/repos/clyplang/clyp');
+      
+      if (githubResponse.ok) {
+        const githubData = await githubResponse.json();
         setStats({
-          pypi_downloads: data.pypi_downloads || 'N/A',
-          github_stars: data.github_stars || 'N/A',
-          github_commits: data.github_commits || 'N/A'
+          pypi_downloads: 'N/A', // PyPI stats not available client-side due to CORS
+          github_stars: githubData.stargazers_count || 'N/A',
+          github_commits: 'N/A' // Commits count requires additional API call with pagination
         });
       } else {
         setStats({

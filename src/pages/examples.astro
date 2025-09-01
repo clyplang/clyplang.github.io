@@ -1,5 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { InteractiveCodeEditor } from '../components/AdvancedInteractive';
+import { ShimmerEffect, GlowEffect } from '../components/FancyComponents';
 import { EXAMPLES } from '../utils/clyp-highlighter';
 
 // Load banner data (same logic as index)
@@ -29,10 +31,57 @@ const exampleCategories = {
   <!-- Hero Section -->
   <div class="page-header">
     <div class="container">
-      <h1>Code Examples</h1>
-      <p>Explore Clyp's features through practical, interactive examples</p>
+      <ShimmerEffect client:load trigger="auto" direction="left-to-right">
+        <h1>Interactive Code Examples</h1>
+      </ShimmerEffect>
+      <p>Explore Clyp's features through practical, interactive examples with live code editing</p>
     </div>
   </div>
+
+  <!-- Live Code Playground -->
+  <section class="examples-playground">
+    <div class="container">
+      <div class="playground-header">
+        <GlowEffect client:load color="primary" trigger="always" intensity="low">
+          <h2>🚀 Live Code Playground</h2>
+        </GlowEffect>
+        <p>Write, edit and experiment with Clyp code in real-time</p>
+      </div>
+      
+      <div class="playground-editor">
+        <InteractiveCodeEditor
+          client:load
+          initialCode={`# Welcome to the Clyp Playground!
+# Try editing this code and see how it works
+
+str greeting = "Hello, Clyp!";
+int count = 5;
+list<str> languages = ["Python", "JavaScript", "Clyp"];
+
+# Define a simple function
+func say_hello(str name, int times) -> str {
+    str result = "";
+    for (int i = 0; i < times; i++) {
+        result = result + "Hello, " + name + "! ";
+    }
+    return result;
+}
+
+# Use the function
+str message = say_hello("Developer", count);
+print(message);
+
+# Loop through languages
+for (lang in languages) {
+    print("I love " + lang);
+}`}
+          language="clyp"
+          showLineNumbers={true}
+          allowExecution={true}
+        />
+      </div>
+    </div>
+  </section>
 
   <!-- Interactive Example Browser -->
   <section class="examples-browser">
@@ -189,6 +238,38 @@ const exampleCategories = {
 </Layout>
 
 <style>
+.examples-playground {
+  padding: var(--spacing-4xl) 0;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.playground-header {
+  text-align: center;
+  margin-bottom: var(--spacing-4xl);
+}
+
+.playground-header h2 {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-lg);
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.playground-header p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.playground-editor {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .examples-browser {
   padding: var(--spacing-2xl) 0 var(--spacing-4xl);
 }

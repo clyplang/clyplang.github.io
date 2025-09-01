@@ -1,6 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { FeatureCard, AnimatedCounter, InteractiveButton } from '../components/InteractiveElements';
+import { FloatingActionButton, Tooltip, ShimmerEffect, GlowEffect, PulseIndicator } from '../components/FancyComponents';
+import { InteractiveCodeEditor, InteractiveStats } from '../components/AdvancedInteractive';
 import { EXAMPLES } from '../utils/clyp-highlighter';
 
 // Load banner data
@@ -26,36 +28,43 @@ try {
     <div class="container">
       <div class="hero-content">
         <div class="hero-text">
-          <h1 class="hero-title">
-            Meet <span class="text-gradient">Clyp</span>
-          </h1>
+          <ShimmerEffect client:load trigger="auto" direction="left-to-right">
+            <h1 class="hero-title">
+              Meet <span class="text-gradient">Clyp</span>
+            </h1>
+          </ShimmerEffect>
           <p class="hero-subtitle">
             A thoughtfully designed programming language that bridges the gap between 
             simplicity and power. Clean syntax meets Python's ecosystem.
           </p>
           <div class="hero-actions">
-            <InteractiveButton client:load href="#get-started" variant="primary">
-              Get Started
-            </InteractiveButton>
+            <GlowEffect client:load color="primary" trigger="hover">
+              <InteractiveButton client:load href="#get-started" variant="primary">
+                Get Started
+                <PulseIndicator client:load color="secondary" size="small" />
+              </InteractiveButton>
+            </GlowEffect>
             <InteractiveButton client:load href="/examples" variant="secondary">
               View Examples
             </InteractiveButton>
           </div>
         </div>
         <div class="hero-visual">
-          <div class="code-window">
-            <div class="code-header">
-              <div class="code-dots">
-                <span class="dot red"></span>
-                <span class="dot yellow"></span>
-                <span class="dot green"></span>
+          <GlowEffect client:load color="primary" intensity="low" trigger="always">
+            <div class="code-window">
+              <div class="code-header">
+                <div class="code-dots">
+                  <span class="dot red"></span>
+                  <span class="dot yellow"></span>
+                  <span class="dot green"></span>
+                </div>
+                <span class="code-title">hello.clyp</span>
               </div>
-              <span class="code-title">hello.clyp</span>
+              <div class="code-content">
+                <div set:html={EXAMPLES.hello_world.highlighted_code || EXAMPLES.hello_world.code}></div>
+              </div>
             </div>
-            <div class="code-content">
-              <div set:html={EXAMPLES.hello_world.highlighted_code || EXAMPLES.hello_world.code}></div>
-            </div>
-          </div>
+          </GlowEffect>
         </div>
       </div>
     </div>
@@ -65,96 +74,111 @@ try {
   <section class="features">
     <div class="container">
       <div class="section-header">
-        <h2>Why Choose Clyp?</h2>
+        <ShimmerEffect client:load trigger="auto">
+          <h2>Why Choose Clyp?</h2>
+        </ShimmerEffect>
         <p>Discover the features that make Clyp a powerful choice for modern development</p>
       </div>
       <div class="features-grid">
-        <FeatureCard 
-          client:load
-          icon="🎯"
-          title="Type Safety"
-          description="Clear variable declarations with robust type checking that catches errors before they happen."
-          delay={100}
-        />
-        <FeatureCard 
-          client:load
-          icon="⚡"
-          title="Intuitive Syntax"
-          description="C-like syntax that feels natural and reduces cognitive load while maintaining expressiveness."
-          delay={200}
-        />
-        <FeatureCard 
-          client:load
-          icon="🐍"
-          title="Python Ecosystem"
-          description="Seamless access to Python's vast library ecosystem - use any Python package natively."
-          delay={300}
-        />
-        <FeatureCard 
-          client:load
-          icon="📚"
-          title="Rich Standard Library"
-          description="Built-in functions for common tasks like file I/O, HTTP requests, and data manipulation."
-          delay={400}
-        />
-        <FeatureCard 
-          client:load
-          icon="🔄"
-          title="Functional Programming"
-          description="First-class support for functional patterns with the powerful pipeline operator."
-          delay={500}
-        />
-        <FeatureCard 
-          client:load
-          icon="🚀"
-          title="Modern Features"
-          description="Classes, pattern matching, async/await, and other modern language constructs."
-          delay={600}
-        />
+        <ShimmerEffect client:load trigger="hover">
+          <FeatureCard 
+            client:load
+            icon="🎯"
+            title="Type Safety"
+            description="Clear variable declarations with robust type checking that catches errors before they happen."
+            delay={100}
+          />
+        </ShimmerEffect>
+        <ShimmerEffect client:load trigger="hover">
+          <FeatureCard 
+            client:load
+            icon="⚡"
+            title="Intuitive Syntax"
+            description="C-like syntax that feels natural and reduces cognitive load while maintaining expressiveness."
+            delay={200}
+          />
+        </ShimmerEffect>
+        <ShimmerEffect client:load trigger="hover">
+          <FeatureCard 
+            client:load
+            icon="🐍"
+            title="Python Ecosystem"
+            description="Seamless access to Python's vast library ecosystem - use any Python package natively."
+            delay={300}
+          />
+        </ShimmerEffect>
+        <ShimmerEffect client:load trigger="hover">
+          <FeatureCard 
+            client:load
+            icon="📚"
+            title="Rich Standard Library"
+            description="Built-in functions for common tasks like file I/O, HTTP requests, and data manipulation."
+            delay={400}
+          />
+        </ShimmerEffect>
+        <ShimmerEffect client:load trigger="hover">
+          <FeatureCard 
+            client:load
+            icon="🔄"
+            title="Functional Programming"
+            description="First-class support for functional patterns with the powerful pipeline operator."
+            delay={500}
+          />
+        </ShimmerEffect>
+        <ShimmerEffect client:load trigger="hover">
+          <FeatureCard 
+            client:load
+            icon="🚀"
+            title="Modern Features"
+            description="Classes, pattern matching, async/await, and other modern language constructs."
+            delay={600}
+          />
+        </ShimmerEffect>
       </div>
     </div>
   </section>
 
-  <!-- Code Preview Section -->
+  <!-- Interactive Code Preview Section -->
   <section class="code-preview">
     <div class="container">
       <div class="section-header">
-        <h2>See Clyp in Action</h2>
-        <p>Experience the elegance and power of Clyp's syntax</p>
+        <h2>Try Clyp Interactive</h2>
+        <p>Experience Clyp syntax in real-time with our interactive code editor</p>
       </div>
-      <div class="preview-grid">
-        <div class="preview-item">
-          <h3>Simple & Clean</h3>
-          <div class="code-window">
-            <div class="code-header">
-              <div class="code-dots">
-                <span class="dot red"></span>
-                <span class="dot yellow"></span>
-                <span class="dot green"></span>
-              </div>
-              <span class="code-title">example.clyp</span>
-            </div>
-            <div class="code-content">
-              <div set:html={EXAMPLES.data_structures.highlighted_code || EXAMPLES.data_structures.code}></div>
-            </div>
-          </div>
-        </div>
-        <div class="preview-item">
-          <h3>Powerful Features</h3>
-          <div class="code-window">
-            <div class="code-header">
-              <div class="code-dots">
-                <span class="dot red"></span>
-                <span class="dot yellow"></span>
-                <span class="dot green"></span>
-              </div>
-              <span class="code-title">advanced.clyp</span>
-            </div>
-            <div class="code-content">
-              <div set:html={EXAMPLES.advanced.highlighted_code || EXAMPLES.advanced.code}></div>
-            </div>
-          </div>
-        </div>
+      
+      <div class="interactive-demo">
+        <InteractiveCodeEditor
+          client:load
+          initialCode={`str name = "World";
+int age = 25;
+bool is_programmer = true;
+
+# Define a greeting function
+func greet(str person) -> str {
+    return "Hello, " + person + "! Welcome to Clyp!";
+}
+
+# Call the function and display result
+str message = greet(name);
+print(message);
+print("Age: " + str(age));`}
+          language="clyp"
+          showLineNumbers={true}
+          allowExecution={true}
+        />
+      </div>
+
+      <!-- Interactive Statistics -->
+      <div class="stats-showcase">
+        <InteractiveStats
+          client:load
+          stats={[
+            { label: "Lines of Code", value: 1247, unit: "+", icon: "📝", trend: "up", color: "#7c3aed" },
+            { label: "GitHub Stars", value: 1250, unit: "⭐", icon: "⭐", trend: "up", color: "#f59e0b" },
+            { label: "Active Users", value: 156, unit: "", icon: "👥", trend: "up", color: "#10b981" },
+            { label: "Performance Boost", value: 85, unit: "%", icon: "⚡", trend: "up", color: "#06b6d4" }
+          ]}
+        />
       </div>
     </div>
   </section>
@@ -198,6 +222,17 @@ try {
       </div>
     </div>
   </section>
+
+  <!-- Floating Action Button for What's Happening -->
+  <Tooltip client:load content="See what's happening" position="left">
+    <FloatingActionButton 
+      client:load
+      icon="📈"
+      label="Activity"
+      onClick={() => window.location.href = '/whats-happening'}
+      position="bottom-right"
+    />
+  </Tooltip>
 </Layout>
 
 <style>
@@ -282,6 +317,19 @@ try {
   background: var(--bg-secondary);
   padding: var(--spacing-4xl) 0;
   border-bottom: 1px solid var(--border-subtle);
+}
+
+.interactive-demo {
+  margin: var(--spacing-4xl) 0;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.stats-showcase {
+  margin-top: var(--spacing-4xl);
+  padding-top: var(--spacing-4xl);
+  border-top: 1px solid var(--border-subtle);
 }
 
 .preview-grid {
