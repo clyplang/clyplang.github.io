@@ -96,7 +96,7 @@ const LiveActivity: React.FC<LiveActivityProps> = ({ className = '' }) => {
       <div className="activity-header">
         <div className="header-content">
           <div>
-            <h2>🔴 Live Activity</h2>
+            <h2><i className="fas fa-circle" style={{color: '#ff4444'}}></i> Live Activity</h2>
             <p>Real-time updates from the Clyp repository</p>
           </div>
         </div>
@@ -112,7 +112,7 @@ const LiveActivity: React.FC<LiveActivityProps> = ({ className = '' }) => {
           </div>
         ) : error ? (
           <div className="activity-error">
-            <div className="error-icon">⚠️</div>
+            <div className="error-icon"><i className="fas fa-exclamation-triangle"></i></div>
             <p>{error}</p>
             <button className="retry-button" onClick={() => fetchActivities()}>
               Try Again
@@ -120,7 +120,7 @@ const LiveActivity: React.FC<LiveActivityProps> = ({ className = '' }) => {
           </div>
         ) : activities.length === 0 ? (
           <div className="activity-empty">
-            <div className="empty-icon">📭</div>
+            <div className="empty-icon"><i className="fas fa-inbox"></i></div>
             <p>No recent activity</p>
           </div>
         ) : (
@@ -133,9 +133,9 @@ const LiveActivity: React.FC<LiveActivityProps> = ({ className = '' }) => {
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className={`activity-icon`} data-type={activity.type}>
-                  {activity.type === 'release' ? '🚀' : 
-                   activity.type === 'pr' ? '🔄' : 
-                   activity.type === 'commit' ? '📝' : '🐛'}
+                  {activity.type === 'release' ? <i className="fas fa-rocket"></i> : 
+                   activity.type === 'pr' ? <i className="fas fa-code-branch"></i> : 
+                   activity.type === 'commit' ? <i className="fas fa-edit"></i> : <i className="fas fa-bug"></i>}
                 </div>
                 <div className="activity-content">
                   <h3 className="activity-title">{activity.title}</h3>
@@ -143,7 +143,7 @@ const LiveActivity: React.FC<LiveActivityProps> = ({ className = '' }) => {
                   <div className="activity-meta">
                     {activity.author && (
                       <div className="activity-author">
-                        <span>👤 {activity.author}</span>
+                        <span><i className="fas fa-user"></i> {activity.author}</span>
                       </div>
                     )}
                     <div className="activity-time">

@@ -42,10 +42,13 @@ const currentPath = Astro.url.pathname;
     <!-- CSS -->
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/syntax.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/css/all.min.css">
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml"
-        href="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3e%3ctext y='.9em' font-size='90'%3e🔥%3c/text%3e%3c/svg%3e">
+        href="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3e%3cpath d='M50 15L35 35h10v35h10V35h10L50 15z' fill='%23ff6b35'/%3e%3cpath d='M25 65h50v10H25z' fill='%23ff6b35'/%3e%3c/svg%3e">
 </head>
 
 <body>
@@ -56,7 +59,7 @@ const currentPath = Astro.url.pathname;
             <div class="container">
                 <div class="nav-container">
                     <a href="/" class="nav-brand">
-                        🔥 Clyp
+                        <i class="fas fa-fire"></i> Clyp
                     </a>
                     <ul class="nav-links">
                         <li><a href="/" class:list={["nav-link", { active: currentPath === "/" }]}>Home</a></li>
@@ -89,7 +92,7 @@ const currentPath = Astro.url.pathname;
             <div class="container">
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--spacing-2xl); margin-bottom: var(--spacing-xl);">
                     <div>
-                        <h3 style="margin-bottom: var(--spacing-md);">🔥 Clyp</h3>
+                        <h3 style="margin-bottom: var(--spacing-md);"><i class="fas fa-fire"></i> Clyp</h3>
                         <p style="color: var(--text-secondary);">A modern programming language that transpiles to Python</p>
                     </div>
                     <div>

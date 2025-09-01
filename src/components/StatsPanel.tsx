@@ -65,7 +65,7 @@ const StatsPanel: React.FC = () => {
     <div className="stats-panel">
       <div className="stat-card">
         <div className="stat-header">
-          <h3>🚀 Recent Releases</h3>
+          <h3><i className="fas fa-rocket"></i> Recent Releases</h3>
           <div className="stat-indicator">
             {releases.length}
           </div>
@@ -79,7 +79,7 @@ const StatsPanel: React.FC = () => {
             </div>
           ) : releases.length === 0 ? (
             <div className="stat-empty">
-              <div className="empty-icon">📦</div>
+              <div className="empty-icon"><i className="fas fa-box"></i></div>
               <p>No releases found</p>
             </div>
           ) : (
@@ -107,7 +107,7 @@ const StatsPanel: React.FC = () => {
 
       <div className="stat-card">
         <div className="stat-header">
-          <h3>🔄 Pull Requests</h3>
+          <h3><i className="fas fa-code-branch"></i> Pull Requests</h3>
           <div className="stat-indicator">
             {pullRequests.length}
           </div>
@@ -121,7 +121,7 @@ const StatsPanel: React.FC = () => {
             </div>
           ) : pullRequests.length === 0 ? (
             <div className="stat-empty">
-              <div className="empty-icon">🔧</div>
+              <div className="empty-icon"><i className="fas fa-wrench"></i></div>
               <p>No open pull requests</p>
             </div>
           ) : (
@@ -149,7 +149,7 @@ const StatsPanel: React.FC = () => {
 
       <div className="stat-card">
         <div className="stat-header">
-          <h3>📊 Repository Stats</h3>
+          <h3><i className="fas fa-chart-bar"></i> Repository Stats</h3>
         </div>
         <div className="stat-content">
           <div className="stat-grid">
