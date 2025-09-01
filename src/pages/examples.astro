@@ -1,7 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { InteractiveCodeEditor } from '../components/AdvancedInteractive';
-import { ShimmerEffect, GlowEffect } from '../components/FancyComponents';
 import { EXAMPLES } from '../utils/clyp-highlighter';
 
 // Load banner data (same logic as index)
@@ -31,206 +29,63 @@ const exampleCategories = {
   <!-- Hero Section -->
   <div class="page-header">
     <div class="container">
-      <ShimmerEffect client:load trigger="auto" direction="left-to-right">
-        <h1>Interactive Code Examples</h1>
-      </ShimmerEffect>
-      <p>Explore Clyp's features through practical, interactive examples with live code editing</p>
+      <h1>Code Examples</h1>
+      <p>Explore Clyp's features through practical examples</p>
     </div>
   </div>
 
-  <!-- Live Code Playground -->
-  <section class="examples-playground">
+  <!-- Code Examples -->
+  <section class="examples-section">
     <div class="container">
-      <div class="playground-header">
-        <GlowEffect client:load color="primary" trigger="always" intensity="low">
-          <h2>🚀 Live Code Playground</h2>
-        </GlowEffect>
-        <p>Write, edit and experiment with Clyp code in real-time</p>
+      <div class="section-header">
+        <h2>Learn Clyp</h2>
+        <p>Practical examples to get you started</p>
       </div>
       
-      <div class="playground-editor">
-        <InteractiveCodeEditor
-          client:load
-          initialCode={`# Welcome to the Clyp Playground!
-# Try editing this code and see how it works
-
-str greeting = "Hello, Clyp!";
-int count = 5;
-list<str> languages = ["Python", "JavaScript", "Clyp"];
-
-# Define a simple function
-func say_hello(str name, int times) -> str {
-    str result = "";
-    for (int i = 0; i < times; i++) {
-        result = result + "Hello, " + name + "! ";
-    }
-    return result;
-}
-
-# Use the function
-str message = say_hello("Developer", count);
-print(message);
-
-# Loop through languages
-for (lang in languages) {
-    print("I love " + lang);
-}`}
-          language="clyp"
-          showLineNumbers={true}
-          allowExecution={true}
-        />
+      <div class="examples-grid">
+        {Object.entries(exampleCategories).map(([category, examples]) => (
+          <div class="category-section">
+            <h3>{category}</h3>
+            <div class="examples-list">
+              {examples.map(exampleKey => {
+                const example = EXAMPLES[exampleKey];
+                if (!example) return null;
+                return (
+                  <div class="example-card">
+                    <h4>{example.title}</h4>
+                    <p>{example.description}</p>
+                    <div class="code-window">
+                      <div class="code-header">
+                        <div class="code-dots">
+                          <span class="dot red"></span>
+                          <span class="dot yellow"></span>
+                          <span class="dot green"></span>
+                        </div>
+                        <span class="code-title">{exampleKey}.clyp</span>
+                      </div>
+                      <div class="code-content">
+                        <div set:html={example.highlighted_code || `<pre><code>${example.code}</code></pre>`}></div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }).filter(Boolean)}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- Interactive Example Browser -->
-  <section class="examples-browser">
+  <!-- Ready to Start Section -->
+  <section class="ready-section">
     <div class="container">
-      <div class="browser-layout">
-        <!-- Sidebar with Categories -->
-        <aside class="examples-sidebar">
-          <div class="sidebar-header">
-            <h3>Browse Examples</h3>
-          </div>
-          <nav class="examples-nav">
-            {Object.entries(exampleCategories).map(([category, examples]) => (
-              <div class="nav-category">
-                <h4 class="category-title">{category}</h4>
-                <ul class="category-examples">
-                  {examples.map(exampleKey => {
-                    const example = EXAMPLES[exampleKey];
-                    if (!example) return null;
-                    return (
-                      <li>
-                        <button 
-                          class="example-nav-btn" 
-                          data-example={exampleKey}
-                          onclick={`showExample('${exampleKey}')`}
-                        >
-                          {example.title}
-                        </button>
-                      </li>
-                    );
-                  }).filter(Boolean)}
-                </ul>
-              </div>
-            ))}
-          </nav>
-        </aside>
-
-        <!-- Main Content Area -->
-        <main class="examples-main">
-          <div class="example-viewer">
-            <div class="viewer-header">
-              <div class="example-info">
-                <h2 id="current-title">Choose an example</h2>
-                <p id="current-description">Select an example from the sidebar to get started</p>
-              </div>
-              <div class="viewer-actions">
-                <button class="action-btn" id="copy-btn" onclick="copyCurrentExample()" disabled>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
-                  </svg>
-                  Copy Code
-                </button>
-                <button class="action-btn" onclick="runExample()" disabled id="run-btn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M8 5v14l11-7z"/>
-                  </svg>
-                  Try Online
-                </button>
-              </div>
-            </div>
-            
-            <div class="code-display">
-              <div class="code-window">
-                <div class="code-header">
-                  <div class="code-dots">
-                    <span class="dot red"></span>
-                    <span class="dot yellow"></span>
-                    <span class="dot green"></span>
-                  </div>
-                  <span class="code-title" id="current-filename">example.clyp</span>
-                </div>
-                <div class="code-content" id="code-content">
-                  <div class="placeholder">
-                    <div class="placeholder-icon">📝</div>
-                    <p>Select an example to view its code</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Code explanation -->
-            <div class="code-explanation" id="code-explanation" style="display: none;">
-              <h3>What's happening here?</h3>
-              <div id="explanation-content"></div>
-            </div>
-          </div>
-        </main>
-      </div>
-    </div>
-  </section>
-
-  <!-- Quick Start Section -->
-  <section class="quick-start">
-    <div class="container">
-      <div class="quick-start-content">
-        <div class="quick-start-text">
-          <h2>Ready to try Clyp yourself?</h2>
-          <p>Install Clyp and start experimenting with these examples on your local machine.</p>
-          <div class="install-steps">
-            <div class="step">
-              <span class="step-number">1</span>
-              <div class="step-content">
-                <h4>Install Clyp</h4>
-                <code>pip install clyp</code>
-              </div>
-            </div>
-            <div class="step">
-              <span class="step-number">2</span>
-              <div class="step-content">
-                <h4>Create a file</h4>
-                <code>touch hello.clyp</code>
-              </div>
-            </div>
-            <div class="step">
-              <span class="step-number">3</span>
-              <div class="step-content">
-                <h4>Run your code</h4>
-                <code>clyp hello.clyp</code>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="quick-start-visual">
-          <div class="terminal-window">
-            <div class="terminal-header">
-              <div class="terminal-dots">
-                <span class="dot red"></span>
-                <span class="dot yellow"></span>
-                <span class="dot green"></span>
-              </div>
-              <span class="terminal-title">Terminal</span>
-            </div>
-            <div class="terminal-content">
-              <div class="terminal-line">
-                <span class="prompt">$</span>
-                <span class="command">pip install clyp</span>
-              </div>
-              <div class="terminal-line output">
-                <span>✓ Successfully installed clyp</span>
-              </div>
-              <div class="terminal-line">
-                <span class="prompt">$</span>
-                <span class="command">clyp hello.clyp</span>
-              </div>
-              <div class="terminal-line output">
-                <span>Hello, Clyp! 🎉</span>
-              </div>
-              <div class="terminal-cursor">█</div>
-            </div>
-          </div>
+      <div class="ready-content">
+        <h2>Ready to try Clyp yourself?</h2>
+        <p>Install Clyp and start experimenting with these examples on your local machine.</p>
+        <div class="install-command">
+          <code>pip install clyp</code>
+          <button class="copy-btn" onclick="copyToClipboard('pip install clyp')">Copy</button>
         </div>
       </div>
     </div>
@@ -238,434 +93,144 @@ for (lang in languages) {
 </Layout>
 
 <style>
-.examples-playground {
+.examples-section {
   padding: var(--spacing-4xl) 0;
   background: var(--bg-primary);
-  border-bottom: 1px solid var(--border-subtle);
 }
 
-.playground-header {
+.section-header {
   text-align: center;
   margin-bottom: var(--spacing-4xl);
 }
 
-.playground-header h2 {
+.section-header h2 {
   font-size: 2.5rem;
   margin-bottom: var(--spacing-lg);
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
-.playground-header p {
-  font-size: 1.1rem;
+.section-header p {
   color: var(--text-secondary);
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.playground-editor {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.examples-browser {
-  padding: var(--spacing-2xl) 0 var(--spacing-4xl);
-}
-
-.browser-layout {
-  display: grid;
-  grid-template-columns: 320px 1fr;
-  gap: var(--spacing-2xl);
-  min-height: 600px;
-}
-
-.examples-sidebar {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-xl);
-  padding: var(--spacing-xl);
-  position: sticky;
-  top: var(--spacing-xl);
-  height: fit-content;
-}
-
-.sidebar-header h3 {
-  margin-bottom: var(--spacing-lg);
-  color: var(--text-primary);
   font-size: 1.1rem;
 }
 
-.nav-category {
-  margin-bottom: var(--spacing-xl);
-}
-
-.category-title {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: var(--spacing-md);
-}
-
-.category-examples {
-  list-style: none;
-  padding: 0;
-}
-
-.category-examples li {
-  margin-bottom: var(--spacing-xs);
-}
-
-.example-nav-btn {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: none;
-  padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: var(--radius-md);
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 0.9rem;
-}
-
-.example-nav-btn:hover,
-.example-nav-btn.active {
-  background: var(--gradient-subtle);
-  color: var(--text-primary);
-}
-
-.examples-main {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-xl);
-  overflow: hidden;
-}
-
-.viewer-header {
-  padding: var(--spacing-xl);
-  border-bottom: 1px solid var(--border-color);
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.example-info h2 {
-  margin-bottom: var(--spacing-sm);
-  color: var(--text-primary);
-}
-
-.example-info p {
-  color: var(--text-secondary);
-  margin: 0;
-}
-
-.viewer-actions {
-  display: flex;
-  gap: var(--spacing-md);
-}
-
-.action-btn {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-sm) var(--spacing-md);
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 0.9rem;
-}
-
-.action-btn:not(:disabled):hover {
-  background: var(--primary-color);
-  color: white;
-  border-color: var(--primary-color);
-}
-
-.action-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.code-display {
-  padding: var(--spacing-xl);
-}
-
-.placeholder {
+.examples-grid {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 300px;
-  color: var(--text-muted);
-  text-align: center;
+  gap: var(--spacing-4xl);
 }
 
-.placeholder-icon {
-  font-size: 3rem;
-  margin-bottom: var(--spacing-lg);
+.category-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: var(--spacing-xl);
+  color: var(--text-primary);
 }
 
-.code-explanation {
+.examples-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: var(--spacing-xl);
+}
+
+.example-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
   padding: var(--spacing-xl);
-  border-top: 1px solid var(--border-color);
-  background: var(--gradient-subtle);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.code-explanation h3 {
+.example-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.example-card h4 {
   margin-bottom: var(--spacing-md);
   color: var(--text-primary);
 }
 
-.quick-start {
+.example-card p {
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-lg);
+}
+
+.ready-section {
   background: var(--bg-secondary);
   padding: var(--spacing-4xl) 0;
   border-top: 1px solid var(--border-subtle);
 }
 
-.quick-start-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-4xl);
-  align-items: center;
+.ready-content {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-.quick-start h2 {
+.ready-content h2 {
   font-size: 2rem;
   margin-bottom: var(--spacing-lg);
 }
 
-.quick-start p {
+.ready-content p {
   color: var(--text-secondary);
-  margin-bottom: var(--spacing-2xl);
+  margin-bottom: var(--spacing-xl);
 }
 
-.install-steps {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-lg);
-}
-
-.step {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-lg);
-}
-
-.step-number {
+.install-command {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  background: var(--gradient-primary);
-  color: white;
-  border-radius: 50%;
-  font-weight: 600;
-  font-size: 0.9rem;
+  gap: var(--spacing-md);
+  background: var(--code-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  margin: 0 auto;
+  max-width: 300px;
 }
 
-.step-content h4 {
-  margin-bottom: var(--spacing-xs);
-  color: var(--text-primary);
+.install-command code {
+  font-family: var(--font-mono);
+  color: var(--text-accent);
   font-size: 1rem;
 }
 
-.step-content code {
-  background: var(--code-bg);
+.copy-btn {
+  background: var(--primary-color);
+  color: white;
+  border: none;
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--radius-md);
-  font-family: var(--font-mono);
-  color: var(--text-accent);
+  cursor: pointer;
   font-size: 0.9rem;
+  transition: background-color 0.2s ease;
 }
 
-.terminal-window {
-  background: var(--code-bg);
-  border: 1px solid var(--code-border);
-  border-radius: var(--radius-xl);
-  overflow: hidden;
-  box-shadow: var(--shadow-lg);
-}
-
-.terminal-header {
-  background: var(--code-header-bg);
-  padding: var(--spacing-md) var(--spacing-lg);
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-md);
-  border-bottom: 1px solid var(--code-border);
-}
-
-.terminal-dots {
-  display: flex;
-  gap: var(--spacing-sm);
-}
-
-.terminal-title {
-  color: var(--text-accent);
-  font-family: var(--font-mono);
-  font-size: 0.9rem;
-}
-
-.terminal-content {
-  padding: var(--spacing-lg);
-  font-family: var(--font-mono);
-  font-size: 0.9rem;
-  line-height: 1.6;
-}
-
-.terminal-line {
-  margin-bottom: var(--spacing-sm);
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-}
-
-.prompt {
-  color: var(--secondary-color);
-  font-weight: 600;
-}
-
-.command {
-  color: var(--text-accent);
-}
-
-.output {
-  color: var(--text-secondary);
-  padding-left: 1.5rem;
-}
-
-.terminal-cursor {
-  color: var(--primary-color);
-  animation: blink 1s infinite;
-}
-
-@keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
-}
-
-@media (max-width: 1024px) {
-  .browser-layout {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-xl);
-  }
-  
-  .examples-sidebar {
-    position: static;
-  }
-  
-  .quick-start-content {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-2xl);
-  }
+.copy-btn:hover {
+  background: var(--primary-hover);
 }
 
 @media (max-width: 768px) {
-  .viewer-header {
-    flex-direction: column;
-    gap: var(--spacing-lg);
-    align-items: stretch;
+  .examples-list {
+    grid-template-columns: 1fr;
   }
   
-  .viewer-actions {
-    justify-content: flex-start;
+  .install-command {
+    flex-direction: column;
+    gap: var(--spacing-sm);
   }
 }
 </style>
 
-<script define:vars={{ examples: Object.fromEntries(Object.entries(EXAMPLES).map(([key, example]) => [key, {
-  title: example.title,
-  description: example.description,
-  code: example.code,
-  highlighted_code: example.highlighted_code
-}])) }}>
-// Store current example data
-let currentExample = null;
-
-function showExample(exampleKey) {
-  currentExample = exampleKey;
-  const example = examples[exampleKey];
-  
-  if (!example) return;
-  
-  // Update active nav button
-  document.querySelectorAll('.example-nav-btn').forEach(btn => {
-    btn.classList.remove('active');
-  });
-  document.querySelector(`[data-example="${exampleKey}"]`)?.classList.add('active');
-  
-  // Update content
-  document.getElementById('current-title').textContent = example.title;
-  document.getElementById('current-description').textContent = example.description;
-  document.getElementById('current-filename').textContent = `${exampleKey}.clyp`;
-  document.getElementById('code-content').innerHTML = example.highlighted_code;
-  
-  // Enable buttons
-  document.getElementById('copy-btn').removeAttribute('disabled');
-  document.getElementById('run-btn').removeAttribute('disabled');
-  
-  // Show explanation (you could add explanations to your examples data)
-  const explanationEl = document.getElementById('code-explanation');
-  if (explanationEl) {
-    explanationEl.style.display = 'block';
-    // Add specific explanations based on example type
-    let explanation = '';
-    switch(exampleKey) {
-      case 'hello_world':
-        explanation = 'This example shows the basic syntax of Clyp. Notice how clean and readable the code is - no semicolons required!';
-        break;
-      case 'variables':
-        explanation = 'Clyp uses clear type annotations. The `str` and `int` types make your intentions explicit and help catch errors early.';
-        break;
-      case 'functions':
-        explanation = 'Function definitions in Clyp are concise yet expressive. The return type annotation helps with code clarity and tooling support.';
-        break;
-      default:
-        explanation = 'This example demonstrates key features of the Clyp programming language.';
-    }
-    document.getElementById('explanation-content').textContent = explanation;
-  }
-}
-
-function copyCurrentExample() {
-  if (!currentExample) return;
-  
-  const example = examples[currentExample];
-  navigator.clipboard.writeText(example.code).then(() => {
-    const btn = document.getElementById('copy-btn');
-    if (btn) {
-      const originalHTML = btn.innerHTML;
-      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Copied!';
-      setTimeout(() => {
-        btn.innerHTML = originalHTML;
-      }, 2000);
-    }
+<script>
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.target;
+    const originalText = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(() => {
+      btn.textContent = originalText;
+    }, 2000);
   });
 }
-
-function runExample() {
-  // This could link to an online Clyp playground in the future
-  alert('Online playground coming soon! For now, install Clyp locally to run examples.');
-}
-
-// Auto-select first example on page load
-document.addEventListener('DOMContentLoaded', () => {
-  const firstExample = Object.keys(examples)[0];
-  if (firstExample) {
-    showExample(firstExample);
-  }
-});
-
-// Make functions globally available
-window.showExample = showExample;
-window.copyCurrentExample = copyCurrentExample;
-window.runExample = runExample;
 </script>

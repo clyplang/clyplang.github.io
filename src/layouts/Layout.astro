@@ -1,5 +1,5 @@
 ---
-import { InteractiveProvider, QuickAccessToolbar, FloatingActionMenu } from '../components/InteractiveProvider';
+import { InteractiveProvider } from '../components/InteractiveProvider';
 
 export interface Props {
   title?: string;
@@ -111,12 +111,6 @@ const currentPath = Astro.url.pathname;
                 </div>
             </div>
         </footer>
-
-        <!-- Quick Access Toolbar -->
-        <QuickAccessToolbar client:load />
-
-        <!-- Enhanced Floating Action Menu -->
-        <FloatingActionMenu client:load position="bottom-right" />
     </InteractiveProvider>
 </body>
 </html>

@@ -1,9 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { FeatureCard, AnimatedCounter, InteractiveButton } from '../components/InteractiveElements';
-import { FloatingActionButton, Tooltip, ShimmerEffect, GlowEffect, PulseIndicator } from '../components/FancyComponents';
-import { InteractiveCodeEditor, InteractiveStats } from '../components/AdvancedInteractive';
-import { EXAMPLES } from '../utils/clyp-highlighter';
 
 // Load banner data
 let banner = null;
@@ -12,7 +8,6 @@ try {
   if (bannerData.ok) {
     const banners = await bannerData.json();
     if (banners && banners.length > 0) {
-      // Alternate based on current time (30s interval)
       const idx = Math.floor(Date.now() / 30000) % banners.length;
       banner = banners[idx];
     }
@@ -28,43 +23,17 @@ try {
     <div class="container">
       <div class="hero-content">
         <div class="hero-text">
-          <ShimmerEffect client:load trigger="auto" direction="left-to-right">
-            <h1 class="hero-title">
-              Meet <span class="text-gradient">Clyp</span>
-            </h1>
-          </ShimmerEffect>
+          <h1 class="hero-title">
+            Meet <span class="text-gradient">Clyp</span>
+          </h1>
           <p class="hero-subtitle">
             A thoughtfully designed programming language that bridges the gap between 
             simplicity and power. Clean syntax meets Python's ecosystem.
           </p>
           <div class="hero-actions">
-            <GlowEffect client:load color="primary" trigger="hover">
-              <InteractiveButton client:load href="#get-started" variant="primary">
-                Get Started
-                <PulseIndicator client:load color="secondary" size="small" />
-              </InteractiveButton>
-            </GlowEffect>
-            <InteractiveButton client:load href="/examples" variant="secondary">
-              View Examples
-            </InteractiveButton>
+            <a href="#get-started" class="btn primary">Get Started</a>
+            <a href="/examples" class="btn secondary">View Examples</a>
           </div>
-        </div>
-        <div class="hero-visual">
-          <GlowEffect client:load color="primary" intensity="low" trigger="always">
-            <div class="code-window">
-              <div class="code-header">
-                <div class="code-dots">
-                  <span class="dot red"></span>
-                  <span class="dot yellow"></span>
-                  <span class="dot green"></span>
-                </div>
-                <span class="code-title">hello.clyp</span>
-              </div>
-              <div class="code-content">
-                <div set:html={EXAMPLES.hello_world.highlighted_code || EXAMPLES.hello_world.code}></div>
-              </div>
-            </div>
-          </GlowEffect>
         </div>
       </div>
     </div>
@@ -74,111 +43,25 @@ try {
   <section class="features">
     <div class="container">
       <div class="section-header">
-        <ShimmerEffect client:load trigger="auto">
-          <h2>Why Choose Clyp?</h2>
-        </ShimmerEffect>
+        <h2>Why Choose Clyp?</h2>
         <p>Discover the features that make Clyp a powerful choice for modern development</p>
       </div>
       <div class="features-grid">
-        <ShimmerEffect client:load trigger="hover">
-          <FeatureCard 
-            client:load
-            icon="🎯"
-            title="Type Safety"
-            description="Clear variable declarations with robust type checking that catches errors before they happen."
-            delay={100}
-          />
-        </ShimmerEffect>
-        <ShimmerEffect client:load trigger="hover">
-          <FeatureCard 
-            client:load
-            icon="⚡"
-            title="Intuitive Syntax"
-            description="C-like syntax that feels natural and reduces cognitive load while maintaining expressiveness."
-            delay={200}
-          />
-        </ShimmerEffect>
-        <ShimmerEffect client:load trigger="hover">
-          <FeatureCard 
-            client:load
-            icon="🐍"
-            title="Python Ecosystem"
-            description="Seamless access to Python's vast library ecosystem - use any Python package natively."
-            delay={300}
-          />
-        </ShimmerEffect>
-        <ShimmerEffect client:load trigger="hover">
-          <FeatureCard 
-            client:load
-            icon="📚"
-            title="Rich Standard Library"
-            description="Built-in functions for common tasks like file I/O, HTTP requests, and data manipulation."
-            delay={400}
-          />
-        </ShimmerEffect>
-        <ShimmerEffect client:load trigger="hover">
-          <FeatureCard 
-            client:load
-            icon="🔄"
-            title="Functional Programming"
-            description="First-class support for functional patterns with the powerful pipeline operator."
-            delay={500}
-          />
-        </ShimmerEffect>
-        <ShimmerEffect client:load trigger="hover">
-          <FeatureCard 
-            client:load
-            icon="🚀"
-            title="Modern Features"
-            description="Classes, pattern matching, async/await, and other modern language constructs."
-            delay={600}
-          />
-        </ShimmerEffect>
-      </div>
-    </div>
-  </section>
-
-  <!-- Interactive Code Preview Section -->
-  <section class="code-preview">
-    <div class="container">
-      <div class="section-header">
-        <h2>Try Clyp Interactive</h2>
-        <p>Experience Clyp syntax in real-time with our interactive code editor</p>
-      </div>
-      
-      <div class="interactive-demo">
-        <InteractiveCodeEditor
-          client:load
-          initialCode={`str name = "World";
-int age = 25;
-bool is_programmer = true;
-
-# Define a greeting function
-func greet(str person) -> str {
-    return "Hello, " + person + "! Welcome to Clyp!";
-}
-
-# Call the function and display result
-str message = greet(name);
-print(message);
-print("Age: " + str(age));`}
-          language="clyp"
-          showLineNumbers={true}
-          allowExecution={true}
-        />
-      </div>
-
-      <!-- Interactive Statistics -->
-      <div class="stats-showcase">
-        <InteractiveStats
-          client:load
-          stats={[
-            { label: "Lines of Code", value: 1247, unit: "+", icon: "📝", trend: "up", color: "#7c3aed" },
-            { label: "GitHub Stars", value: 1250, unit: "⭐", icon: "⭐", trend: "up", color: "#f59e0b" },
-            { label: "Active Users", value: 156, unit: "", icon: "👥", trend: "up", color: "#10b981" },
-            { label: "Performance Boost", value: 85, unit: "%", icon: "⚡", trend: "up", color: "#06b6d4" }
-          ]}
-        />
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3>Type Safety</h3>
+          <p>Clear variable declarations with robust type checking that catches errors before they happen.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Intuitive Syntax</h3>
+          <p>C-like syntax that feels natural and reduces cognitive load while maintaining expressiveness.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🐍</div>
+          <h3>Python Ecosystem</h3>
+          <p>Seamless access to Python's vast library ecosystem - use any Python package natively.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -190,49 +73,15 @@ print("Age: " + str(age));`}
         <h2>Get Started with Clyp</h2>
         <p>Install Clyp and start building amazing things today</p>
       </div>
-      <div class="install-options">
-        <div class="install-option">
-          <div class="install-header">
-            <div class="install-icon">🪟</div>
-            <h3>Windows</h3>
-          </div>
-          <p>Quick installation with our Windows installer</p>
-          <InteractiveButton 
-            client:load
-            href="https://github.com/clyplang/clypinstaller/releases/latest/download/install.exe"
-            variant="primary"
-          >
-            Download Installer
-          </InteractiveButton>
-        </div>
-        <div class="install-option">
-          <div class="install-header">
-            <div class="install-icon">🐧</div>
-            <h3>Linux & macOS</h3>
-          </div>
-          <p>Install via pip (requires Python 3.8+)</p>
-          <div class="install-command">
-            <code>pip install clyp</code>
-            <button class="copy-btn" onclick="copyToClipboard('pip install clyp')">Copy</button>
-          </div>
-        </div>
+      <div class="install-command">
+        <code>pip install clyp</code>
+        <button class="copy-btn" onclick="copyToClipboard('pip install clyp')">Copy</button>
       </div>
       <div class="next-steps">
         <p>Ready to explore? Check out our <a href="/examples">examples</a> or read the <a href="https://clypdocs.codesft.dev" target="_blank">documentation</a>.</p>
       </div>
     </div>
   </section>
-
-  <!-- Floating Action Button for What's Happening -->
-  <Tooltip client:load content="See what's happening" position="left">
-    <FloatingActionButton 
-      client:load
-      icon="📈"
-      label="Activity"
-      onClick={() => window.location.href = '/whats-happening'}
-      position="bottom-right"
-    />
-  </Tooltip>
 </Layout>
 
 <style>
@@ -243,10 +92,7 @@ print("Age: " + str(age));`}
 }
 
 .hero-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-4xl);
-  align-items: center;
+  text-align: center;
 }
 
 .hero-title {
@@ -261,32 +107,48 @@ print("Age: " + str(age));`}
   color: var(--text-secondary);
   line-height: 1.6;
   margin-bottom: var(--spacing-2xl);
-  max-width: 500px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .hero-actions {
   display: flex;
   gap: var(--spacing-lg);
+  justify-content: center;
 }
 
-.hero-visual {
-  position: relative;
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-xl);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
 }
 
-.stats {
-  background: var(--bg-secondary);
-  padding: var(--spacing-3xl) 0;
-  border-bottom: 1px solid var(--border-subtle);
+.btn.primary {
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
 }
 
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--spacing-xl);
+.btn.secondary {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
 }
 
 .features {
   padding: var(--spacing-4xl) 0;
+  background: var(--bg-primary);
 }
 
 .section-header {
@@ -296,168 +158,126 @@ print("Age: " + str(age));`}
 
 .section-header h2 {
   font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
 }
 
 .section-header p {
-  font-size: 1.1rem;
   color: var(--text-secondary);
-  max-width: 600px;
-  margin: 0 auto;
+  font-size: 1.1rem;
 }
 
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: var(--spacing-xl);
 }
 
-.code-preview {
-  background: var(--bg-secondary);
-  padding: var(--spacing-4xl) 0;
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.interactive-demo {
-  margin: var(--spacing-4xl) 0;
-  max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.stats-showcase {
-  margin-top: var(--spacing-4xl);
-  padding-top: var(--spacing-4xl);
-  border-top: 1px solid var(--border-subtle);
-}
-
-.preview-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: var(--spacing-2xl);
-}
-
-.preview-item h3 {
-  font-size: 1.3rem;
-  margin-bottom: var(--spacing-lg);
-  color: var(--text-primary);
-}
-
-.installation {
-  padding: var(--spacing-4xl) 0;
-}
-
-.install-options {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: var(--spacing-2xl);
-  margin-bottom: var(--spacing-2xl);
-}
-
-.install-option {
+.feature-card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-xl);
-  padding: var(--spacing-2xl);
+  padding: var(--spacing-xl);
   text-align: center;
   transition: all 0.3s ease;
 }
 
-.install-option:hover {
+.feature-card:hover {
   transform: translateY(-5px);
   box-shadow: var(--shadow-lg);
   border-color: var(--primary-color);
 }
 
-.install-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--spacing-md);
+.feature-icon {
+  font-size: 2.5rem;
   margin-bottom: var(--spacing-lg);
 }
 
-.install-icon {
-  font-size: 2.5rem;
+.feature-card h3 {
+  margin-bottom: var(--spacing-md);
+  color: var(--text-primary);
+}
+
+.feature-card p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.installation {
+  padding: var(--spacing-4xl) 0;
+  background: var(--bg-secondary);
 }
 
 .install-command {
-  background: var(--code-bg);
-  border: 1px solid var(--code-border);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-md);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin: var(--spacing-lg) 0;
+  justify-content: center;
+  gap: var(--spacing-md);
+  background: var(--code-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  margin: 0 auto var(--spacing-2xl);
+  max-width: 300px;
 }
 
 .install-command code {
   font-family: var(--font-mono);
   color: var(--text-accent);
-  font-weight: 500;
 }
 
 .copy-btn {
   background: var(--primary-color);
-  border: none;
-  border-radius: var(--radius-md);
-  padding: var(--spacing-xs) var(--spacing-md);
   color: white;
-  font-size: 0.85rem;
+  border: none;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
   cursor: pointer;
-  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
 }
 
 .copy-btn:hover {
   background: var(--primary-hover);
-  transform: scale(1.05);
 }
 
 .next-steps {
   text-align: center;
+}
+
+.next-steps p {
   color: var(--text-secondary);
 }
 
 .next-steps a {
   color: var(--primary-color);
+  text-decoration: none;
+}
+
+.next-steps a:hover {
   text-decoration: underline;
 }
 
 @media (max-width: 768px) {
-  .hero-content {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-2xl);
-    text-align: center;
-  }
-  
   .hero-title {
     font-size: 2.5rem;
   }
   
-  .stats-grid {
-    grid-template-columns: 1fr;
+  .hero-actions {
+    flex-direction: column;
+    gap: var(--spacing-md);
   }
   
-  .features-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .preview-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .install-options {
-    grid-template-columns: 1fr;
+  .install-command {
+    flex-direction: column;
+    gap: var(--spacing-sm);
   }
 }
 </style>
 
 <script>
-function copyToClipboard(text: string) {
+function copyToClipboard(text) {
   navigator.clipboard.writeText(text).then(() => {
-    const btn = event?.target as HTMLButtonElement;
+    const btn = event?.target;
     if (btn) {
       const originalText = btn.textContent;
       btn.textContent = 'Copied!';
@@ -467,12 +287,4 @@ function copyToClipboard(text: string) {
     }
   });
 }
-
-declare global {
-  interface Window {
-    copyToClipboard: (text: string) => void;
-  }
-}
-
-window.copyToClipboard = copyToClipboard;
 </script>

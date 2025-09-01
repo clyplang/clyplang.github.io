@@ -100,9 +100,9 @@ str name = "World";
 print("Hello, " + name + "!");
 
 # Define a function to greet someone
-greet(str person) returns str {
+function greet(str person) returns str {
     return "Greetings, " + person + "!";
-};
+}
 
 # Call the function and print the result
 print(greet("Clyp Developer"));`
@@ -128,7 +128,7 @@ print(flattened);
 # Repeat loop for iteration
 repeat 3 {
     print("Hello from a repeat loop!");
-};`
+}`
   },
   advanced: {
     title: 'Advanced Features',
@@ -139,11 +139,11 @@ class Counter {
     
     increment(self) returns null {
         self.count = self.count + 1;
-    };
+    }
 
     get_count(self) returns int {
         return self.count;
-    };
+    }
 };
 
 let c = Counter();
