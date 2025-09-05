@@ -18,6 +18,28 @@ const currentPath = Astro.url.pathname;
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+        <!-- Canonical URL for SEO -->
+        <link rel="canonical" href={`https://clyp.dev${currentPath}`} />
+
+        <!-- Structured Data (JSON-LD) for SEO -->
+        <script type="application/ld+json">
+            {`
+                {
+                    "@context": "https://schema.org",
+                    "@type": "SoftwareApplication",
+                    "name": "Clyp",
+                    "url": "https://clyp.dev${currentPath}",
+                    "applicationCategory": "Programming Language",
+                    "operatingSystem": "Windows, macOS, Linux",
+                    "description": "Clyp is a modern programming language that transpiles to Python. Clean syntax, type safety, and seamless access to Python's ecosystem.",
+                    "author": {
+                        "@type": "Organization",
+                        "name": "codesoft"
+                    },
+                    "image": "https://clyplang.github.io/images/vscode.svg"
+                }
+            `}
+        </script>
     
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-F1LCQV9XBW"></script>
@@ -29,10 +51,41 @@ const currentPath = Astro.url.pathname;
     </script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>{title}</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content={title + ' - ' + (banner?.text ?? 'Clyp is a modern programming language that transpiles to Python. Clean syntax, type safety, and seamless access to Python\'s ecosystem. Install Clyp and start building today!')}>
+    <meta name="subject" content="Clyp Programming Language">
+    <meta name="language" content="en">
+    <meta name="copyright" content="Clyp, codesoft">
+    <meta name="reply-to" content=" hi@clyp.dev">
+    <meta name="url" content="https://clyp.dev">
+    <meta name="keywords" content="Clyp, programming language, Python, type safety, modern, transpiler, code examples, open source, static site, SEO, fast, developer tools, syntax highlighting, documentation, install, MIT license, Bluesky, GitHub">
+    <meta name="author" content="codesoft">
+    <meta name="publisher" content="codesoft">
+    <meta name="og:locale" content="en_US">
+    <meta property="og:title" content={title}>
+    <meta property="og:description" content={banner?.text ?? 'Clyp is a modern programming language that transpiles to Python. Clean syntax, type safety, and seamless access to Python\'s ecosystem.'}>
+    <meta property="og:url" content={`https://clyp.dev${currentPath}`}> 
+    <meta name="twitter:title" content={title}>
+    <meta name="twitter:description" content={banner?.text ?? 'Clyp is a modern programming language that transpiles to Python. Clean syntax, type safety, and seamless access to Python\'s ecosystem.'}>
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Clyp - Modern Programming Language">
+    <meta property="og:site_name" content="Clyp">
+    <meta property="og:description" content="Clyp is a modern programming language that transpiles to Python. Clean syntax, type safety, and seamless access to Python's ecosystem.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://clyp.dev">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Clyp - Modern Programming Language">
+    <meta name="twitter:description" content="Clyp is a modern programming language that transpiles to Python. Clean syntax, type safety, and seamless access to Python's ecosystem.">
 
     <!-- Fonts -->
     <link
@@ -45,29 +98,34 @@ const currentPath = Astro.url.pathname;
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="/css/all.min.css">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml"
-        href="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3e%3cpath d='M50 15L35 35h10v35h10V35h10L50 15z' fill='%23ff6b35'/%3e%3cpath d='M25 65h50v10H25z' fill='%23ff6b35'/%3e%3c/svg%3e">
 </head>
 
 <body>
+    <!-- Accessibility: Landmark roles for SEO and screen readers -->
+    <header role="banner" aria-label="Site Header"></header>
     <!-- Interactive Provider - wraps all interactive functionality -->
     <InteractiveProvider client:load currentPage={currentPath}>
         <!-- Navigation -->
         <nav class="nav">
+            <!-- Navigation landmark for accessibility -->
+            <nav role="navigation" aria-label="Main Navigation">
             <div class="container">
                 <div class="nav-container">
                     <a href="/" class="nav-brand">
-                        <i class="fas fa-fire"></i> Clyp
+                        <i class="fas fa-fire" aria-hidden="true"></i> Clyp
                     </a>
-                    <ul class="nav-links">
-                        <li><a href="/" class:list={["nav-link", { active: currentPath === "/" }]}>Home</a></li>
-                        <li><a href="/examples" class:list={["nav-link", { active: currentPath === "/examples" }]}>Examples</a></li>
-                        <li><a href="https://clypdocs.codesft.dev" class="nav-link" target="_blank">Docs</a></li>
-                        <li><a href="/whats-happening" class:list={["nav-link", { active: currentPath === "/whats-happening" }]}>What's Happening</a></li>
-                        <li><a href="https://github.com/clyplang/clyp" class="nav-link" target="_blank">GitHub</a></li>
-                    </ul>
+                        <button class="nav-toggle" aria-label="Toggle navigation" type="button" id="navToggle" aria-controls="navLinks" aria-expanded="false">
+                            <span class="nav-toggle-bar"></span>
+                            <span class="nav-toggle-bar"></span>
+                            <span class="nav-toggle-bar"></span>
+                        </button>
+                        <ul class="nav-links" id="navLinks">
+                            <li><a href="/" class:list={["nav-link", { active: currentPath === "/" }]}>Home</a></li>
+                            <li><a href="/examples" class:list={["nav-link", { active: currentPath === "/examples" }]}>Examples</a></li>
+                            <li><a href="https://clypdocs.codesft.dev" class="nav-link" target="_blank">Docs</a></li>
+                            <li><a href="/whats-happening" class:list={["nav-link", { active: currentPath === "/whats-happening" }]}>What's Happening</a></li>
+                            <li><a href="https://github.com/clyplang/clyp" class="nav-link" target="_blank">GitHub</a></li>
+                        </ul>
                 </div>
             </div>
         </nav>
@@ -83,44 +141,287 @@ const currentPath = Astro.url.pathname;
         )}
 
         <!-- Main Content -->
-        <main>
+        <main role="main" aria-label="Main Content">
             <slot />
         </main>
 
-        <!-- Footer -->
-        <footer class="py-4" style="border-top: 1px solid var(--border-subtle); margin-top: var(--spacing-4xl);">
+        <footer class="site-footer" role="contentinfo" aria-label="Site Footer">
             <div class="container">
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--spacing-2xl); margin-bottom: var(--spacing-xl);">
-                    <div>
-                        <h3 style="margin-bottom: var(--spacing-md);"><i class="fas fa-fire"></i> Clyp</h3>
-                        <p style="color: var(--text-secondary);">A modern programming language that transpiles to Python</p>
+                <div class="footer-grid">
+                    <div class="footer-brand">
+                        <h3><i class="fas fa-fire" aria-hidden="true"></i> Clyp</h3>
+                        <p>A modern programming language that transpiles to Python</p>
                     </div>
-                    <div>
-                        <h4 style="margin-bottom: var(--spacing-md);">Quick Links</h4>
-                        <ul style="list-style: none; padding: 0;">
-                            <li style="margin-bottom: var(--spacing-sm);"><a href="/">Home</a></li>
-                            <li style="margin-bottom: var(--spacing-sm);"><a href="/examples">Examples</a></li>
-                            <li style="margin-bottom: var(--spacing-sm);"><a href="https://clypdocs.codesft.dev" target="_blank">Documentation</a></li>
-                            <li style="margin-bottom: var(--spacing-sm);"><a href="https://github.com/clyplang/clyp" target="_blank">GitHub</a></li>
+                    <div class="footer-links">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/examples">Examples</a></li>
+                            <li><a href="https://clypdocs.codesft.dev" target="_blank">Documentation</a></li>
                         </ul>
                     </div>
-                    <div>
-                        <h4 style="margin-bottom: var(--spacing-md);">Install</h4>
-                        <code style="background: var(--code-bg); padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--radius-md); font-family: var(--font-mono);">pip install clyp</code>
+                    <div class="footer-links">
+                        <h4>Community</h4>
+                        <ul>
+                            <li><a href="https://github.com/clyplang/clyp" target="_blank">GitHub</a></li>
+                            <li><a href="https://discord.gg/y2g2Ab4W" target="_blank">Discord</a></li>
+                        </ul>
                     </div>
                 </div>
-                <div style="text-align: center; padding-top: var(--spacing-xl); border-top: 1px solid var(--border-subtle); color: var(--text-muted);">
+                <div class="footer-bottom">
                     <p>
-                        &copy; 2025 Clyp. Open source under MIT License.
-                        <a href="https://bsky.app/profile/clyp.dev" target="_blank" rel="noopener" style="margin-left: 1em; color: inherit; text-decoration: none; vertical-align: middle;">
-                            <i class="fa-brands fa-bluesky" aria-label="Bluesky"></i>
-                        </a>
-                        <a href="https://github.com/clyplang" target="_blank" rel="noopener" style="margin-left: 1em; color: inherit; text-decoration: none; vertical-align: middle;">
-                            <i class="fa-brands fa-github" aria-label="GitHub"></i>
-                        </a>
+                        &copy; <span id="year">{new Date().getFullYear()}</span> Clyp. Open source under MIT License.
                     </p>
+                    <div class="social-links">
+                        <a href="https://bsky.app/profile/clyp.dev" target="_blank" rel="noopener" aria-label="Bluesky">
+                            <i class="fa-brands fa-bluesky" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://github.com/clyplang" target="_blank" rel="noopener" aria-label="GitHub">
+                            <i class="fa-brands fa-github" aria-hidden="true"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </footer>
     </InteractiveProvider>
+    <script>
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        if (navToggle && navLinks) {
+            navToggle.addEventListener('click', () => {
+                const isExpanded = navLinks.classList.toggle('open');
+                navToggle.setAttribute('aria-expanded', isExpanded.toString());
+            });
+        }
+    </script>
+</body>
 </html>
+            <style>
+            /* Responsive Navigation */
+            .nav {
+                background: var(--bg-elevated);
+                border-bottom: 1px solid var(--border-subtle);
+            }
+            .nav-container {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                padding: var(--spacing-md) 0;
+            }
+            .nav-brand {
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: var(--primary-color);
+                text-decoration: none;
+            }
+            .nav-links {
+                display: flex;
+                gap: var(--spacing-lg);
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+            .nav-link {
+                color: var(--text-primary);
+                text-decoration: none;
+                font-weight: 500;
+                padding: var(--spacing-xs) var(--spacing-sm);
+                border-radius: var(--radius-md);
+                transition: background 0.2s;
+            }
+            .nav-link.active {
+                background: var(--primary-color);
+                color: #fff;
+            }
+            .nav-link:hover {
+                background: var(--primary-hover);
+                color: #fff;
+            }
+            /* Mobile Nav Toggle */
+            .nav-toggle {
+                display: none;
+                background: none;
+                border: none;
+                cursor: pointer;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: 40px;
+                height: 40px;
+                margin-left: 1rem;
+            }
+            .nav-toggle-bar {
+                width: 28px;
+                height: 3px;
+                background: var(--primary-color);
+                margin: 4px 0;
+                border-radius: 2px;
+                transition: all 0.2s;
+            }
+            @media (max-width: 768px) {
+                .nav-container {
+                    flex-direction: row;
+                    align-items: center;
+                    gap: var(--spacing-md);
+                }
+                .nav-links {
+                    position: absolute;
+                    top: 60px;
+                    left: 0;
+                    width: 100vw;
+                    background: var(--bg-elevated);
+                    flex-direction: column;
+                    gap: var(--spacing-md);
+                    align-items: stretch;
+                    padding: var(--spacing-lg) 0;
+                    box-shadow: var(--shadow-md);
+                    z-index: 100;
+                    display: none;
+                }
+                .nav-toggle {
+                    display: flex;
+                }
+                .nav-links.open {
+                    display: flex !important;
+                }
+                .nav-link {
+                    padding: var(--spacing-md);
+                    font-size: 1.1rem;
+                }
+            }
+            /* Banner Responsive */
+            .banner {
+                background: var(--primary-color);
+                color: #fff;
+                padding: var(--spacing-sm) var(--spacing-md);
+                text-align: center;
+                font-size: 1rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: var(--spacing-md);
+            }
+            .banner a {
+                color: #fff;
+                text-decoration: underline;
+                font-weight: 500;
+            }
+            @media (max-width: 600px) {
+                .banner {
+                    flex-direction: column;
+                    gap: var(--spacing-xs);
+                    font-size: 0.95rem;
+                    padding: var(--spacing-xs) var(--spacing-sm);
+                }
+            }
+            /* Main Content Responsive */
+            main {
+                min-height: 60vh;
+                padding-bottom: var(--spacing-2xl);
+                width: 100%;
+            }
+            @media (max-width: 768px) {
+                main {
+                    padding-left: var(--spacing-md);
+                    padding-right: var(--spacing-md);
+                    min-height: 50vh;
+                }
+            }
+            /* Footer Responsive */
+            .site-footer {
+                background: var(--bg-elevated);
+                font-size: 1rem;
+                padding: var(--spacing-xl) 0;
+                border-top: 1px solid var(--border-subtle);
+            }
+            .footer-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: var(--spacing-xl);
+            }
+            .footer-brand h3 {
+                font-size: 1.5rem;
+                margin-bottom: var(--spacing-sm);
+            }
+            .footer-links h4 {
+                font-size: 1.1rem;
+                margin-bottom: var(--spacing-md);
+                color: var(--text-secondary);
+            }
+            .footer-links ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+            .footer-links li {
+                margin-bottom: var(--spacing-sm);
+            }
+            .footer-links a {
+                color: var(--text-primary);
+                text-decoration: none;
+                transition: color 0.2s;
+            }
+            .footer-links a:hover {
+                color: var(--primary-color);
+            }
+            .footer-bottom {
+                margin-top: var(--spacing-xl);
+                padding-top: var(--spacing-lg);
+                border-top: 1px solid var(--border-subtle);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: var(--spacing-md);
+            }
+            .social-links a {
+                color: var(--text-secondary);
+                font-size: 1.5rem;
+                margin-left: var(--spacing-md);
+                transition: color 0.2s;
+            }
+            .social-links a:hover {
+                color: var(--primary-color);
+            }
+            @media (max-width: 768px) {
+                .footer-grid {
+                    grid-template-columns: 1fr 1fr;
+                }
+                .footer-bottom {
+                    flex-direction: column;
+                    align-items: center;
+                }
+            }
+            /* Utility: Container Responsive */
+            .container {
+                width: 100%;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding-left: var(--spacing-lg);
+                padding-right: var(--spacing-lg);
+            }
+            @media (max-width: 600px) {
+                .container {
+                    padding-left: var(--spacing-md);
+                    padding-right: var(--spacing-md);
+                }
+            }
+            </style>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        if (navToggle && navLinks) {
+            navToggle.addEventListener('click', function () {
+                navLinks.classList.toggle('open');
+            });
+        }
+
+        const yearSpan = document.getElementById('year');
+        if (yearSpan) {
+            yearSpan.textContent = new Date().getFullYear().toString();
+        }
+    });
+    </script>
